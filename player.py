@@ -160,6 +160,12 @@ class Player(BaseSprite):
             if self.experience < 0:
                  self.experience = 0
             self.leveled = True  # Set the leveled flag to True
+            if self.direction == 'RIGHT':
+                 if self.leveled:
+                      self.image = self.pygame.image.load("img/Player_Sprite_R_Level_Up.png").convert_alpha()
+            elif self.direction == 'LEFT':
+                 if self.leveled:
+                      self.image = self.pygame.image.load("img/Player_Sprite2_L_level_up.png").convert_alpha()
             print(f"Congratulations! You leveled up to Level {self.level}!")
         else:
             print("You have reached the maximum level.")
