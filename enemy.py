@@ -52,7 +52,7 @@ class Enemy(BaseSprite):
         # Activates upon either of the two expressions being true
         if hits and self.player.attacking == True or f_hits:
                 if self.player.mana < 18: self.player.mana += self.mana # Release mana
-                self.player.experiance += 1   # Release expeiriance
+                self.player.experience += 1   # Release expeiriance
                 self.kill()
                 
                 rand_num = numpy.random.uniform(0, 100)
@@ -153,7 +153,7 @@ class Enemy2(BaseSprite):
             handler.enemy_dead_count += 1
              
             if self.player.mana < 18: self.player.mana += self.mana # Release mana
-            self.player.experiance += 1   # Release expeiriance
+            self.player.experience += 1   # Release expeiriance
              
             rand_num = numpy.random.uniform(0, 100)
             item_no = 0

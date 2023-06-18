@@ -20,10 +20,10 @@ class Player(BaseSprite):
         self.attack_frame = 0
         self.health = 5
         self.heart = health
-        self.experiance = 0
+        self.experience = 0
         self.level = 0
-        self.levels = {1: 2, 2: 6, 3: 300}
-        self.levled = True
+        self.levels = {0: 2, 1: 6, 2: 10, 3: 20, 4: 30}
+        self.leveled = False
         self.mana = 17
         self.magic_cooldown = 1
         self.slash = 0
@@ -116,6 +116,7 @@ class Player(BaseSprite):
         if hits and not self.jumping:
             self.jumping = True
             self.vel.y = -12
+        print(self.levels[self.level])
 
     def player_hit(self):
         if self.cooldown == False:      
@@ -152,8 +153,25 @@ class Player(BaseSprite):
                 self.pos.x += 20
     
     def level_up(self):
-        self.level += 1
-        self.levled = False
-        print("Level Up! You reached level {}!".format(self.level))
+        if self.level < len(self.levels) - 1:  # Check if there are more levels available
+            level = self.level
+            self.level += 1
+            self.experience -= self.levels[level]  # Deduct required experience from current level
+            if self.experience < 0:
+                 self.experience = 0
+            self.leveled = True  # Set the leveled flag to True
+            print(f"Congratulations! You leveled up to Level {self.level}!")
+        else:
+            print("You have reached the maximum level.")
+        self.update_attributes()
+
+    def update_attributes(self):
+         self.leveled = False
+         self.health = 5
+         self.mana = 17
+    
+    def clamp(num, min_value, max_value):
+        return max(min(num, max_value), min_value)
+        
 
     
