@@ -160,7 +160,7 @@ class Player(BaseSprite):
             if self.experience < 0:
                  self.experience = 0
             self.leveled = True  # Set the leveled flag to True
-            if self.direction == 'RIGHT':
+            if self.direction == 'RIGHT':#TODO find a way to make the image display a litgtle longer
                  if self.leveled:
                       self.image = self.pygame.image.load("img/Player_Sprite_R_Level_Up.png").convert_alpha()
             elif self.direction == 'LEFT':
