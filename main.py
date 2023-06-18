@@ -27,8 +27,6 @@ def main():
     # Declaring variables to be used through the program
     HEIGHT = 350
     WIDTH = 700
-    ACC = 0.3
-    FRIC = -0.10
     FPS = 60
     FPS_CLOCK = pygame.time.Clock()
     COUNT = 0
@@ -85,8 +83,10 @@ def main():
     Items = pygame.sprite.Group()
     Bolts = pygame.sprite.Group()
     inv = inventory()
+    pressed = 0
     
     while 1:
+        pressed = 0
         pygame.event.pump()
 
         player.gravity_check()
@@ -135,8 +135,7 @@ def main():
                         Fireballs.add(fireball)
                         mmanager.playsound(fsound, 0.3)
                 if event.key == pygame.K_i:
-                    inv.hide = False
-                    inv.renderr(surface, handler)
+                    inv.toggle_visibility()
             if event.type == handler.stage_timer:
                 if handler.battle == True and len(Enemies) == 0:
                         handler.next_stage()
@@ -156,15 +155,16 @@ def main():
         player.update(cursor)
         if player.attacking:
             player.attack(cursor)
-        for level, xp_required in player.levels.items(): #TODO fix level system
+        for level, xp_required in player.levels.items():
             if player.experience >= xp_required and not player.leveled:
                 player.level_up()
                 xp_required = player.levels[player.level]
-                print("Level Up! You reached level {}!".format(player.level))
                 break
         #render health images
         health.renders(surface)
         mana.renders(surface)
+        mana.image = mana_ani[player.mana]
+        inv.renderr(surface, handler)
         #sprite functions
         if stage_display.display:
             stage_display.move_display()

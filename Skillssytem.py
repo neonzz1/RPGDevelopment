@@ -3,6 +3,7 @@ from Sprites import BaseSprite
 class Skills(BaseSprite):
     def __init__(self):
         super().__init__()
+        skills = []
     
     def rendering(self):
         ''
