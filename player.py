@@ -22,8 +22,9 @@ class Player(BaseSprite):
         self.heart = health
         self.experience = 0
         self.level = 0
-        self.levels = {0: 2, 1: 6, 2: 10, 3: 20, 4: 30}
+        self.levels = {0: 2, 1: 6, 2: 10, 3: 20, 4: 30, 5: 50, 6: 200}
         self.leveled = False
+        self.show = False
         self.mana = 17
         self.magic_cooldown = 1
         self.slash = 0
@@ -96,9 +97,9 @@ class Player(BaseSprite):
             if self.slash >= 2:
                  self.slash = 0
         # Check direction for correct animation to display  
-        if self.direction == "RIGHT":
+        if self.direction == "RIGHT" and not self.leveled:
                 self.image = self.attack_ani_R[self.attack_frame]
-        elif self.direction == "LEFT":
+        elif self.direction == "LEFT" and not self.leveled:
                 self.correction()
                 self.image = self.attack_ani_L[self.attack_frame] 
     
@@ -155,18 +156,21 @@ class Player(BaseSprite):
     def level_up(self):
         if self.level < len(self.levels) - 1:  # Check if there are more levels available
             level = self.level
-            self.level += 1
-            self.experience -= self.levels[level]  # Deduct required experience from current level
-            if self.experience < 0:
-                 self.experience = 0
-            self.leveled = True  # Set the leveled flag to True
-            if self.direction == 'RIGHT':#TODO find a way to make the image display a litgtle longer
-                 if self.leveled:
-                      self.image = self.pygame.image.load("img/Player_Sprite_R_Level_Up.png").convert_alpha()
-            elif self.direction == 'LEFT':
-                 if self.leveled:
-                      self.image = self.pygame.image.load("img/Player_Sprite2_L_level_up.png").convert_alpha()
-            print(f"Congratulations! You leveled up to Level {self.level}!")
+            required_experience = self.levels[level]
+            if self.experience >= required_experience:
+                self.level += 1
+                self.experience -= required_experience  # Deduct required experience from current level
+                self.leveled = True  # Set the leveled flag to True
+                if self.direction == 'RIGHT':#TODO find a way to make the image display a little longer
+                    if self.leveled:
+                        self.image = self.pygame.image.load("img/Player_Sprite_R_Level_Up.png").convert_alpha()
+                elif self.direction == 'LEFT':
+                    if self.leveled:
+                        self.image = self.pygame.image.load("img/Player_Sprite2_L_level_up.png").convert_alpha()
+                print(f"Congratulations! You leveled up to Level {self.level}!")
+            else:
+                 print("not enough exp")
+                 self.update_attributes()
         else:
             print("You have reached the maximum level.")
         self.update_attributes()

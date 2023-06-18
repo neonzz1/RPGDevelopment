@@ -159,7 +159,7 @@ def main():
         for level, xp_required in player.levels.items(): #TODO fix level system
             if player.experience >= xp_required and not player.leveled:
                 player.level_up()
-                xp_required = player.levels[player.level + 1]
+                xp_required = player.levels[player.level]
                 print("Level Up! You reached level {}!".format(player.level))
                 break
         #render health images
