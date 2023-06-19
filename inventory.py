@@ -18,7 +18,7 @@ class inventory(BaseSprite):
             self.pressed = 0
     
     def renderr(self, surface, handler):    
-        gold = self.smallerfont.render('Gold:', str(handler.money), True, (255,255,255))
+        gold = self.smallerfont.render('Gold: ' + str(handler.money), True, (0, 0, 0))
         if not self.hide:
             surface.blit(self.imagee, (10,30))
             surface.blit(gold, (30,220))
