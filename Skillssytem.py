@@ -1,10 +1,11 @@
 from Sprites import BaseSprite
 
+
 class Skillsys(BaseSprite):
     def __init__(self):
         image_path = "img/status_bar.png"
         super().__init__(image_path)
-        skills = []
+        self.skills = []
         self.skillimage = None
         self.hide = True
         self.avalible_skills = ["fireball", "Bolt", "energyblast", "deathball", "self destruct", "fireballv2", "fired"]
@@ -25,24 +26,20 @@ class Skillsys(BaseSprite):
             for i, item in enumerate(self.avalible_skills):
                 text_surface = self.smallerfont.render(item, True, (0, 0, 0))  # Render the text
                 text_rect = text_surface.get_rect()
-                text_rect.topleft = (40, i * 30 + 28)  # Position the text
+                text_rect.topleft = (40, i * 30 + 30)  # Position the text
                 surface.blit(text_surface, text_rect)  # Blit the text onto the window
+                mousepos = self.pygame.mouse.get_pos()
+                if text_rect.collidepoint(mousepos):
+                    event = self.pygame.mouse.get_pressed() #TODO finish implementing this!
+                    
 
-    def Buy_Skill(self, player, handler):
-        if player.level >= 1 and handler.money >= 10:
-            print('Success!!')
-            handler.money -= 10
+    def Buy_Skill(self,):
+        print('clicked')
     
     def skill(self, player):
-        if player.level >= 1 and player.level < 20:
-            self.avalible_skills.append("fireball")
-            self.avalible_skills.append("Bolt")
-            self.avalible_skills.append("energyblast")
-            self.avalible_skills.append("deathball")
-            self.avalible_skills.append("self destruct")
-            self.avalible_skills.append("fireballv2")
-            self.avalible_skills.append("")
-            self.avalible_skills.append("fired")
+        for i in self.skills:
+            if i == self.avalible_skills.index(0):
+                self.avalible_skills.remove(i)
 
     def load_image(self, image_path):
         try:
