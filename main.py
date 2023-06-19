@@ -16,6 +16,7 @@ from magic import Magic
 from music import MusicManager
 from Manabar import ManaBar
 from inventory import inventory
+from Skillssytem import Skillsys
 
 def main():
     
@@ -83,7 +84,7 @@ def main():
     Items = pygame.sprite.Group()
     Bolts = pygame.sprite.Group()
     inv = inventory()
-    pressed = 0
+    skill = Skillsys()
     
     while 1:
         pressed = 0
@@ -136,6 +137,8 @@ def main():
                         mmanager.playsound(fsound, 0.3)
                 if event.key == pygame.K_i:
                     inv.toggle_visibility()
+                if event.key == pygame.K_s:
+                    skill.toggle_visibility()
             if event.type == handler.stage_timer:
                 if handler.battle == True and len(Enemies) == 0:
                         handler.next_stage()
@@ -165,6 +168,7 @@ def main():
         mana.renders(surface)
         mana.image = mana_ani[player.mana]
         inv.renderr(surface, handler)
+        skill.rendering(surface)
         #sprite functions
         if stage_display.display:
             stage_display.move_display()
