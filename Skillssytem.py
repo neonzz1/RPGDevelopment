@@ -2,7 +2,7 @@ from Sprites import BaseSprite
 
 
 class Skillsys(BaseSprite):
-    def __init__(self):
+    def __init__(self, player, handler):
         image_path = "img/status_bar.png"
         super().__init__(image_path)
         self.skills = []
@@ -11,6 +11,8 @@ class Skillsys(BaseSprite):
         self.avalible_skills = ["fireball", "Bolt", "energyblast", "deathball", "self destruct", "fireballv2", "fired"]
         self.load_image(image_path)
         self.pressed = 0
+        self.player = player
+        self.handler = handler
 
     def toggle_visibility(self):
         self.pressed += 1
@@ -38,12 +40,19 @@ class Skillsys(BaseSprite):
 
     def Buy_Skill(self, wskill):
         if wskill in self.skills:
-            print('You already have this skill!')
+            print('You already have {}!'.format(wskill))
         else:
-            self.skills.append(wskill)
+            if wskill == 'Fireball':
+                if self.handler.money >= 1 and self.player.level >= 1:
+                    self.handler.money -= 1
+                    self.skills.append(wskill)
+                else:
+                    print('Not Enough money or level is too low!')
+        self.skills.append(wskill)
+            
         print('clicked')
     
-    def skill(self, player):
+    def skill(self):
         for i in self.skills:
             if i == self.avalible_skills.index(0):
                 self.avalible_skills.remove(i)

@@ -84,7 +84,7 @@ def main():
     Items = pygame.sprite.Group()
     Bolts = pygame.sprite.Group()
     inv = inventory()
-    skill = Skillsys()
+    skill = Skillsys(player, handler)
     
     while 1:
         pressed = 0
