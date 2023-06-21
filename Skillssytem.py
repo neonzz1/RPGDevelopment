@@ -30,10 +30,17 @@ class Skillsys(BaseSprite):
                 surface.blit(text_surface, text_rect)  # Blit the text onto the window
                 mousepos = self.pygame.mouse.get_pos()
                 if text_rect.collidepoint(mousepos):
-                    event = self.pygame.mouse.get_pressed() #TODO finish implementing this!
+                    clicked = self.pygame.mouse.get_pressed() #TODO finish implementing this!
+                    if clicked[0]:
+                        wskill = item
+                        self.Buy_Skill(wskill)
                     
 
-    def Buy_Skill(self,):
+    def Buy_Skill(self, wskill):
+        if wskill in self.skills:
+            print('You already have this skill!')
+        else:
+            self.skills.append(wskill)
         print('clicked')
     
     def skill(self, player):
@@ -45,5 +52,5 @@ class Skillsys(BaseSprite):
         try:
             self.skillimage = self.pygame.image.load(image_path).convert_alpha()
         except self.pygame.error as e:
-            print("Error loading inventory image:", str(e))
+            print("Error loading skills image:", str(e))
 
