@@ -48,6 +48,48 @@ class Skillsys(BaseSprite):
                     self.skills.append(wskill)
                 else:
                     print('Not Enough money or level is too low!')
+
+            elif wskill == 'Bolt':
+                if self.handler.money >= 10 and self.player.level >= 5:
+                    self.handler.money -= 10
+                    self.skills.append(wskill)
+                else:
+                    print('Not enough money or level too low')
+
+            if wskill == 'energyblast':
+                if self.handler.money > 15 and self.player.level >= 10:
+                    self.handler.money -= 15
+                    self.skills.append(wskill)
+                else:
+                    print('Not enough money or level too low')
+            
+            if wskill == 'deathball':
+                if self.handler.money > 100 and self.player.level >= 40:
+                    self.handler.money -= 100
+                    self.skills.append(wskill)
+                else:
+                    print('Not enough money or level too low')
+
+            if wskill == 'self destruct':
+                if self.handler.money > 0 and self.player.level >= 0:
+                    self.handler.money -= 0
+                    self.skills.append(wskill)
+                else:
+                    print('Not enough money or level too low')
+
+            if wskill == 'fired':
+                if self.handler.money > 20 and self.player.level >= 20:
+                    self.handler.money -= 20
+                    self.skills.append(wskill)
+                else:
+                    print('Not enough money or level too low')
+
+            if wskill == 'fireballv2':
+                if self.handler.money >= 30 and self.player.level >= 10:
+                    self.handler.money -= 30
+                    self.skills.append(wskill)
+                else:
+                    print('Not enough money or level too low')
             else:
                 print(wskill)
             
