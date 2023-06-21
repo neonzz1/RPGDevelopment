@@ -42,13 +42,14 @@ class Skillsys(BaseSprite):
         if wskill in self.skills:
             print('You already have {}!'.format(wskill))
         else:
-            if wskill == 'Fireball':
+            if wskill == 'fireball':
                 if self.handler.money >= 1 and self.player.level >= 1:
                     self.handler.money -= 1
                     self.skills.append(wskill)
                 else:
                     print('Not Enough money or level is too low!')
-        self.skills.append(wskill)
+            else:
+                print(wskill)
             
         print('clicked')
     
