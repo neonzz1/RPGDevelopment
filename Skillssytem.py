@@ -5,7 +5,7 @@ class Skillsys(BaseSprite):
     def __init__(self, player, handler):
         image_path = "img/status_bar.png"
         super().__init__(image_path)
-        self.skills = []
+        self.skills = [] #TODO move to player and update logic
         self.skillimage = None
         self.hide = True
         self.available_skills = {

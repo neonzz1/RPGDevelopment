@@ -64,3 +64,123 @@ class Bolt(BaseSprite):
         if hits:
             self.player.player_hit()
             self.kill()
+
+class Energy_blast(BaseSprite):
+    def __init__(self, x, y, d, player_group, player):
+        image_path = "img/bolt.png"
+        super().__init__(image_path)
+        self.rect = self.image.get_rect()
+        self.rect.x = x + 15
+        self.rect.y = y + 20
+        self.direction = d
+        self.player_group = player_group
+        self.player = player
+    
+    def fire(self, surface):
+        if -10 < self.rect.x < 710:
+            if self.direction == 0:
+                self.image = self.pygame.image.load("img/bolt.png")
+                surface.blit(self.image, self.rect)
+            else:
+                self.image = self.pygame.image.load("img/bolt.png")
+                surface.blit(self.image, self.rect)
+            if self.direction == 0:
+                self.rect.move_ip(12,0)
+            else:
+                self.rect.move_ip(-12,0)
+        else:
+            self.kill()
+        hits = self.pygame.sprite.spritecollide(self, self.player_group, False)
+        if hits:
+            self.player.player_hit()
+            self.kill()
+
+class Death_ball(BaseSprite):
+    def __init__(self, x, y, d, player_group, player):
+        image_path = "img/bolt.png"
+        super().__init__(image_path)
+        self.rect = self.image.get_rect()
+        self.rect.x = x + 15
+        self.rect.y = y + 20
+        self.direction = d
+        self.player_group = player_group
+        self.player = player
+    
+    def fire(self, surface):
+        if -10 < self.rect.x < 710:
+            if self.direction == 0:
+                self.image = self.pygame.image.load("img/bolt.png")
+                surface.blit(self.image, self.rect)
+            else:
+                self.image = self.pygame.image.load("img/bolt.png")
+                surface.blit(self.image, self.rect)
+            if self.direction == 0:
+                self.rect.move_ip(12,0)
+            else:
+                self.rect.move_ip(-12,0)
+        else:
+            self.kill()
+        hits = self.pygame.sprite.spritecollide(self, self.player_group, False)
+        if hits:
+            self.player.player_hit()
+            self.kill()
+
+class Fired(BaseSprite):
+    def __init__(self, x, y, d, player_group, player):
+        image_path = "img/bolt.png"
+        super().__init__(image_path)
+        self.rect = self.image.get_rect()
+        self.rect.x = x + 15
+        self.rect.y = y + 20
+        self.direction = d
+        self.player_group = player_group
+        self.player = player
+    
+    def fire(self, surface):
+        if -10 < self.rect.x < 710:
+            if self.direction == 0:
+                self.image = self.pygame.image.load("img/bolt.png")
+                surface.blit(self.image, self.rect)
+            else:
+                self.image = self.pygame.image.load("img/bolt.png")
+                surface.blit(self.image, self.rect)
+            if self.direction == 0:
+                self.rect.move_ip(12,0)
+            else:
+                self.rect.move_ip(-12,0)
+        else:
+            self.kill()
+        hits = self.pygame.sprite.spritecollide(self, self.player_group, False)
+        if hits:
+            self.player.player_hit()
+            self.kill()
+
+class Fireballv2(BaseSprite):
+    def __init__(self, x, y, d, player_group, player):
+        image_path = "img/bolt.png"
+        super().__init__(image_path)
+        self.rect = self.image.get_rect()
+        self.rect.x = x + 15
+        self.rect.y = y + 20
+        self.direction = d
+        self.player_group = player_group
+        self.player = player
+    
+    def fire(self, surface):
+        if -10 < self.rect.x < 710:
+            if self.direction == 0:
+                self.image = self.pygame.image.load("img/bolt.png")
+                surface.blit(self.image, self.rect)
+            else:
+                self.image = self.pygame.image.load("img/bolt.png")
+                surface.blit(self.image, self.rect)
+            if self.direction == 0:
+                self.rect.move_ip(12,0)
+            else:
+                self.rect.move_ip(-12,0)
+        else:
+            self.kill()
+        hits = self.pygame.sprite.spritecollide(self, self.player_group, False)
+        if hits:
+            self.player.player_hit()
+            self.kill()
