@@ -66,15 +66,15 @@ class Bolt(BaseSprite):
             self.kill()
 
 class Energy_blast(BaseSprite):
-    def __init__(self, x, y, d, player_group, player):
+    def __init__(self, player):
         image_path = "img/bolt.png"
         super().__init__(image_path)
-        self.rect = self.image.get_rect()
-        self.rect.x = x + 15
-        self.rect.y = y + 20
-        self.direction = d
-        self.player_group = player_group
         self.player = player
+        self.direction  = player.direction
+        self.rect = self.image.get_rect(center = player.pos)
+        self.rect.x = player.pos.x
+        self.rect.y = player.pos.y - 40
+        
     
     def fire(self, surface):
         if -10 < self.rect.x < 710:
@@ -99,12 +99,11 @@ class Death_ball(BaseSprite):
     def __init__(self, x, y, d, player_group, player):
         image_path = "img/bolt.png"
         super().__init__(image_path)
-        self.rect = self.image.get_rect()
-        self.rect.x = x + 15
-        self.rect.y = y + 20
-        self.direction = d
-        self.player_group = player_group
         self.player = player
+        self.direction  = player.direction
+        self.rect = self.image.get_rect(center = player.pos)
+        self.rect.x = player.pos.x
+        self.rect.y = player.pos.y - 40
     
     def fire(self, surface):
         if -10 < self.rect.x < 710:
@@ -129,12 +128,11 @@ class Fired(BaseSprite):
     def __init__(self, x, y, d, player_group, player):
         image_path = "img/bolt.png"
         super().__init__(image_path)
-        self.rect = self.image.get_rect()
-        self.rect.x = x + 15
-        self.rect.y = y + 20
-        self.direction = d
-        self.player_group = player_group
         self.player = player
+        self.direction  = player.direction
+        self.rect = self.image.get_rect(center = player.pos)
+        self.rect.x = player.pos.x
+        self.rect.y = player.pos.y - 40
     
     def fire(self, surface):
         if -10 < self.rect.x < 710:
@@ -159,12 +157,11 @@ class Fireballv2(BaseSprite):
     def __init__(self, x, y, d, player_group, player):
         image_path = "img/bolt.png"
         super().__init__(image_path)
-        self.rect = self.image.get_rect()
-        self.rect.x = x + 15
-        self.rect.y = y + 20
-        self.direction = d
-        self.player_group = player_group
         self.player = player
+        self.direction  = player.direction
+        self.rect = self.image.get_rect(center = player.pos)
+        self.rect.x = player.pos.x
+        self.rect.y = player.pos.y - 40
     
     def fire(self, surface):
         if -10 < self.rect.x < 710:
