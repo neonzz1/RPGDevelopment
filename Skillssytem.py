@@ -8,7 +8,15 @@ class Skillsys(BaseSprite):
         self.skills = []
         self.skillimage = None
         self.hide = True
-        self.avalible_skills = ["fireball", "Bolt", "energyblast", "deathball", "self destruct", "fireballv2", "fired"]
+        self.available_skills = {
+            "fireball": (0, 0),
+            "Bolt": (10, 5),
+            "energyblast": (15, 10),
+            "deathball": (100, 40),
+            "selfdestruct": (0, 0),
+            "fired": (20, 20),
+            "fireballv2": (30, 10)
+        }
         self.load_image(image_path)
         self.pressed = 0
         self.player = player
@@ -22,10 +30,10 @@ class Skillsys(BaseSprite):
     
     def rendering(self, surface):
         if not self.hide:
-
             surface.blit(self.skillimage, (40, 30))
+            skills_to_render = [skill for skill in self.available_skills.keys() if skill not in self.skills]
 
-            for i, item in enumerate(self.avalible_skills):
+            for i, item in enumerate(skills_to_render):
                 text_surface = self.smallerfont.render(item, True, (0, 0, 0))  # Render the text
                 text_rect = text_surface.get_rect()
                 text_rect.topleft = (40, i * 30 + 30)  # Position the text
@@ -35,70 +43,26 @@ class Skillsys(BaseSprite):
                     clicked = self.pygame.mouse.get_pressed() #TODO finish implementing this!
                     if clicked[0]:
                         wskill = item
-                        self.Buy_Skill(wskill)
-                    
+                        self.Buy_Skill(wskill)  
 
     def Buy_Skill(self, wskill):
         if wskill in self.skills:
             print('You already have {}!'.format(wskill))
+
         else:
-            if wskill == 'fireball':
-                if self.handler.money >= 1 and self.player.level >= 1:
-                    self.handler.money -= 1
-                    self.skills.append(wskill)
-                else:
-                    print('Not Enough money or level is too low!')
+            cost, level_requirement = self.available_skills.get(wskill, (0, 0))
+            if self.handler.money >= cost and self.player.level >= level_requirement:
+                self.handler.money -= cost
+                self.skills.append(wskill)
+                self.skill()
 
-            elif wskill == 'Bolt':
-                if self.handler.money >= 10 and self.player.level >= 5:
-                    self.handler.money -= 10
-                    self.skills.append(wskill)
-                else:
-                    print('Not enough money or level too low')
-
-            if wskill == 'energyblast':
-                if self.handler.money > 15 and self.player.level >= 10:
-                    self.handler.money -= 15
-                    self.skills.append(wskill)
-                else:
-                    print('Not enough money or level too low')
-            
-            if wskill == 'deathball':
-                if self.handler.money > 100 and self.player.level >= 40:
-                    self.handler.money -= 100
-                    self.skills.append(wskill)
-                else:
-                    print('Not enough money or level too low')
-
-            if wskill == 'self destruct':
-                if self.handler.money > 0 and self.player.level >= 0:
-                    self.handler.money -= 0
-                    self.skills.append(wskill)
-                else:
-                    print('Not enough money or level too low')
-
-            if wskill == 'fired':
-                if self.handler.money > 20 and self.player.level >= 20:
-                    self.handler.money -= 20
-                    self.skills.append(wskill)
-                else:
-                    print('Not enough money or level too low')
-
-            if wskill == 'fireballv2':
-                if self.handler.money >= 30 and self.player.level >= 10:
-                    self.handler.money -= 30
-                    self.skills.append(wskill)
-                else:
-                    print('Not enough money or level too low')
             else:
-                print(wskill)
-            
-        print('clicked')
-    
+                print('Not enough money or level too low')
+
     def skill(self):
         for i in self.skills:
-            if i == self.avalible_skills.index(0):
-                self.avalible_skills.remove(i)
+            if i in self.available_skills:
+                self.available_skills.pop(i)
 
     def load_image(self, image_path):
         try:
