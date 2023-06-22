@@ -117,6 +117,12 @@ def main():
                         cursor.pause()
                     elif button.imgdisp == 0:
                         handler.home(Enemies, Items, castle, background, ground)
+                else:
+                    clicked = pygame.mouse.get_pressed()
+                    if clicked[0]:
+                        if not player.attacking:
+                            player.attack(cursor)
+                            player.attacking = True
             # Event handling for a range of different key presses    
             if event.type == pygame.KEYDOWN and cursor.wait == 0:
                 if event.key == pygame.K_e and 450 < player.rect.x < 550:

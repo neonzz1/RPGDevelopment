@@ -31,6 +31,7 @@ class Player(BaseSprite):
         self.mmanager = mmanager
         self.soundtrack = soundtrack
         self.swordtrack = swordtrack
+        self.skills = []
  
         # Position and direction
         self.vx = 0
@@ -117,7 +118,7 @@ class Player(BaseSprite):
         if hits and not self.jumping:
             self.jumping = True
             self.vel.y = -12
-        print(self.levels[self.level])
+        print(self.skills)
 
     def player_hit(self):
         if self.cooldown == False:      

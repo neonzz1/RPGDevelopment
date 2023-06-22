@@ -5,7 +5,6 @@ class Skillsys(BaseSprite):
     def __init__(self, player, handler):
         image_path = "img/status_bar.png"
         super().__init__(image_path)
-        self.skills = [] #TODO move to player and update logic
         self.skillimage = None
         self.hide = True
         self.available_skills = {
@@ -31,7 +30,7 @@ class Skillsys(BaseSprite):
     def rendering(self, surface):
         if not self.hide:
             surface.blit(self.skillimage, (40, 30))
-            skills_to_render = [skill for skill in self.available_skills.keys() if skill not in self.skills]
+            skills_to_render = [skill for skill in self.available_skills.keys() if skill not in self.player.skills]
 
             for i, item in enumerate(skills_to_render):
                 text_surface = self.smallerfont.render(item, True, (0, 0, 0))  # Render the text
@@ -46,21 +45,21 @@ class Skillsys(BaseSprite):
                         self.Buy_Skill(wskill)  
 
     def Buy_Skill(self, wskill):
-        if wskill in self.skills:
+        if wskill in self.player.skills:
             print('You already have {}!'.format(wskill))
 
         else:
             cost, level_requirement = self.available_skills.get(wskill, (0, 0))
             if self.handler.money >= cost and self.player.level >= level_requirement:
                 self.handler.money -= cost
-                self.skills.append(wskill)
+                self.player.skills.append(wskill)
                 self.skill()
 
             else:
                 print('Not enough money or level too low')
 
     def skill(self):
-        for i in self.skills:
+        for i in self.player.skills:
             if i in self.available_skills:
                 self.available_skills.pop(i)
 
