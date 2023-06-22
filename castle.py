@@ -7,5 +7,5 @@ class Castle(BaseSprite):
         self.hide = False
     
     def update(self, surface):
-        if self.hide == False:
+        if not self.hide:
             surface.blit(self.image, (400, 80))

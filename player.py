@@ -69,7 +69,7 @@ class Player(BaseSprite):
         if self.move_frame > 6:
                 self.move_frame = 0
                 return
-        if self.jumping == False and self.running == True:  
+        if not self.jumping and self.running and not self.leveled:  
             if self.vel.x > 0:
                 self.image = self.run_ani_R[self.move_frame]
                 self.direction = "RIGHT"
@@ -121,7 +121,7 @@ class Player(BaseSprite):
         print(self.skills)
 
     def player_hit(self):
-        if self.cooldown == False:      
+        if not self.cooldown:      
             self.cooldown = True # Enable the cooldown
             self.pygame.time.set_timer(self.hit_cooldown, 1000) # Resets cooldown in 1 second
 
@@ -162,16 +162,16 @@ class Player(BaseSprite):
                 self.level += 1
                 self.experience -= required_experience  # Deduct required experience from current level
                 self.leveled = True  # Set the leveled flag to True
-                if self.direction == 'RIGHT':#TODO find a way to make the image display a little longer
+                if self.direction == 'RIGHT':
                     if self.leveled:
                         self.image = self.pygame.image.load("img/Player_Sprite_R_Level_Up.png").convert_alpha()
                 elif self.direction == 'LEFT':
                     if self.leveled:
                         self.image = self.pygame.image.load("img/Player_Sprite2_L_level_up.png").convert_alpha()
                 print(f"Congratulations! You leveled up to Level {self.level}!")
+                self.update_attributes()
             else:
                  print("not enough exp")
-                 self.update_attributes()
         else:
             print("You have reached the maximum level.")
         self.update_attributes()

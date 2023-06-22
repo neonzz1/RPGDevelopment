@@ -130,7 +130,7 @@ def main():
                 if event.key == pygame.K_SPACE:
                     player.jump()
                 if event.key == pygame.K_k:
-                    if player.attacking == False:   
+                    if not player.attacking:   
                         player.attack(cursor)
                         player.attacking = True
                 if event.key == pygame.K_m and player.magic_cooldown == 1:
@@ -149,7 +149,7 @@ def main():
                 if event.key == pygame.K_s:
                     skill.toggle_visibility()
             if event.type == handler.stage_timer:
-                if handler.battle == True and len(Enemies) == 0:
+                if handler.battle and len(Enemies) == 0:
                         handler.next_stage()
                         stage_display.display = True
                 

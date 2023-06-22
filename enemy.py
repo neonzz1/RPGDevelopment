@@ -50,7 +50,7 @@ class Enemy(BaseSprite):
         f_hits = self.pygame.sprite.spritecollide(self, Fireballs, False)
         
         # Activates upon either of the two expressions being true
-        if hits and self.player.attacking == True or f_hits:
+        if hits and self.player.attacking or f_hits:
                 if self.player.mana < 18: self.player.mana += self.mana # Release mana
                 self.player.experience += 1   # Release expeiriance
                 self.kill()
@@ -72,7 +72,7 @@ class Enemy(BaseSprite):
                     item.posy = self.pos.y
     
         # If collision has occured and player not attacking, call "hit" function            
-        elif hits and self.player.attacking == False:
+        elif hits and not self.player.attacking:
                 self.player.player_hit()
 
 class Enemy2(BaseSprite):
@@ -172,7 +172,7 @@ class Enemy2(BaseSprite):
                 item.posx = self.pos.x
                 item.posy = self.pos.y
             # If collision has occured and player not attacking, call "hit" function            
-        elif hits and self.player.attacking == False:
+        elif hits and not self.player.attacking:
                 self.player.player_hit()
 
         if self.direction == 0:
