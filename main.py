@@ -134,13 +134,16 @@ def main():
                         player.attack(cursor)
                         player.attacking = True
                 if event.key == pygame.K_m and player.magic_cooldown == 1:
-                    if player.mana >= 1:
-                        player.mana -= 1
-                        mana.image = mana_ani[player.mana]
-                        player.attacking = True
-                        fireball = Magic(player)
-                        Fireballs.add(fireball)
-                        mmanager.playsound(fsound, 0.3)
+                    if "fireball" in player.skills:
+                        if player.mana >= 1:
+                            player.mana -= 1
+                            mana.image = mana_ani[player.mana]
+                            player.attacking = True
+                            fireball = Magic(player)
+                            Fireballs.add(fireball)
+                            mmanager.playsound(fsound, 0.3)
+                    else:
+                        print('no skill')
                 if event.key == pygame.K_i:
                     inv.toggle_visibility()
                 if event.key == pygame.K_s:

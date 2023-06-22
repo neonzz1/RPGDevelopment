@@ -8,7 +8,7 @@ class Skillsys(BaseSprite):
         self.skillimage = None
         self.hide = True
         self.available_skills = {
-            "fireball": (0, 0),
+            "fireball": (0, 1),
             "Bolt": (10, 5),
             "energyblast": (15, 10),
             "deathball": (100, 40),
