@@ -6,7 +6,9 @@ class Item(BaseSprite):
     def __init__(self, itemtype):
         if itemtype == 1: image_path = "img/heart.png"
         elif itemtype == 2: image_path = "img/coin.png"
-        elif itemtype == 3: image_path = "img/coin.png"
+        elif itemtype == 3: image_path = "img/staff.png"
+        elif itemtype == 4: image_path = "img/swordicon.png"
+        elif itemtype == 5: image_path = "img/helm.png"
         else: image_path = "img/heart.png"
         super().__init__(image_path)
         
@@ -36,10 +38,22 @@ class Item(BaseSprite):
                 health.image = player.health_ani[player.health]
                 self.kill()
             if self.type == 2:
-                mmanager.playsoundtack(self.itemsound[0], -1, 0.05)
+                mmanager.playsoundtrack(self.itemsound[0], -1, 0.05)
                 handler.money += 1
                 self.kill()
             if self.type == 3:
+                mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
+                inventory.items.append(self.type)
+                self.kill()
+            if self.type == 4:
+                mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
+                inventory.items.append(self.type)
+                self.kill()
+            if self.type == 5:
+                mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
+                inventory.items.append(self.type)
+                self.kill()
+            if self.type == 6:
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
                 inventory.items.append(self.type)
                 self.kill()
