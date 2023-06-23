@@ -55,7 +55,6 @@ def main():
     soundtrack = ["sounds/background_village.wav", "sounds/battle_music.wav", "sounds/gameover.wav"]
     fsound = pygame.mixer.Sound("sounds/fireball_sound.wav")
     hit = pygame.mixer.Sound("sounds/enemy_hit.wav")
-    coinsound =[pygame.mixer.Sound("sounds/handlecoins.ogg")]
  
     mmanager = MusicManager()
     mmanager.playsoundtrack(soundtrack[0], -1, 0.05)
@@ -183,7 +182,6 @@ def main():
                         handler.next_stage()
                         stage_display.display = True
                 
-
             if event.type == hit_cooldown:
                 player.cooldown = False
                 pygame.time.set_timer(hit_cooldown, 0)
@@ -225,7 +223,7 @@ def main():
             #print("sprire")
         for i in Items:
             i.render(surface)
-            i.update(player_group, player, health, handler, inv, mmanager, coinsound)   	
+            i.update(player_group, player, health, handler, inv, mmanager)   	
         surface.blit(status_bar.surf, (580, 5))
         status_bar.update_draw(handler, player, FPS_CLOCK, surface)
         handler.update(stage_display)
