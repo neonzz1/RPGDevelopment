@@ -2,7 +2,7 @@ from Sprites import BaseSprite
 
 class inventory(BaseSprite):
     def __init__(self):
-        image_path = "img/status_bar.png"
+        image_path = "img/inventory.png"
         super().__init__(image_path)
         self.items = []
         self.imagee = None
@@ -22,7 +22,7 @@ class inventory(BaseSprite):
         if not self.hide:
             surface.blit(self.imagee, (10,30))
             surface.blit(gold, (30,220))
-            print('render called')
+            #print('render called')
 
     def load_image(self, image_path):
         try:

@@ -3,7 +3,7 @@ from Sprites import BaseSprite
 
 class Skillsys(BaseSprite):
     def __init__(self, player, handler):
-        image_path = "img/status_bar.png"
+        image_path = "img/skills.png"
         super().__init__(image_path)
         self.skillimage = None
         self.hide = True

@@ -2,7 +2,7 @@ from Sprites import BaseSprite
 
 class Cursor(BaseSprite):
     def __init__(self):
-        image_path = "img/cursor.png"
+        image_path = "img/StandardMousePointer.png"
         super().__init__(image_path)
         self.rect = self.image.get_rect()
         self.wait = 0
