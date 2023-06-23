@@ -31,6 +31,12 @@ class Player(BaseSprite):
         self.mmanager = mmanager
         self.soundtrack = soundtrack
         self.swordtrack = [self.pygame.mixer.Sound("sounds/sword1.wav"), self.pygame.mixer.Sound("sounds/sword2.wav")]
+        self.movesound = [self.pygame.mixer.Sound("sounds/footstep00.ogg"), self.pygame.mixer.Sound("sounds/footstep01.ogg"),
+                           self.pygame.mixer.Sound("sounds/footstep02.ogg"), self.pygame.mixer.Sound("sounds/footstep03.ogg"),
+                           self.pygame.mixer.Sound("sounds/footstep04.ogg"), self.pygame.mixer.Sound("sounds/footstep05.ogg"), 
+                           self.pygame.mixer.Sound("sounds/footstep06.ogg"), self.pygame.mixer.Sound("sounds/footstep07.ogg"),
+                           self.pygame.mixer.Sound("sounds/footstep08.ogg"), self.pygame.mixer.Sound("sounds/footstep09.ogg")]
+        #self.jumpsound = [self.pygame.mixer.Sound("sounds/")]
         self.skills = []
  
         # Position and direction
@@ -71,14 +77,15 @@ class Player(BaseSprite):
                 return
         if not self.jumping and self.running and not self.leveled:  
             if self.vel.x > 0:
-                
+                self.mmanager.playsound(self.movesound[self.move_frame], 0.05)
                 self.image = self.run_ani_R[self.move_frame]
                 self.direction = "RIGHT"
             else:
+                self.mmanager.playsound(self.movesound[self.move_frame], 0.05)
                 self.image = self.run_ani_L[self.move_frame]
                 self.direction = "LEFT"
             self.move_frame += 1
-             #Returns to base frame if standing still and incorrect frame is showing
+            #Returns to base frame if standing still and incorrect frame is showing
         if abs(self.vel.x) < 0.2 and self.move_frame != 0:
             self.move_frame = 0
             if self.direction == "RIGHT":
