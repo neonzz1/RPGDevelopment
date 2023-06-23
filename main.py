@@ -53,9 +53,9 @@ def main():
               pygame.image.load("img/mana_22.png").convert_alpha(), pygame.image.load("img/mana_full.png").convert_alpha()]
 
     soundtrack = ["sounds/background_village.wav", "sounds/battle_music.wav", "sounds/gameover.wav"]
-    swordtrack = [pygame.mixer.Sound("sounds/sword1.wav"), pygame.mixer.Sound("sounds/sword2.wav")]
     fsound = pygame.mixer.Sound("sounds/fireball_sound.wav")
     hit = pygame.mixer.Sound("sounds/enemy_hit.wav")
+    coinsound =[pygame.mixer.Sound("sounds/handlecoins.ogg")]
  
     mmanager = MusicManager()
     mmanager.playsoundtrack(soundtrack[0], -1, 0.05)
@@ -70,7 +70,7 @@ def main():
     hit_cooldown = pygame.USEREVENT + 1
     health = HealthBar()
     mana = ManaBar()
-    player = Player(ground_group, hit_cooldown, health, mmanager, soundtrack, swordtrack)
+    player = Player(ground_group, hit_cooldown, health, mmanager, soundtrack)
     player_group = pygame.sprite.Group()
     player_group.add(player)
     Enemies = pygame.sprite.Group()
@@ -225,7 +225,7 @@ def main():
             #print("sprire")
         for i in Items:
             i.render(surface)
-            i.update(player_group, player, health, handler, inv)   	
+            i.update(player_group, player, health, handler, inv, mmanager, coinsound)   	
         surface.blit(status_bar.surf, (580, 5))
         status_bar.update_draw(handler, player, FPS_CLOCK, surface)
         handler.update(stage_display)

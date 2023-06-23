@@ -8,6 +8,7 @@ class Skillsys(BaseSprite):
         self.skillimage = None
         self.hide = True
         self.available_skills = {
+            # first value is cost second is level
             "fireball": (0, 1),
             "Bolt": (10, 5),
             "energyblast": (15, 10),
@@ -39,7 +40,7 @@ class Skillsys(BaseSprite):
                 surface.blit(text_surface, text_rect)  # Blit the text onto the window
                 mousepos = self.pygame.mouse.get_pos()
                 if text_rect.collidepoint(mousepos):
-                    clicked = self.pygame.mouse.get_pressed() #TODO finish implementing this!
+                    clicked = self.pygame.mouse.get_pressed()
                     if clicked[0]:
                         wskill = item
                         self.Buy_Skill(wskill)  

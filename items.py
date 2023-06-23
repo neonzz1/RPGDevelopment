@@ -20,7 +20,7 @@ class Item(BaseSprite):
       self.rect.y = self.posy
       surface.blit(self.image, self.rect)
 
-    def update(self, Playergroup, player, health, handler, inventory):
+    def update(self, Playergroup, player, health, handler, inventory, mmanager, coinsound):
       """
       :param Player Group: Pygame sprite Group,
       :param player: Player class
@@ -35,6 +35,7 @@ class Item(BaseSprite):
                 health.image = player.health_ani[player.health]
                 self.kill()
             if self.type == 2:
+                mmanager.playsound(coinsound, 0.3)
                 handler.money += 1
                 self.kill()
             if self.type == 3:

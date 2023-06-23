@@ -6,7 +6,7 @@ FRIC = -0.10
 #TODO build proper leveling system
 
 class Player(BaseSprite):
-    def __init__(self, ground_group, hit_cooldown, health, mmanager, soundtrack, swordtrack):
+    def __init__(self, ground_group, hit_cooldown, health, mmanager, soundtrack):
         image_path = "img/Player_Sprite_R.png" # this sets self.image in the BaseSprite (This only sets this Sprites not all instances of the BaseSprite)
         super().__init__(image_path)
         self.rect = self.image.get_rect()
@@ -30,7 +30,7 @@ class Player(BaseSprite):
         self.slash = 0
         self.mmanager = mmanager
         self.soundtrack = soundtrack
-        self.swordtrack = swordtrack
+        self.swordtrack = [self.pygame.mixer.Sound("sounds/sword1.wav"), self.pygame.mixer.Sound("sounds/sword2.wav")]
         self.skills = []
  
         # Position and direction
@@ -71,6 +71,7 @@ class Player(BaseSprite):
                 return
         if not self.jumping and self.running and not self.leveled:  
             if self.vel.x > 0:
+                
                 self.image = self.run_ani_R[self.move_frame]
                 self.direction = "RIGHT"
             else:
