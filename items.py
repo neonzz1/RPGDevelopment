@@ -33,6 +33,7 @@ class Item(BaseSprite):
       hits = self.pygame.sprite.spritecollide(self, Playergroup, False)
       # Code to be activated if item comes in contact with player
       if hits:
+            #TODO create random variables for each item spawned
             if player.health < 5 and self.type == 1:
                 player.health += 1
                 health.image = player.health_ani[player.health]

@@ -113,45 +113,43 @@ def main():
             # For events that occur upon clicking the mouse (left click) 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 clicked = pygame.mouse.get_pressed()
-                if clicked[0]:
-                    if 620 <= mouse[0] <= 670 and 300 <= mouse[1] <= 345:
-                        if button.imgdisp == 1:
-                            cursor.pause()
-                        elif button.imgdisp == 0:
-                            handler.home(Enemies, Items, castle, background, ground)
-                    else:
-                        if clicked[0]:
-                            if not player.attacking:
-                                player.attack(cursor)
-                                player.attacking = True
-                        if clicked[2]:
+                if 620 <= mouse[0] <= 670 and 300 <= mouse[1] <= 345:
+                    if button.imgdisp == 1:
+                        cursor.pause()
+                    elif button.imgdisp == 0:
+                        handler.home(Enemies, Items, castle, background, ground)
+                else:
+                    if clicked[0]:
+                        if not player.attacking:
+                            player.attack(cursor)
                             player.attacking = True
-                            if "fireball" in player.skills and player.mana >= 1:
-                                    player.mana -= 1
-                                    mana.image = mana_ani[player.mana]
-                                    fireball = Magic(player)
-                                    Fireballs.add(fireball)
-                                    mmanager.playsound(fsound, 0.3)
-                            elif "energy_blast" in player.skills and player.mana >= 2:
-                                    player.mana -= 2
-                                    mana.image = mana_ani[player.mana]
-                                    energy_blast = Energy_blast(player)
-                                    magics.add(energy_blast)
-                                    mmanager.playsound(fsound, 0.3)
-                            elif "deathball" in player.skills and player.mana >= 10:
-                                    player.mana -= 10
-                                    mana.image = mana_ani[player.mana]
-                                    deathball = Death_ball(player)
-                                    magics.add(deathball)
-                                    mmanager.playsound(fsound, 0.3)
-                            elif "fired" in player.skills and player.mana >= 3:
-                                    player.mana -= 3
-                                    mana.image = mana_ani[player.mana]
-                                    energy_blast = Fired(player)
-                                    magics.add(Fired)
-                                    mmanager.playsound(fsound, 0.3)
-                            else:
-                                print('no skill')
+                    elif clicked[2]:
+                        if "fireball" in player.skills and player.mana >= 1:
+                            player.mana -= 1
+                            mana.image = mana_ani[player.mana]
+                            fireball = Magic(player)
+                            Fireballs.add(fireball)
+                            mmanager.playsound(fsound, 0.3)
+                        elif "energy_blast" in player.skills and player.mana >= 2:
+                            player.mana -= 2
+                            mana.image = mana_ani[player.mana]
+                            energy_blast = Energy_blast(player)
+                            magics.add(energy_blast)
+                            mmanager.playsound(fsound, 0.3)
+                        elif "deathball" in player.skills and player.mana >= 10:
+                            player.mana -= 10
+                            mana.image = mana_ani[player.mana]
+                            deathball = Death_ball(player)
+                            magics.add(deathball)
+                            mmanager.playsound(fsound, 0.3)
+                        elif "fired" in player.skills and player.mana >= 3:
+                            player.mana -= 3
+                            mana.image = mana_ani[player.mana]
+                            energy_blast = Fired(player)
+                            magics.add(Fired)
+                            mmanager.playsound(fsound, 0.3)
+                        else:
+                            print('no skill')
             # Event handling for a range of different key presses    
             if event.type == pygame.KEYDOWN and cursor.wait == 0:
                 if event.key == pygame.K_e and 450 < player.rect.x < 550:
@@ -170,6 +168,24 @@ def main():
                             player.attacking = True
                             fireball = Magic(player)
                             Fireballs.add(fireball)
+                            mmanager.playsound(fsound, 0.3)
+                    elif "energy_blast" in player.skills and player.mana >= 2:
+                            player.mana -= 2
+                            mana.image = mana_ani[player.mana]
+                            energy_blast = Energy_blast(player)
+                            magics.add(energy_blast)
+                            mmanager.playsound(fsound, 0.3)
+                    elif "deathball" in player.skills and player.mana >= 10:
+                            player.mana -= 10
+                            mana.image = mana_ani[player.mana]
+                            deathball = Death_ball(player)
+                            magics.add(deathball)
+                            mmanager.playsound(fsound, 0.3)
+                    elif "fired" in player.skills and player.mana >= 3:
+                            player.mana -= 3
+                            mana.image = mana_ani[player.mana]
+                            energy_blast = Fired(player)
+                            magics.add(Fired)
                             mmanager.playsound(fsound, 0.3)
                     else:
                         print('no skill')
