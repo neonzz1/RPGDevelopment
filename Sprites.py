@@ -28,7 +28,7 @@ class BaseSprite(pygame.sprite.Sprite):
                           pygame.image.load("img/demon_R_3.png").convert_alpha(), pygame.image.load("img/demon_R_4.png").convert_alpha(),
                           pygame.image.load("img/demon_R_5.png").convert_alpha(), pygame.image.load("img/demon_R_6.png").convert_alpha(),
                           pygame.image.load("img/demon_R_7.png").convert_alpha(), pygame.image.load("img/demon_R_8.png").convert_alpha(),
-                          pygame.image.load("img/demon_R_9.png").convert_alpha(), pygame.image.load("img/demon_R.png").convert_alpha()]
+                          pygame.image.load("img/demon_R.png").convert_alpha()]
         #Player animations
         self.run_ani_R = [pygame.image.load("img/Player_Sprite_R.png").convert_alpha(), pygame.image.load("img/Player_Sprite2_R.png").convert_alpha(),
              pygame.image.load("img/Player_Sprite3_R.png").convert_alpha(),pygame.image.load("img/Player_Sprite4_R.png").convert_alpha(),

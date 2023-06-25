@@ -282,7 +282,7 @@ class Demon(BaseSprite):
             self.turning = 1
 
     def update(self, handler, Items, Spells):
-        if self.move_frame > 9:
+        if self.move_frame > 8:
             self.move_frame = 0
 
         if self.vel.x > 0:
