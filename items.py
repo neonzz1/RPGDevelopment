@@ -58,5 +58,11 @@ class Item(BaseSprite):
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
                 inventory.items.append(self.type)
                 self.kill()
+            if self.type == 7:
+                inventory.items.append(self.type)
+                self.kill()
+            if self.type == 8:
+                inventory.items.append(self.type)
+                self.kill()
             else:
                 print('Out of range!!')

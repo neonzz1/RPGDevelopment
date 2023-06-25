@@ -322,6 +322,10 @@ class Demon(BaseSprite):
                 item_no = 5
             elif rand_num > 45 and rand_num <= 55:
                 item_no = 6
+            elif rand_num > 55 and rand_num < 65:
+                item_no = 7
+            elif rand_num > 65 and rand_num < 75:
+                item_no = 8
  
             if item_no != 0:
                 # Add Item to Items group
