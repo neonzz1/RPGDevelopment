@@ -4,7 +4,7 @@ from pygame.locals import *
 from background import Background
 from ground import Ground
 from player import Player
-from enemy import Enemy, Enemy2
+from enemy import Enemy, Enemy2, Demon
 from castle import Castle
 from eventhadler import EventHandler
 from Healthbar import HealthBar
@@ -106,10 +106,16 @@ def main():
                     Enemies.add(enemy)
                     handler.enemy_count += 1
             if event.type == handler.enemy_generation2:
-                if handler.enemy_count < handler.stage_enemies[handler.stage - 1]:
-                    enemy = Enemy2(player_group, Fireballs, player, handler, Items, Bolts)
-                    Enemies.add(enemy)
-                    handler.enemy_count += 1
+                if handler.world == 2:
+                    if handler.enemy_count < handler.stage_enemies[handler.stage - 1]:
+                        enemy = Enemy2(player_group, Fireballs, player, handler, Items, Bolts)
+                        Enemies.add(enemy)
+                        handler.enemy_count += 1
+                else:
+                    if handler.enemy_count < handler.stage_enemies[handler.stage - 1]:
+                        enemy = Demon(player_group, Fireballs, player, handler, Items, Bolts)
+                        Enemies.add(enemy)
+                        handler.enemy_count += 1
             # For events that occur upon clicking the mouse (left click) 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 clicked = pygame.mouse.get_pressed()

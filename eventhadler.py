@@ -68,10 +68,17 @@ class EventHandler():
         self.battle = True
       
     def world3(self):
-        self.battle = True
-        self.button.imgdisp = 1
-        # Empty for now
+        self.root.destroy()
+        self.background.image = pygame.image.load("img/desert.jpg").convert_alpha()
+        self.ground.image = pygame.image.load("img/desert_ground.png").convert_alpha()
         self.mmanager.playsoundtrack(self.soundtrack[1], -1, 0.05)
+ 
+        pygame.time.set_timer(self.enemy_generation2, 2500)
+ 
+        self.world = 3
+        self.button.imgdisp = 1
+        self.castle.hide = True
+        self.battle = True
     def next_stage(self):  # Code for when the next stage is clicked            
         self.stage += 1
         self.button.imgdisp = 0

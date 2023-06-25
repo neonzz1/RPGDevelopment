@@ -214,5 +214,138 @@ class Enemy2(BaseSprite):
         else:
             self.direction = 1
             self.image = self.pygame.image.load("img/enemy2_L.png")
+
+class Demon(BaseSprite):
+    #TODO add animation for movement and add magic(Fireball) and animation
+    def __init__(self, Playergroup, Fireballs, player, handler, Items, Bolts):
+        image_path = "img/Demon_R.png"
+        super().__init__(image_path)
+        self.Playergroup = Playergroup
+        self.Fireballs = Fireballs
+        self.player = player
+        self.handler = handler
+        self.Items = Items
+        self.pos = self.vec(0,0)
+        self.vel = self.vec(0,0)
+        self.wait = 0
+        self.wait_status = False
+        self.turning = 0
+        self.Bolts = Bolts
+
+ 
+        self.direction = random.randint(0,1) # 0 for Right, 1 for Left
+        self.vel.x = random.randint(2,6) / 3  # Randomized velocity of the generated enemy
+        self.mana = random.randint(2, 3)  # Randomized mana amount obtained upon
+
+        if self.direction == 0:
+            self.pos.x = 0
+            self.pos.y = 250
+            print(self.pos)
+        if self.direction == 1:
+            self.pos.x = 700
+            self.pos.y = 250
+
+        if self.direction == 0: self.image = self.pygame.image.load("img/demon_R.png")
+        if self.direction == 1: self.image = self.pygame.image.load("img/demon_L.png")
+        self.rect = self.image.get_rect()  
+
+    def move(self, cursor):
+        if cursor.wait == 1: return
+        #print("moving")
+        # Causes the enemy to change directions upon reaching the end of screen    
+        if self.pos.x >= (self.width-20):
+            self.direction = 1
+        elif self.pos.x <= 0:
+            self.direction = 0
+        if self.wait > 60:
+            self.wait_status = True
+        elif int(self.wait) <= 0:
+            self.wait_status = False
+         # Updates positon with new values     
+        if self.direction == 0:
+            self.pos.x += self.vel.x
+        if self.direction == 1:
+            self.pos.x -= self.vel.x
+        
+        if self.wait_status:
+            rand_num = numpy.random.uniform(0, 50)
+            if int(rand_num) == 25:
+                bolt = Bolt(self.pos.x, self.pos.y, self.direction, self.Playergroup, self.player)
+                self.Bolts.add(bolt)
+
+        self.rect.topleft = self.pos # Updates rect
+        
+        if (self.direction_check(self.player)):
+            self.turn()
+            self.wait = 90
+            self.turning = 1
+
+    def update(self, handler, Items, Fireballs):
+        # Checks for collision with the Player
+        hits = self.pygame.sprite.spritecollide(self, self.Playergroup, False)
+ 
+        # Checks for collision with Fireballs
+        f_hits = self.pygame.sprite.spritecollide(self, Fireballs, False)
+ 
+        # Activates upon either of the two expressions being true
+        if hits and self.player.attacking == True or f_hits:
+            self.kill()
+            handler.enemy_count - 1
+            handler.enemy_dead_count += 1
+             
+            if self.player.mana < 18: self.player.mana += self.mana # Release mana
+            self.player.experience += 1   # Release expeiriance
+             
+            rand_num = numpy.random.uniform(0, 100)
+            item_no = 0
+            if rand_num >= 0 and rand_num <= 5:  # 1 / 20 chance for an item (health) drop
+                item_no = 1
+            elif rand_num > 5 and rand_num <= 15:
+                item_no = 2
+            elif rand_num > 15 and rand_num <= 25:
+                item_no = 3
+            elif rand_num > 25 and rand_num <= 35:
+                item_no = 4
+            elif rand_num > 35 and rand_num <= 45:
+                item_no = 5
+            elif rand_num > 45 and rand_num <= 55:
+                item_no = 6
+ 
+            if item_no != 0:
+                # Add Item to Items group
+                item = Item(item_no)
+                Items.add(item)
+                # Sets the item location to the location of the killed enemy
+                item.posx = self.pos.x
+                item.posy = self.pos.y
+            # If collision has occured and player not attacking, call "hit" function            
+        elif hits and not self.player.attacking:
+                self.player.player_hit()
+
+        if self.direction == 0:
+            self.image = self.pygame.image.load("img/demon_R.png").convert_alpha()
+        elif self.direction == 1:
+            self.image = self.pygame.image.load("img/demon_L.png").convert_alpha()
+                
+    def direction_check(self, player):
+        if (player.pos.x - self.pos.x < 0 and self.direction == 0):
+            return 1
+        elif (player.pos.x - self.pos.x > 0 and self.direction == 1):
+            return 1
+        else:
+            return 0 
+    def turn(self):
+        if self.wait > 0:
+            self.wait -= 1
+            #print("wait too high")
+            return
+        elif int(self.wait) <= 0:
+            self.turning = 0
+        if (self.direction):
+            self.direction = 0
+            self.image = self.pygame.image.load("img/demon_R.png").convert_alpha()
+        else:
+            self.direction = 1
+            self.image = self.pygame.image.load("img/demon_L.png").convert_alpha()
            
       
