@@ -79,8 +79,7 @@ def main():
     stage_display = StageDisplay(handler, surface)
     status_bar = StatusBar()
     cursor = Cursor()
-    Fireballs = pygame.sprite.Group()
-    magics = pygame.sprite.Group()
+    Spells = pygame.sprite.Group()
     Items = pygame.sprite.Group()
     Bolts = pygame.sprite.Group()
     inv = inventory()
@@ -108,12 +107,12 @@ def main():
             if event.type == handler.enemy_generation2:
                 if handler.world == 2:
                     if handler.enemy_count < handler.stage_enemies[handler.stage - 1]:
-                        enemy = Enemy2(player_group, Fireballs, player, handler, Items, Bolts)
+                        enemy = Enemy2(player_group, Spells, player, handler, Items, Bolts)
                         Enemies.add(enemy)
                         handler.enemy_count += 1
                 else:
                     if handler.enemy_count < handler.stage_enemies[handler.stage - 1]:
-                        enemy = Demon(player_group, Fireballs, player, handler, Items, Bolts)
+                        enemy = Demon(player_group, Spells, player, handler, Items, Bolts)
                         Enemies.add(enemy)
                         handler.enemy_count += 1
             # For events that occur upon clicking the mouse (left click) 
@@ -134,25 +133,25 @@ def main():
                             player.mana -= 1
                             mana.image = mana_ani[player.mana]
                             fireball = Magic(player)
-                            Fireballs.add(fireball)
+                            Spells.add(fireball)
                             mmanager.playsound(fsound, 0.3)
                         elif "energy_blast" in player.skills and player.mana >= 2:
                             player.mana -= 2
                             mana.image = mana_ani[player.mana]
                             energy_blast = Energy_blast(player)
-                            magics.add(energy_blast)
+                            Spells.add(energy_blast)
                             mmanager.playsound(fsound, 0.3)
                         elif "deathball" in player.skills and player.mana >= 10:
                             player.mana -= 10
                             mana.image = mana_ani[player.mana]
                             deathball = Death_ball(player)
-                            magics.add(deathball)
+                            Spells.add(deathball)
                             mmanager.playsound(fsound, 0.3)
                         elif "fired" in player.skills and player.mana >= 3:
                             player.mana -= 3
                             mana.image = mana_ani[player.mana]
                             energy_blast = Fired(player)
-                            magics.add(Fired)
+                            Spells.add(Fired)
                             mmanager.playsound(fsound, 0.3)
                         else:
                             print('no skill')
@@ -173,25 +172,25 @@ def main():
                             mana.image = mana_ani[player.mana]
                             player.attacking = True
                             fireball = Magic(player)
-                            Fireballs.add(fireball)
+                            Spells.add(fireball)
                             mmanager.playsound(fsound, 0.3)
                     elif "energy_blast" in player.skills and player.mana >= 2:
                             player.mana -= 2
                             mana.image = mana_ani[player.mana]
                             energy_blast = Energy_blast(player)
-                            magics.add(energy_blast)
+                            Spells.add(energy_blast)
                             mmanager.playsound(fsound, 0.3)
                     elif "deathball" in player.skills and player.mana >= 10:
                             player.mana -= 10
                             mana.image = mana_ani[player.mana]
                             deathball = Death_ball(player)
-                            magics.add(deathball)
+                            Spells.add(deathball)
                             mmanager.playsound(fsound, 0.3)
                     elif "fired" in player.skills and player.mana >= 3:
                             player.mana -= 3
                             mana.image = mana_ani[player.mana]
                             energy_blast = Fired(player)
-                            magics.add(Fired)
+                            Spells.add(Fired)
                             mmanager.playsound(fsound, 0.3)
                     else:
                         print('no skill')
@@ -234,14 +233,14 @@ def main():
         if stage_display.clear:
             stage_display.stage_clear()
 
-        for ball in Fireballs:
-            ball.fire(surface)
+        for magic in Spells:
+            magic.fire(surface)
         for bolt in Bolts:
             bolt.fire(surface)
         for entity in Enemies:
             entity.render(surface, cursor)
             entity.move(cursor)
-            entity.update(handler, Items, Fireballs)
+            entity.update(handler, Items, Spells)
             #print("sprire")
         for i in Items:
             i.render(surface)

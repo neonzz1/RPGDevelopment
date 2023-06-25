@@ -42,12 +42,12 @@ class Enemy(BaseSprite):
 
         self.rect.center = self.pos # Updates rect
     
-    def update(self, handler, Items, Fireballs):
+    def update(self, handler, Items, Spells):
         # Checks for collision with the Player
         hits = self.pygame.sprite.spritecollide(self, self.player_group, False)
         
-        # Checks for collision with Fireballs
-        f_hits = self.pygame.sprite.spritecollide(self, Fireballs, False)
+        # Checks for collision with Spells
+        f_hits = self.pygame.sprite.spritecollide(self, Spells, False)
         
         # Activates upon either of the two expressions being true
         if hits and self.player.attacking or f_hits:
@@ -84,11 +84,11 @@ class Enemy(BaseSprite):
                 self.player.player_hit()
 
 class Enemy2(BaseSprite):
-    def __init__(self, Playergroup, Fireballs, player, handler, Items, Bolts):
+    def __init__(self, Playergroup, Spells, player, handler, Items, Bolts):
         image_path = "img/enemy2.png"
         super().__init__(image_path)
         self.Playergroup = Playergroup
-        self.Fireballs = Fireballs
+        self.Spells = Spells
         self.player = player
         self.handler = handler
         self.Items = Items
@@ -147,12 +147,12 @@ class Enemy2(BaseSprite):
             self.wait = 90
             self.turning = 1
 
-    def update(self, handler, Items, Fireballs):
+    def update(self, handler, Items, Spells):
         # Checks for collision with the Player
         hits = self.pygame.sprite.spritecollide(self, self.Playergroup, False)
  
-        # Checks for collision with Fireballs
-        f_hits = self.pygame.sprite.spritecollide(self, Fireballs, False)
+        # Checks for collision with Spells
+        f_hits = self.pygame.sprite.spritecollide(self, Spells, False)
  
         # Activates upon either of the two expressions being true
         if hits and self.player.attacking == True or f_hits:
@@ -217,11 +217,11 @@ class Enemy2(BaseSprite):
 
 class Demon(BaseSprite):
     #TODO add animation for movement and add magic(Fireball) and animation
-    def __init__(self, Playergroup, Fireballs, player, handler, Items, Bolts):
+    def __init__(self, Playergroup, Spells, player, handler, Items, Bolts):
         image_path = "img/Demon_R.png"
         super().__init__(image_path)
         self.Playergroup = Playergroup
-        self.Fireballs = Fireballs
+        self.Spells = Spells
         self.player = player
         self.handler = handler
         self.Items = Items
@@ -231,7 +231,7 @@ class Demon(BaseSprite):
         self.wait_status = False
         self.turning = 0
         self.Bolts = Bolts
-
+        self.move_frame = 0
  
         self.direction = random.randint(0,1) # 0 for Right, 1 for Left
         self.vel.x = random.randint(2,6) / 3  # Randomized velocity of the generated enemy
@@ -280,12 +280,25 @@ class Demon(BaseSprite):
             self.wait = 90
             self.turning = 1
 
-    def update(self, handler, Items, Fireballs):
+    def update(self, handler, Items, Spells):
+        if self.move_frame > 9:
+            self.move_frame = 0
+
+        if self.vel.x > 0:
+            if self.direction == 0:
+                self.image = self.moveani_R[self.move_frame]
+                self.direction = 0
+                print(self.move_frame)
+            else:
+                self.image = self.moveani_L[self.move_frame]
+                self.direction = 1
+                print(self.move_frame)
+            self.move_frame += 1
         # Checks for collision with the Player
         hits = self.pygame.sprite.spritecollide(self, self.Playergroup, False)
  
-        # Checks for collision with Fireballs
-        f_hits = self.pygame.sprite.spritecollide(self, Fireballs, False)
+        # Checks for collision with Spells
+        f_hits = self.pygame.sprite.spritecollide(self, Spells, False)
  
         # Activates upon either of the two expressions being true
         if hits and self.player.attacking == True or f_hits:
@@ -322,11 +335,6 @@ class Demon(BaseSprite):
         elif hits and not self.player.attacking:
                 self.player.player_hit()
 
-        if self.direction == 0:
-            self.image = self.pygame.image.load("img/demon_R.png").convert_alpha()
-        elif self.direction == 1:
-            self.image = self.pygame.image.load("img/demon_L.png").convert_alpha()
-                
     def direction_check(self, player):
         if (player.pos.x - self.pos.x < 0 and self.direction == 0):
             return 1
