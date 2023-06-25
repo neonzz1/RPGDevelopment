@@ -216,7 +216,8 @@ class Enemy2(BaseSprite):
             self.image = self.pygame.image.load("img/enemy2_L.png")
 
 class Demon(BaseSprite):
-    #TODO add animation for movement and add magic(Fireball) and animation
+    #TODO add magic(Fireball) and animation
+    #TODO work out what causes the right animation glitch
     def __init__(self, Playergroup, Spells, player, handler, Items, Bolts):
         image_path = "img/Demon_R.png"
         super().__init__(image_path)
@@ -288,11 +289,9 @@ class Demon(BaseSprite):
             if self.direction == 0:
                 self.image = self.moveani_R[self.move_frame]
                 self.direction = 0
-                print(self.move_frame)
             else:
                 self.image = self.moveani_L[self.move_frame]
                 self.direction = 1
-                print(self.move_frame)
             self.move_frame += 1
         # Checks for collision with the Player
         hits = self.pygame.sprite.spritecollide(self, self.Playergroup, False)
