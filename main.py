@@ -225,7 +225,7 @@ def main():
         health.renders(surface)
         mana.renders(surface)
         mana.image = mana_ani[player.mana]
-        inv.renderr(surface, handler)
+        inv.renderr(surface, handler, player)
         skill.rendering(surface)
         #sprite functions
         if stage_display.display:
