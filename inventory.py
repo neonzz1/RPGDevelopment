@@ -25,38 +25,42 @@ class inventory(BaseSprite):
     def renderr(self, surface, handler, player):    
         gold = self.smallerfont.render('Gold: ' + str(handler.money), True, (0, 255, 0))
         clicked = self.pygame.mouse.get_pressed()
+        mousex, mousey = self.pygame.mouse.get_pos()
+        #print(mousex, mousey)
         #TODO fix image location
         if "3" in self.items:
-            self.staff = self.pygame.image.load("img/staff.png").convert_alpha()
-            staff_rect = self.staff.get_rect(center = (20,63))
+            self.staff = self.pygame.image.load("img/staff_out.png").convert_alpha()
+            staff_rect = self.staff.get_rect(center = (60,100))
             if staff_rect.collidepoint:
-                if clicked[2]:
-                    print("staff")#TODO add logic for equiping gear
+                if clicked[2] and mousex >= 20 and mousex <= 51:
+                    print("staff")
+                    player.gear.append("3")
+                    print("break")
         if "4" in self.items:
-            self.sword = self.pygame.image.load("img/swordicon.png").convert_alpha()
-            sword_rect = self.sword.get_rect(center = (50,53))
-            if sword_rect.collidepoint:
+            self.sword = self.pygame.image.load("img/sword_out.png").convert_alpha()
+            sword_rect = self.sword.get_rect()
+            if sword_rect.collidepoint and mousex == ((20,20)):
                 if clicked[2]:
                     print("sword")#TODO add logic for equiping gear
         if "5" in self.items:
-            self.helm = self.pygame.image.load("img/helm.png").convert_alpha()
-            helm_rect = self.helm.get_rect(center = (88,60))
+            self.helm = self.pygame.image.load("img/helm_out.png").convert_alpha()
+            helm_rect = self.helm.get_rect()
             if helm_rect.collidepoint:
-                if clicked[2]:
+                if clicked[2] and mousex == ((20,20)):
                     print("helm")#TODO add logic for equiping gear
         if "6" in self.items:
-            self.hpotion = self.pygame.image.load("img/hpotion.png").convert_alpha()
-            hpotion_rect = self.hpotion.get_rect(center = (128,62))
-            if hpotion_rect.collidepoint:
+            self.hpotion = self.pygame.image.load("img/hpotion_out.png").convert_alpha()
+            hpotion_rect = self.hpotion.get_rect()
+            if hpotion_rect.collidepoint and mousex == ((20,20)):
                 if clicked[2]:
-                    player.health += 5
+                    #player.health += 5
                     print("added health")
         if "7" in self.items:
-            self.mpotion = self.pygame.image.load("img/mpotion.png").convert_alpha()
-            mpotion_rect = self.mpotion.get_rect(center = (165,63))
-            if mpotion_rect.collidepoint:
+            self.mpotion = self.pygame.image.load("img/mpotion_out.png").convert_alpha()
+            mpotion_rect = self.mpotion.get_rect()
+            if mpotion_rect.collidepoint and mousex == ((20,20)):
                 if clicked[2]:
-                   player.mana += 10
+                   #player.mana += 10
                    print("added mana")
         if not self.hide:
             
@@ -66,16 +70,16 @@ class inventory(BaseSprite):
                 surface.blit(self.staff, staff_rect)
             if "4" in self.items:
                 self.sword = self.pygame.transform.scale(self.sword, (40,40))
-                surface.blit(self.sword, sword_rect)
+                surface.blit(self.sword, (50,53))
             if "5" in self.items:
                 self.helm = self.pygame.transform.scale(self.helm, (40,40))
-                surface.blit(self.helm, helm_rect)
+                surface.blit(self.helm, (88,60))
             if "6" in self.items:
                 self.hpotion = self.pygame.transform.scale(self.hpotion, (30,30))
-                surface.blit(self.hpotion, hpotion_rect)
+                surface.blit(self.hpotion, (128,62))
             if "7" in self.items:
                 self.mpotion = self.pygame.transform.scale(self.mpotion, (30,30))
-                surface.blit(self.mpotion, mpotion_rect)
+                surface.blit(self.mpotion, (165,63))
             #print('render called')
 
     def load_image(self, image_path):
