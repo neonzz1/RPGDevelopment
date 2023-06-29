@@ -213,7 +213,7 @@ def main():
         if player.health > 0:
             player.render(surface, cursor)
         player.move()
-        player.update(cursor)
+        player.update(cursor, inv)
         if player.attacking:
             player.attack(cursor)
         for level, xp_required in player.levels.items():

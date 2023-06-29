@@ -70,7 +70,12 @@ class Player(BaseSprite):
             self.pos.x = self.width
 
         self.rect.midbottom = self.pos
-    def update(self, cursor):
+    def update(self, cursor, inv):
+
+        if not inv.hide: #TODO setup a player gear screen showing what's equipped and stats
+            for item in self.gear:
+                 if item == 3:
+                      print(item)
         if cursor.wait == 1: return
         # Return to base frame if at end of movement sequence 
         if self.move_frame > 6:

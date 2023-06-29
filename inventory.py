@@ -28,28 +28,14 @@ class inventory(BaseSprite):
         mouse = self.pygame.mouse.get_pos()
         #print(mousex, mousey)
         #TODO fix image location
-        for item in self.items:
             #print("Rendering item:", item)
-            if item == 3:
-                self.staff = self.pygame.image.load("img/staff_out.png").convert_alpha()
-            
-            if item == 4:
-                self.sword = self.pygame.image.load("img/sword_out.png").convert_alpha()
-                
-            if item == 5:
-                self.helm = self.pygame.image.load("img/helm_out.png").convert_alpha()
-                
-            if item == 6:
-                self.hpotion = self.pygame.image.load("img/hpotion_out.png").convert_alpha()
-                
-            if item == 7:
-                self.mpotion = self.pygame.image.load("img/mpotion_out.png").convert_alpha()
             
         if not self.hide:
             
             surface.blit(self.imagee, (10,30)) #TODO scale and place images from helm down make image placement function more dynamically
             for item in self.items:
                 if item == 3:
+                    self.staff = self.pygame.image.load("img/staff_out.png").convert_alpha()
                     self.staff = self.pygame.transform.scale(self.staff, (30,30))
                     staff_rect = self.staff.get_rect(center = (35,81))
                     if staff_rect.collidepoint(mouse):
@@ -59,6 +45,7 @@ class inventory(BaseSprite):
                             self.items.remove(3)
                     surface.blit(self.staff, staff_rect)
                 if item == 4:
+                    self.sword = self.pygame.image.load("img/sword_out.png").convert_alpha()
                     self.sword = self.pygame.transform.scale(self.sword, (40,40))
                     sword_rect = self.sword.get_rect(center = (70,72.5))#TODO fine adjust
                     if sword_rect.collidepoint(mouse):
@@ -68,6 +55,7 @@ class inventory(BaseSprite):
                             self.items.remove(4)
                     surface.blit(self.sword, sword_rect)
                 if item == 5:
+                    self.helm = self.pygame.image.load("img/helm_out.png").convert_alpha()
                     self.helm = self.pygame.transform.scale(self.helm, (40,40))
                     helm_rect = self.helm.get_rect(center = (105,81))
                     if helm_rect.collidepoint(mouse):
@@ -77,6 +65,7 @@ class inventory(BaseSprite):
                             self.items.remove(5)
                     surface.blit(self.helm, (88,60))
                 if item == 6:
+                    self.hpotion = self.pygame.image.load("img/hpotion_out.png").convert_alpha()
                     self.hpotion = self.pygame.transform.scale(self.hpotion, (30,30))
                     hpotion_rect = self.hpotion.get_rect(center = (140,81))
                     if hpotion_rect.collidepoint(mouse):
@@ -88,6 +77,7 @@ class inventory(BaseSprite):
                             print("too much health")
                     surface.blit(self.hpotion, (128,62))
                 if item == 7:
+                    self.mpotion = self.pygame.image.load("img/mpotion_out.png").convert_alpha()
                     self.mpotion = self.pygame.transform.scale(self.mpotion, (30,30))
                     mpotion_rect = self.mpotion.get_rect(center = (175,81))
                     if mpotion_rect.collidepoint(mouse):
