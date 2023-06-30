@@ -1,5 +1,5 @@
 from Sprites import BaseSprite
-
+import numpy
 #TODO finish coding in new items
       
 class Item(BaseSprite):
@@ -42,7 +42,7 @@ class Item(BaseSprite):
                 mmanager.playsoundtrack(self.itemsound[0], -1, 0.05)
                 handler.money += 1
                 self.kill()
-            if self.type == 3:
+            if self.type >= 3 and self.type <= 3.4:
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
                 inventory.items.append(self.type)
                 self.kill()

@@ -169,8 +169,15 @@ class Enemy2(BaseSprite):
                 item_no = 1
             elif rand_num > 5 and rand_num <= 15:
                 item_no = 2
-            elif rand_num > 15 and rand_num <= 25:
-                item_no = 3
+            elif rand_num >= 15 and rand_num <= 25:
+                if rand_num >= 15 and rand_num <= 21:
+                    item_no = 3.1
+                elif rand_num >= 21 and rand_num <= 23:
+                    item_no = 3.3
+                elif rand_num >= 24 and rand_num <= 25:
+                    item_no = 3.4
+                else:
+                    item_no = 3
             elif rand_num > 25 and rand_num <= 35:
                 item_no = 4
             elif rand_num > 35 and rand_num <= 45:

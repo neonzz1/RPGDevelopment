@@ -10,6 +10,7 @@ class Player(BaseSprite):
         image_path = "img/Player_Sprite_R.png" # this sets self.image in the BaseSprite (This only sets this Sprites not all instances of the BaseSprite)
         super().__init__(image_path)
         self.rect = self.image.get_rect()
+        self.gear_image = self.pygame.image.load("img/playergear.png").convert_alpha()
         self.ground_group = ground_group
         self.hit_cooldown = hit_cooldown
         self.jumping = False
@@ -18,6 +19,9 @@ class Player(BaseSprite):
         self.cooldown = False
         self.move_frame = 0
         self.attack_frame = 0
+        self.attackvalue = 4
+        self.defence = 2
+        self.spellpower = 1
         self.health = 5
         self.heart = health
         self.experience = 0
@@ -70,12 +74,51 @@ class Player(BaseSprite):
             self.pos.x = self.width
 
         self.rect.midbottom = self.pos
-    def update(self, cursor, inv):
+    def update(self, cursor, inv, surface):
 
         if not inv.hide: #TODO setup a player gear screen showing what's equipped and stats
+            gear_rect = self.gear_image.get_rect(center = (340, 150))
+            surface.blit(self.gear_image, gear_rect)
             for item in self.gear:
-                 if item == 3:
-                      print(item)
+                if item == 3:
+                    if 4 in self.gear:
+                         self.gear.remove(3)
+                    else:
+                        surface.blit(inv.staff, (290, 151))
+                        self.attackvalue += 5
+                        self.defence += 2
+                        self.spellpower += 5
+                if item == 3.1: #TODO make the stats change spell power etc
+                    if 3 in self.gear:
+                        self.gear.remove(3)
+                    else:
+                        surface.blit(inv.staff, (290, 151))
+                        self.attackvalue += 6
+                        self.defence += 4
+                        self.spellpower += 10
+                if item == 3.3:
+                    if 3 in self.gear:
+                        self.gear.remove(3)
+                    else:
+                        surface.blit(inv.staff, (290, 151))
+                        self.attackvalue += 9
+                        self.defence += 8
+                        self.spellpower += 12
+                if item == 3.4:
+                    if 3 in self.gear:
+                        self.gear.remove(3)
+                    else:
+                        surface.blit(inv.staff, (290, 151))
+                        self.attackvalue += 14
+                        self.defence += 16
+                        self.spellpower += 20
+                if item == 4:
+                    if 3 in self.gear:
+                        self.gear.remove(4)
+                    else:
+                        surface.blit(inv.sword, (290, 141))
+                if item == 5:
+                    surface.blit(inv.helm, (320, 85))
         if cursor.wait == 1: return
         # Return to base frame if at end of movement sequence 
         if self.move_frame > 6:
@@ -185,7 +228,8 @@ class Player(BaseSprite):
                 print(f"Congratulations! You leveled up to Level {self.level}!")
                 self.update_attributes()
             else:
-                 print("not enough exp")
+                 self.direction = self.direction
+                #print("not enough exp")
         else:
             print("You have reached the maximum level.")
         self.update_attributes()

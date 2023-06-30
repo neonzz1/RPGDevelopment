@@ -4,7 +4,7 @@ class inventory(BaseSprite):
     def __init__(self):
         image_path = "img/inventory.png"
         super().__init__(image_path)
-        self.items = []
+        self.items = [3,4,5]
         self.imagee = None
         self.staff = None
         self.sword = None
@@ -26,13 +26,12 @@ class inventory(BaseSprite):
         gold = self.smallerfont.render('Gold: ' + str(handler.money), True, (0, 255, 0))
         clicked = self.pygame.mouse.get_pressed()
         mouse = self.pygame.mouse.get_pos()
-        #print(mousex, mousey)
         #TODO fix image location
             #print("Rendering item:", item)
             
         if not self.hide:
             
-            surface.blit(self.imagee, (10,30)) #TODO scale and place images from helm down make image placement function more dynamically
+            surface.blit(self.imagee, (10,30)) #TODO make image placement function more dynamically
             for item in self.items:
                 if item == 3:
                     self.staff = self.pygame.image.load("img/staff_out.png").convert_alpha()
@@ -53,7 +52,7 @@ class inventory(BaseSprite):
                             player.gear.append(4)
                             print(player.gear)
                             self.items.remove(4)
-                    surface.blit(self.sword, sword_rect)
+                    surface.blit(self.sword, (50,53))
                 if item == 5:
                     self.helm = self.pygame.image.load("img/helm_out.png").convert_alpha()
                     self.helm = self.pygame.transform.scale(self.helm, (40,40))
