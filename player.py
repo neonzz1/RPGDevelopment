@@ -117,8 +117,64 @@ class Player(BaseSprite):
                         self.gear.remove(4)
                     else:
                         surface.blit(inv.sword, (290, 141))
+                        self.attackvalue += 5
+                        self.defence += 2
+                        self.spellpower += 5
+
+                if item == 4.1: #TODO make the stats change spell power etc
+                    if 3 in self.gear:
+                        self.gear.remove(3)
+                    else:
+                        surface.blit(inv.sword, (290, 151))
+                        self.attackvalue += 10
+                        self.defence += 4
+                        self.spellpower += 6
+                if item == 4.3:
+                    if 3 in self.gear:
+                        self.gear.remove(3)
+                    else:
+                        surface.blit(inv.sword, (290, 151))
+                        self.attackvalue += 12
+                        self.defence += 8
+                        self.spellpower += 9
+                if item == 4.4:
+                    if 3 in self.gear:
+                        self.gear.remove(3)
+                    else:
+                        surface.blit(inv.sword, (290, 151))
+                        self.attackvalue += 20
+                        self.defence += 16
+                        self.spellpower += 14
                 if item == 5:
                     surface.blit(inv.helm, (320, 85))
+                    self.attackvalue += 5
+                    self.defence += 2
+                    self.spellpower += 5
+
+                if item == 5.1: #TODO make the stats change spell power etc
+                    if 5 in self.gear:
+                        self.gear.remove(5)
+                    else:
+                        surface.blit(inv.helm, (290, 151))
+                        self.attackvalue += 10
+                        self.defence += 4
+                        self.spellpower += 6
+                if item == 5.3:
+                    if 5 in self.gear:
+                        self.gear.remove(5)
+                    else:
+                        surface.blit(inv.helm, (290, 151))
+                        self.attackvalue += 12
+                        self.defence += 8
+                        self.spellpower += 9
+                if item == 5.4:
+                    if 5 in self.gear:
+                        self.gear.remove(5)
+                    else:
+                        surface.blit(inv.helm, (290, 151))
+                        self.attackvalue += 20
+                        self.defence += 16
+                        self.spellpower += 14
         if cursor.wait == 1: return
         # Return to base frame if at end of movement sequence 
         if self.move_frame > 6:

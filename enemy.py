@@ -61,12 +61,33 @@ class Enemy(BaseSprite):
                     item_no = 1
                 elif rand_num > 5 and rand_num <= 15:
                     item_no = 2
-                elif rand_num > 15 and rand_num <= 25:
-                    item_no = 3
-                elif rand_num > 25 and rand_num <= 35:
-                    item_no = 4
-                elif rand_num > 35 and rand_num <= 45:
-                    item_no = 5
+                elif rand_num >= 15 and rand_num <= 25:
+                    if rand_num >= 18 and rand_num <= 21:
+                        item_no = 3.1
+                    elif rand_num >= 21 and rand_num <= 23:
+                        item_no = 3.3
+                    elif rand_num >= 24 and rand_num <= 25:
+                        item_no = 3.4
+                    else:
+                        item_no = 3
+                elif rand_num >= 25 and rand_num <= 35:
+                    if rand_num >= 28 and rand_num <= 31:
+                        item_no = 4.1
+                    elif rand_num >= 31 and rand_num <= 33:
+                        item_no = 4.3
+                    elif rand_num >= 34 and rand_num <= 35:
+                        item_no = 4.4
+                    else:
+                        item_no = 4
+                elif rand_num >= 35 and rand_num <= 45:
+                    if rand_num >= 38 and rand_num <= 41:
+                        item_no = 5.1
+                    elif rand_num >= 41 and rand_num <= 43:
+                        item_no = 5.3
+                    elif rand_num >= 44 and rand_num <= 45:
+                        item_no = 5.4
+                    else:
+                        item_no = 5
                 elif rand_num > 45 and rand_num <= 55:
                     item_no = 6
                 handler.enemy_dead_count += 1
@@ -170,7 +191,7 @@ class Enemy2(BaseSprite):
             elif rand_num > 5 and rand_num <= 15:
                 item_no = 2
             elif rand_num >= 15 and rand_num <= 25:
-                if rand_num >= 15 and rand_num <= 21:
+                if rand_num >= 18 and rand_num <= 21:
                     item_no = 3.1
                 elif rand_num >= 21 and rand_num <= 23:
                     item_no = 3.3
@@ -178,10 +199,24 @@ class Enemy2(BaseSprite):
                     item_no = 3.4
                 else:
                     item_no = 3
-            elif rand_num > 25 and rand_num <= 35:
-                item_no = 4
-            elif rand_num > 35 and rand_num <= 45:
-                item_no = 5
+            elif rand_num >= 25 and rand_num <= 35:
+                if rand_num >= 28 and rand_num <= 31:
+                    item_no = 4.1
+                elif rand_num >= 31 and rand_num <= 33:
+                    item_no = 4.3
+                elif rand_num >= 34 and rand_num <= 35:
+                    item_no = 4.4
+                else:
+                    item_no = 4
+            elif rand_num >= 35 and rand_num <= 45:
+                if rand_num >= 38 and rand_num <= 41:
+                    item_no = 5.1
+                elif rand_num >= 41 and rand_num <= 43:
+                    item_no = 5.3
+                elif rand_num >= 44 and rand_num <= 45:
+                    item_no = 5.4
+                else:
+                    item_no = 5
             elif rand_num > 45 and rand_num <= 55:
                 item_no = 6
  
@@ -321,12 +356,33 @@ class Demon(BaseSprite):
                 item_no = 1
             elif rand_num > 5 and rand_num <= 15:
                 item_no = 2
-            elif rand_num > 15 and rand_num <= 25:
-                item_no = 3
-            elif rand_num > 25 and rand_num <= 35:
-                item_no = 4
-            elif rand_num > 35 and rand_num <= 45:
-                item_no = 5
+            elif rand_num >= 15 and rand_num <= 25:
+                if rand_num >= 18 and rand_num <= 21:
+                    item_no = 3.1
+                elif rand_num >= 21 and rand_num <= 23:
+                    item_no = 3.3
+                elif rand_num >= 24 and rand_num <= 25:
+                    item_no = 3.4
+                else:
+                    item_no = 3
+            elif rand_num >= 25 and rand_num <= 35:
+                if rand_num >= 28 and rand_num <= 31:
+                    item_no = 4.1
+                elif rand_num >= 31 and rand_num <= 33:
+                    item_no = 4.3
+                elif rand_num >= 34 and rand_num <= 35:
+                    item_no = 4.4
+                else:
+                    item_no = 4
+            elif rand_num >= 35 and rand_num <= 45:
+                if rand_num >= 38 and rand_num <= 41:
+                    item_no = 5.1
+                elif rand_num >= 41 and rand_num <= 43:
+                    item_no = 5.3
+                elif rand_num >= 44 and rand_num <= 45:
+                    item_no = 5.4
+                else:
+                    item_no = 5
             elif rand_num > 45 and rand_num <= 55:
                 item_no = 6
             elif rand_num > 55 and rand_num < 65:

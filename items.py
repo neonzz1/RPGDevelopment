@@ -46,11 +46,11 @@ class Item(BaseSprite):
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
                 inventory.items.append(self.type)
                 self.kill()
-            if self.type == 4:
+            if self.type == 4 and self.type <= 4.4:
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
                 inventory.items.append(self.type)
                 self.kill()
-            if self.type == 5:
+            if self.type == 5 and self.type <= 5.4:
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
                 inventory.items.append(self.type)
                 self.kill()
