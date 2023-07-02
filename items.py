@@ -3,7 +3,7 @@ import numpy
 #TODO finish coding in new items
       
 class Item(BaseSprite):
-    def __init__(self, itemtype):
+    def __init__(self, itemtype, quantity):
         if itemtype == 1: image_path = "img/heart.png"
         elif itemtype == 2: image_path = "img/coin.png"
         elif itemtype == 3: image_path = "img/staff.png"
@@ -14,6 +14,7 @@ class Item(BaseSprite):
         
         self.rect = self.image.get_rect()
         self.type = itemtype
+        self.quantity = quantity
         self.posx = 0
         self.posy = 0
         self.itemsound = ["sounds/handleCoins.ogg", "sounds/metalClick.ogg"]
@@ -44,25 +45,25 @@ class Item(BaseSprite):
                 self.kill()
             if self.type >= 3 and self.type <= 3.4:
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
-                inventory.items.append(self.type)
+                inventory.items[self.type] = self.quantity 
                 self.kill()
             if self.type == 4 and self.type <= 4.4:
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
-                inventory.items.append(self.type)
+                inventory.items[self.type] = self.quantity
                 self.kill()
             if self.type == 5 and self.type <= 5.4:
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
-                inventory.items.append(self.type)
+                inventory.items[self.type] = self.quantity
                 self.kill()
             if self.type == 6:
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
-                inventory.items.append(self.type)
+                inventory.items[self.type] = self.quantity
                 self.kill()
             if self.type == 7:
-                inventory.items.append(self.type)
+                inventory.items[self.type] = self.quantity
                 self.kill()
             if self.type == 8:
-                inventory.items.append(self.type)
+                inventory.items[self.type] = self.quantity
                 self.kill()
             else:
                 print('Out of range!!')

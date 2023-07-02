@@ -6,6 +6,7 @@ class Magic(BaseSprite):
         super().__init__(image_path)
         self.player = player
         self.direction  = player.direction
+        self.damage = float()
         #Sets the image dependant on player direction
         if self.direction == "RIGHT":
             self.image = self.pygame.image.load("img/fireball1_R.png")
@@ -15,8 +16,10 @@ class Magic(BaseSprite):
         self.rect = self.image.get_rect(center = player.pos)
         self.rect.x = player.pos.x
         self.rect.y = player.pos.y - 40
-    def fire(self, surface):
+    def fire(self, surface, spellpower):
         self.player.magic_cooldown = 0
+        if spellpower == 1:
+            self.damage = 1
         # Runs while the fireball is still within the screen w/ extra margin
         if -10 < self.rect.x < 710:
                 if self.direction == "RIGHT":
@@ -82,7 +85,7 @@ class Energy_blast(BaseSprite):
         self.rect.y = player.pos.y - 40
         
     
-    def fire(self, surface):
+    def fire(self, surface, spellpower):
         if -10 < self.rect.x < 710:
             if self.direction == 0:
                 self.image = self.pygame.image.load("img/bolt.png")
@@ -113,7 +116,7 @@ class Death_ball(BaseSprite):
         self.rect.x = player.pos.x
         self.rect.y = player.pos.y - 40
     
-    def fire(self, surface):
+    def fire(self, surface, spellpower):
         if -10 < self.rect.x < 710:
             if self.direction == "RIGHT":
                 self.image = self.pygame.image.load("img/deathball1_R.png")
@@ -138,7 +141,7 @@ class Fired(BaseSprite):
         self.rect.x = player.pos.x
         self.rect.y = player.pos.y - 40
     
-    def fire(self, surface):
+    def fire(self, surface, spellpower):
         if -10 < self.rect.x < 710:
             if self.direction == 0:
                 self.image = self.pygame.image.load("img/bolt.png")
@@ -167,7 +170,7 @@ class Fireballv2(BaseSprite):
         self.rect.x = player.pos.x
         self.rect.y = player.pos.y - 40
     
-    def fire(self, surface):
+    def fire(self, surface, spellpower):
         if -10 < self.rect.x < 710:
             if self.direction == 0:
                 self.image = self.pygame.image.load("img/bolt.png")

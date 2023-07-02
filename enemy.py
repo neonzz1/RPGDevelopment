@@ -19,7 +19,9 @@ class Enemy(BaseSprite):
         self.player = player
         self.direction = random.randint(0,1) # 0 for Right, 1 for Left
         self.vel.x = random.randint(2,6) / 2  # Randomised velocity of the generated enemy
+        self.health = 4
         self.mana = random.randint(1, 3)  # Randomised mana amount obtained upon kill
+        self.quantity = None
         # Sets the intial position of the enemy
         if self.direction == 0:
             self.pos.x = 0
@@ -50,10 +52,15 @@ class Enemy(BaseSprite):
         f_hits = self.pygame.sprite.spritecollide(self, Spells, False)
         
         # Activates upon either of the two expressions being true
-        if hits and self.player.attacking or f_hits:
-                if self.player.mana < 18: self.player.mana += self.mana # Release mana
-                self.player.experience += 1   # Release expeiriance
-                self.kill()
+        if hits and self.player.attacking:
+                self.health -= 1
+                print(self.health)
+                if self.health <= 0:
+                    if self.player.mana < 18: self.player.mana += self.mana # Release mana
+                    self.player.experience += 1   # Release expeiriance
+                    handler.enemy_count - 1
+                    handler.enemy_dead_count += 1
+                    self.kill()
                 
                 rand_num = numpy.random.uniform(0, 100)
                 item_no = 0
@@ -62,6 +69,7 @@ class Enemy(BaseSprite):
                 elif rand_num > 5 and rand_num <= 15:
                     item_no = 2
                 elif rand_num >= 15 and rand_num <= 25:
+                    self.quantity = 1
                     if rand_num >= 18 and rand_num <= 21:
                         item_no = 3.1
                     elif rand_num >= 21 and rand_num <= 23:
@@ -71,6 +79,7 @@ class Enemy(BaseSprite):
                     else:
                         item_no = 3
                 elif rand_num >= 25 and rand_num <= 35:
+                    self.quantity = 1
                     if rand_num >= 28 and rand_num <= 31:
                         item_no = 4.1
                     elif rand_num >= 31 and rand_num <= 33:
@@ -80,6 +89,7 @@ class Enemy(BaseSprite):
                     else:
                         item_no = 4
                 elif rand_num >= 35 and rand_num <= 45:
+                    self.quantity = 1
                     if rand_num >= 38 and rand_num <= 41:
                         item_no = 5.1
                     elif rand_num >= 41 and rand_num <= 43:
@@ -89,12 +99,17 @@ class Enemy(BaseSprite):
                     else:
                         item_no = 5
                 elif rand_num > 45 and rand_num <= 55:
+                    self.quantity = 1
                     item_no = 6
-                handler.enemy_dead_count += 1
-                        #print("Enemy killed")
+                elif rand_num > 55 and rand_num < 65:
+                    self.quantity = 1
+                    item_no = 7
+                elif rand_num > 65 and rand_num < 75:
+                    item_no = 8
+    
                 if item_no != 0:
                     # Add Item to Items group
-                    item = Item(item_no)
+                    item = Item(item_no, self.quantity)
                     Items.add(item)
                     # Sets the item location to the location of the killed enemy
                     item.posx = self.pos.x
@@ -191,6 +206,7 @@ class Enemy2(BaseSprite):
             elif rand_num > 5 and rand_num <= 15:
                 item_no = 2
             elif rand_num >= 15 and rand_num <= 25:
+                self.quantity = 1
                 if rand_num >= 18 and rand_num <= 21:
                     item_no = 3.1
                 elif rand_num >= 21 and rand_num <= 23:
@@ -200,6 +216,7 @@ class Enemy2(BaseSprite):
                 else:
                     item_no = 3
             elif rand_num >= 25 and rand_num <= 35:
+                self.quantity = 1
                 if rand_num >= 28 and rand_num <= 31:
                     item_no = 4.1
                 elif rand_num >= 31 and rand_num <= 33:
@@ -209,6 +226,7 @@ class Enemy2(BaseSprite):
                 else:
                     item_no = 4
             elif rand_num >= 35 and rand_num <= 45:
+                self.quantity = 1
                 if rand_num >= 38 and rand_num <= 41:
                     item_no = 5.1
                 elif rand_num >= 41 and rand_num <= 43:
@@ -218,11 +236,17 @@ class Enemy2(BaseSprite):
                 else:
                     item_no = 5
             elif rand_num > 45 and rand_num <= 55:
+                self.quantity = 1
                 item_no = 6
+            elif rand_num > 55 and rand_num < 65:
+                self.quantity = 1
+                item_no = 7
+            elif rand_num > 65 and rand_num < 75:
+                item_no = 8
  
             if item_no != 0:
                 # Add Item to Items group
-                item = Item(item_no)
+                item = Item(item_no, self.quantity)
                 Items.add(item)
                 # Sets the item location to the location of the killed enemy
                 item.posx = self.pos.x
@@ -357,6 +381,7 @@ class Demon(BaseSprite):
             elif rand_num > 5 and rand_num <= 15:
                 item_no = 2
             elif rand_num >= 15 and rand_num <= 25:
+                self.quantity = 1
                 if rand_num >= 18 and rand_num <= 21:
                     item_no = 3.1
                 elif rand_num >= 21 and rand_num <= 23:
@@ -366,6 +391,7 @@ class Demon(BaseSprite):
                 else:
                     item_no = 3
             elif rand_num >= 25 and rand_num <= 35:
+                self.quantity = 1
                 if rand_num >= 28 and rand_num <= 31:
                     item_no = 4.1
                 elif rand_num >= 31 and rand_num <= 33:
@@ -375,6 +401,7 @@ class Demon(BaseSprite):
                 else:
                     item_no = 4
             elif rand_num >= 35 and rand_num <= 45:
+                self.quantity = 1
                 if rand_num >= 38 and rand_num <= 41:
                     item_no = 5.1
                 elif rand_num >= 41 and rand_num <= 43:
@@ -384,15 +411,17 @@ class Demon(BaseSprite):
                 else:
                     item_no = 5
             elif rand_num > 45 and rand_num <= 55:
+                self.quantity = 1
                 item_no = 6
             elif rand_num > 55 and rand_num < 65:
+                self.quantity = 1
                 item_no = 7
             elif rand_num > 65 and rand_num < 75:
                 item_no = 8
  
             if item_no != 0:
                 # Add Item to Items group
-                item = Item(item_no)
+                item = Item(item_no, self.quantity)
                 Items.add(item)
                 # Sets the item location to the location of the killed enemy
                 item.posx = self.pos.x

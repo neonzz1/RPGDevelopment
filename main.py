@@ -235,7 +235,7 @@ def main():
             stage_display.stage_clear()
 
         for magic in Spells:
-            magic.fire(surface)
+            magic.fire(surface, player.spellpower)
         for bolt in Bolts:
             bolt.fire(surface)
         for entity in Enemies:

@@ -19,19 +19,20 @@ class Player(BaseSprite):
         self.cooldown = False
         self.move_frame = 0
         self.attack_frame = 0
-        self.attackvalue = 4
+        self.attackpower = 4
         self.defence = 2
         self.spellpower = 1
         self.health = 5
         self.heart = health
         self.experience = 0
         self.level = 0
-        self.levels = {0: 2, 1: 6, 2: 10, 3: 20, 4: 30, 5: 50, 6: 200}
+        self.levels = {0: 2, 1: 6, 2: 10, 3: 20, 4: 30, 5: 50, 6: 100, 7: 150, 8: 200, 9: 260, 10: 370}
         self.leveled = False
         self.show = False
         self.mana = 17
         self.magic_cooldown = 1
         self.slash = 0
+        self.addstats = False
         self.mmanager = mmanager
         self.soundtrack = soundtrack
         self.swordtrack = [self.pygame.mixer.Sound("sounds/sword1.wav"), self.pygame.mixer.Sound("sounds/sword2.wav")]
@@ -80,101 +81,133 @@ class Player(BaseSprite):
             gear_rect = self.gear_image.get_rect(center = (340, 150))
             surface.blit(self.gear_image, gear_rect)
             for item in self.gear:
+                print(self.attackpower, self.defence, self.spellpower)
                 if item == 3:
                     if 4 in self.gear:
                          self.gear.remove(3)
+                    if 3.1 in self.gear:
+                        self.gear.remove(3.1)
+                    if 3.3 in self.gear:
+                        self.gear.remove(3.3)
+                    if 3.4 in self.gear:
+                        self.gear.remove(3.4)
                     else:
                         surface.blit(inv.staff, (290, 151))
-                        self.attackvalue += 5
-                        self.defence += 2
-                        self.spellpower += 5
+                        if self.addstats:
+                            self.reset_values()
+                            self.attackpower += 5
+                            self.defence += 2
+                            self.spellpower += 5
+                            self.addstats = False
                 if item == 3.1: #TODO make the stats change spell power etc
                     if 3 in self.gear:
                         self.gear.remove(3)
                     else:
                         surface.blit(inv.staff, (290, 151))
-                        self.attackvalue += 6
-                        self.defence += 4
-                        self.spellpower += 10
+                        if self.addstats:
+                            self.reset_values()
+                            self.attackpower += 6
+                            self.defence += 4
+                            self.spellpower += 10
                 if item == 3.3:
                     if 3 in self.gear:
                         self.gear.remove(3)
                     else:
                         surface.blit(inv.staff, (290, 151))
-                        self.attackvalue += 9
-                        self.defence += 8
-                        self.spellpower += 12
+                        if self.addstats:
+                            self.reset_values()
+                            self.attackpower += 9
+                            self.defence += 8
+                            self.spellpower += 12
                 if item == 3.4:
                     if 3 in self.gear:
                         self.gear.remove(3)
                     else:
                         surface.blit(inv.staff, (290, 151))
-                        self.attackvalue += 14
-                        self.defence += 16
-                        self.spellpower += 20
+                        if self.addstats:
+                            self.reset_values()
+                            self.attackpower += 14
+                            self.defence += 16
+                            self.spellpower += 20
                 if item == 4:
                     if 3 in self.gear:
                         self.gear.remove(4)
                     else:
                         surface.blit(inv.sword, (290, 141))
-                        self.attackvalue += 5
-                        self.defence += 2
-                        self.spellpower += 5
+                        if self.addstats:
+                            self.reset_values()
+                            self.attackpower += 5
+                            self.defence += 2
+                            self.spellpower += 5
 
                 if item == 4.1: #TODO make the stats change spell power etc
                     if 3 in self.gear:
                         self.gear.remove(3)
                     else:
                         surface.blit(inv.sword, (290, 151))
-                        self.attackvalue += 10
-                        self.defence += 4
-                        self.spellpower += 6
+                        if self.addstats:
+                            self.reset_values()
+                            self.attackpower += 10
+                            self.defence += 4
+                            self.spellpower += 6
                 if item == 4.3:
                     if 3 in self.gear:
                         self.gear.remove(3)
                     else:
                         surface.blit(inv.sword, (290, 151))
-                        self.attackvalue += 12
-                        self.defence += 8
-                        self.spellpower += 9
+                        if self.addstats:
+                            self.reset_values()
+                            self.attackpower += 12
+                            self.defence += 8
+                            self.spellpower += 9
                 if item == 4.4:
                     if 3 in self.gear:
                         self.gear.remove(3)
                     else:
                         surface.blit(inv.sword, (290, 151))
-                        self.attackvalue += 20
-                        self.defence += 16
-                        self.spellpower += 14
+                        if self.addstats:
+                            self.reset_values()
+                            self.attackpower += 20
+                            self.defence += 16
+                            self.spellpower += 14
                 if item == 5:
                     surface.blit(inv.helm, (320, 85))
-                    self.attackvalue += 5
-                    self.defence += 2
-                    self.spellpower += 5
+                    if self.addstats:
+                        self.reset_values()
+                        self.attackpower += 5
+                        self.defence += 2
+                        self.spellpower += 5
 
                 if item == 5.1: #TODO make the stats change spell power etc
                     if 5 in self.gear:
                         self.gear.remove(5)
                     else:
                         surface.blit(inv.helm, (290, 151))
-                        self.attackvalue += 10
-                        self.defence += 4
-                        self.spellpower += 6
+                        if self.addstats:
+                            self.reset_values()
+                            self.attackpower += 10
+                            self.defence += 4
+                            self.spellpower += 6
                 if item == 5.3:
                     if 5 in self.gear:
                         self.gear.remove(5)
                     else:
                         surface.blit(inv.helm, (290, 151))
-                        self.attackvalue += 12
-                        self.defence += 8
-                        self.spellpower += 9
+                        if self.addstats:
+                            self.reset_values()
+                            self.attackpower += 12
+                            self.defence += 8
+                            self.spellpower += 9
                 if item == 5.4:
                     if 5 in self.gear:
                         self.gear.remove(5)
                     else:
                         surface.blit(inv.helm, (290, 151))
-                        self.attackvalue += 20
-                        self.defence += 16
-                        self.spellpower += 14
+                        if self.addstats:
+                            self.reset_values()
+                            self.attackpower += 20
+                            self.defence += 16
+                            self.spellpower += 14
         if cursor.wait == 1: return
         # Return to base frame if at end of movement sequence 
         if self.move_frame > 6:
@@ -197,7 +230,11 @@ class Player(BaseSprite):
                     self.image = self.run_ani_R[self.move_frame]
             elif self.direction == "LEFT":
                     self.image = self.run_ani_L[self.move_frame]
-        
+    def reset_values(self):
+        self.attackpower = 4
+        self.defence = 2
+        self.spellpower = 1
+
     def attack(self, cursor):
         if cursor.wait == 1: return
         # If attack frame has reached end of sequence, return to base frame      
