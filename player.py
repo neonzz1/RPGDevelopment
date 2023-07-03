@@ -35,6 +35,7 @@ class Player(BaseSprite):
         self.addstats = False
         self.mmanager = mmanager
         self.soundtrack = soundtrack
+        self.equipped_gear = []
         self.swordtrack = [self.pygame.mixer.Sound("sounds/sword1.wav"), self.pygame.mixer.Sound("sounds/sword2.wav")]
         self.movesound = [self.pygame.mixer.Sound("sounds/footstep00.ogg"), self.pygame.mixer.Sound("sounds/footstep01.ogg"),
                            self.pygame.mixer.Sound("sounds/footstep02.ogg"), self.pygame.mixer.Sound("sounds/footstep03.ogg"),
@@ -80,134 +81,62 @@ class Player(BaseSprite):
         if not inv.hide: #TODO setup a player gear screen showing what's equipped and stats
             gear_rect = self.gear_image.get_rect(center = (340, 150))
             surface.blit(self.gear_image, gear_rect)
-            for item in self.gear:
-                print(self.attackpower, self.defence, self.spellpower)
-                if item == 3:
-                    if 4 in self.gear:
-                         self.gear.remove(3)
-                    if 3.1 in self.gear:
-                        self.gear.remove(3.1)
-                    if 3.3 in self.gear:
-                        self.gear.remove(3.3)
-                    if 3.4 in self.gear:
-                        self.gear.remove(3.4)
-                    else:
-                        surface.blit(inv.staff, (290, 151))
-                        if self.addstats:
-                            self.reset_values()
-                            self.attackpower += 5
-                            self.defence += 2
-                            self.spellpower += 5
-                            self.addstats = False
-                if item == 3.1: #TODO make the stats change spell power etc
-                    if 3 in self.gear:
-                        self.gear.remove(3)
-                    else:
-                        surface.blit(inv.staff, (290, 151))
-                        if self.addstats:
-                            self.reset_values()
-                            self.attackpower += 6
-                            self.defence += 4
-                            self.spellpower += 10
-                if item == 3.3:
-                    if 3 in self.gear:
-                        self.gear.remove(3)
-                    else:
-                        surface.blit(inv.staff, (290, 151))
-                        if self.addstats:
-                            self.reset_values()
-                            self.attackpower += 9
-                            self.defence += 8
-                            self.spellpower += 12
-                if item == 3.4:
-                    if 3 in self.gear:
-                        self.gear.remove(3)
-                    else:
-                        surface.blit(inv.staff, (290, 151))
-                        if self.addstats:
-                            self.reset_values()
-                            self.attackpower += 14
-                            self.defence += 16
-                            self.spellpower += 20
-                if item == 4:
-                    if 3 in self.gear:
-                        self.gear.remove(4)
-                    else:
-                        surface.blit(inv.sword, (290, 141))
-                        if self.addstats:
-                            self.reset_values()
-                            self.attackpower += 5
-                            self.defence += 2
-                            self.spellpower += 5
+            # Create a dictionary to store the gear and their corresponding stats
+        gear_stats = {
+            3: {'image': inv.staff, 'stats': (5, 2, 5)},
+            3.1: {'image': inv.staff, 'stats': (6, 4, 10)},
+            3.3: {'image': inv.staff, 'stats': (9, 8, 12)},
+            3.4: {'image': inv.staff, 'stats': (14, 16, 20)},
+            4: {'image': inv.sword, 'stats': (5, 2, 5)},
+            4.1: {'image': inv.sword, 'stats': (10, 4, 6)},
+            4.3: {'image': inv.sword, 'stats': (12, 8, 9)},
+            4.4: {'image': inv.sword, 'stats': (20, 16, 14)},
+            5: {'image': inv.helm, 'stats': (5, 2, 5)},
+            5.1: {'image': inv.helm, 'stats': (10, 4, 6)},
+            5.3: {'image': inv.helm, 'stats': (12, 8, 9)},
+            5.4: {'image': inv.helm, 'stats': (20, 16, 14)}
+        }
+        unequipped_gear = []
+        for item in self.gear:
+            if item in gear_stats:
+                gear_data = gear_stats[item]
+                surface.blit(gear_data['image'], (290, 151))
+                self.equipped_gear.append(item) # Add the equipped gear to the list
+                
+                if self.addstats:
+                    print("syntacc")
+                    self.reset_values()
+                    
+                    for equipped_item in self.equipped_gear:
+                        self.attackpower += gear_stats[equipped_item]['stats'][0]
+                        self.defence += gear_stats[equipped_item]['stats'][1]
+                        self.spellpower += gear_stats[equipped_item]['stats'][2]
+                        self.addstats = False
+            else:
+                print("Invalid gear item:", item)
 
-                if item == 4.1: #TODO make the stats change spell power etc
-                    if 3 in self.gear:
-                        self.gear.remove(3)
-                    else:
-                        surface.blit(inv.sword, (290, 151))
-                        if self.addstats:
-                            self.reset_values()
-                            self.attackpower += 10
-                            self.defence += 4
-                            self.spellpower += 6
-                if item == 4.3:
-                    if 3 in self.gear:
-                        self.gear.remove(3)
-                    else:
-                        surface.blit(inv.sword, (290, 151))
-                        if self.addstats:
-                            self.reset_values()
-                            self.attackpower += 12
-                            self.defence += 8
-                            self.spellpower += 9
-                if item == 4.4:
-                    if 3 in self.gear:
-                        self.gear.remove(3)
-                    else:
-                        surface.blit(inv.sword, (290, 151))
-                        if self.addstats:
-                            self.reset_values()
-                            self.attackpower += 20
-                            self.defence += 16
-                            self.spellpower += 14
-                if item == 5:
-                    surface.blit(inv.helm, (320, 85))
-                    if self.addstats:
-                        self.reset_values()
-                        self.attackpower += 5
-                        self.defence += 2
-                        self.spellpower += 5
+        if self.attackpower and self.defence >= 18: #bugfix TODO create perminate solution
+            self.attackpower = 18
+            self.defence = 18
+        if self.spellpower >= 21:
+            self.spellpower = 21
+    
+    # Remove stats for unequipped gear
+        if not self.addstats:
+            for item in self.equipped_gear:
+                if item not in self.gear:
+                    self.attackpower -= gear_stats[item]['stats'][0]
+                    self.defence -= gear_stats[item]['stats'][1]
+                    self.spellpower -= gear_stats[item]['stats'][2]
+                break
+                    
+            print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
 
-                if item == 5.1: #TODO make the stats change spell power etc
-                    if 5 in self.gear:
-                        self.gear.remove(5)
-                    else:
-                        surface.blit(inv.helm, (290, 151))
-                        if self.addstats:
-                            self.reset_values()
-                            self.attackpower += 10
-                            self.defence += 4
-                            self.spellpower += 6
-                if item == 5.3:
-                    if 5 in self.gear:
-                        self.gear.remove(5)
-                    else:
-                        surface.blit(inv.helm, (290, 151))
-                        if self.addstats:
-                            self.reset_values()
-                            self.attackpower += 12
-                            self.defence += 8
-                            self.spellpower += 9
-                if item == 5.4:
-                    if 5 in self.gear:
-                        self.gear.remove(5)
-                    else:
-                        surface.blit(inv.helm, (290, 151))
-                        if self.addstats:
-                            self.reset_values()
-                            self.attackpower += 20
-                            self.defence += 16
-                            self.spellpower += 14
+            #print("eqipped: ", self.equipped_gear, "Gearlist :", self.gear)
+        
+        # Additional code to handle resetting stats if no gear is equipped
+        if self.addstats and not self.equipped_gear:
+            self.reset_values()
         if cursor.wait == 1: return
         # Return to base frame if at end of movement sequence 
         if self.move_frame > 6:

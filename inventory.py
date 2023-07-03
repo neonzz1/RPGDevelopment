@@ -4,7 +4,7 @@ class inventory(BaseSprite):
     def __init__(self):
         image_path = "img/inventory.png"
         super().__init__(image_path)
-        self.items = {3: 2, 3.4: 1}
+        self.items = {3: 1, 3.4: 1}
         self.imagee = None
         self.staff = None
         self.sword = None
@@ -67,6 +67,7 @@ class inventory(BaseSprite):
                         if clicked[2]:
                             print(player.gear)
                             if item not in player.gear:
+                                player.addstats = True
                                 player.gear.append(3.1)
                                 self.remove_items(item)
                     surface.blit(self.staff1, (200, 62))#TODO fine adjust
@@ -78,6 +79,7 @@ class inventory(BaseSprite):
                         if clicked[2]:
                             print(player.gear)
                             if item not in player.gear:
+                                player.addstats = True
                                 player.gear.append(3.3)
                                 self.remove_items(item)
                     surface.blit(self.staff2, (21, 100))
@@ -89,6 +91,7 @@ class inventory(BaseSprite):
                         if clicked[2]:
                             print(player.gear)
                             if item not in player.gear:
+                                player.addstats = True
                                 player.gear.append(3.4)
                                 self.remove_items(item)
                     surface.blit(self.staff3, (55, 100))
@@ -99,6 +102,7 @@ class inventory(BaseSprite):
                     if sword_rect.collidepoint(mouse):
                         if clicked[2]:
                             if item not in player.gear:
+                                player.addstats = True
                                 player.gear.append(4)
                                 print(player.gear)
                                 self.remove_items(item)
