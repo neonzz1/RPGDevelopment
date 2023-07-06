@@ -77,66 +77,10 @@ class Player(BaseSprite):
 
         self.rect.midbottom = self.pos
     def update(self, cursor, inv, surface):
-
         if not inv.hide: #TODO setup a player gear screen showing what's equipped and stats
             gear_rect = self.gear_image.get_rect(center = (340, 150))
             surface.blit(self.gear_image, gear_rect)
-            # Create a dictionary to store the gear and their corresponding stats
-        gear_stats = {
-            3: {'image': inv.staff, 'stats': (5, 2, 5)},
-            3.1: {'image': inv.staff, 'stats': (6, 4, 10)},
-            3.3: {'image': inv.staff, 'stats': (9, 8, 12)},
-            3.4: {'image': inv.staff, 'stats': (14, 16, 20)},
-            4: {'image': inv.sword, 'stats': (5, 2, 5)},
-            4.1: {'image': inv.sword, 'stats': (10, 4, 6)},
-            4.3: {'image': inv.sword, 'stats': (12, 8, 9)},
-            4.4: {'image': inv.sword, 'stats': (20, 16, 14)},
-            5: {'image': inv.helm, 'stats': (5, 2, 5)},
-            5.1: {'image': inv.helm, 'stats': (10, 4, 6)},
-            5.3: {'image': inv.helm, 'stats': (12, 8, 9)},
-            5.4: {'image': inv.helm, 'stats': (20, 16, 14)}
-        }
-        unequipped_gear = []
-        for item in self.gear:
-            if item in gear_stats:
-                gear_data = gear_stats[item]
-                surface.blit(gear_data['image'], (290, 151))
-                self.equipped_gear.append(item) # Add the equipped gear to the list
-                
-                if self.addstats:
-                    print("syntacc")
-                    self.reset_values()
-                    
-                    for equipped_item in self.equipped_gear:
-                        self.attackpower += gear_stats[equipped_item]['stats'][0]
-                        self.defence += gear_stats[equipped_item]['stats'][1]
-                        self.spellpower += gear_stats[equipped_item]['stats'][2]
-                        self.addstats = False
-            else:
-                print("Invalid gear item:", item)
 
-        if self.attackpower and self.defence >= 18: #bugfix TODO create perminate solution
-            self.attackpower = 18
-            self.defence = 18
-        if self.spellpower >= 21:
-            self.spellpower = 21
-    
-    # Remove stats for unequipped gear
-        if not self.addstats:
-            for item in self.equipped_gear:
-                if item not in self.gear:
-                    self.attackpower -= gear_stats[item]['stats'][0]
-                    self.defence -= gear_stats[item]['stats'][1]
-                    self.spellpower -= gear_stats[item]['stats'][2]
-                break
-                    
-            print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
-
-            #print("eqipped: ", self.equipped_gear, "Gearlist :", self.gear)
-        
-        # Additional code to handle resetting stats if no gear is equipped
-        if self.addstats and not self.equipped_gear:
-            self.reset_values()
         if cursor.wait == 1: return
         # Return to base frame if at end of movement sequence 
         if self.move_frame > 6:
@@ -159,6 +103,60 @@ class Player(BaseSprite):
                     self.image = self.run_ani_R[self.move_frame]
             elif self.direction == "LEFT":
                     self.image = self.run_ani_L[self.move_frame]
+
+    def equip_gear(self, inv, surface):
+        if not inv.hide: #TODO setup a player gear screen showing stats
+            gear_rect = self.gear_image.get_rect(center = (340, 150))
+            surface.blit(self.gear_image, gear_rect)
+            # Create a dictionary to store the gear and their corresponding stats
+        gear_stats = {
+            3: {'image': inv.staff, 'stats': (5, 2, 5)},
+            3.1: {'image': inv.staff, 'stats': (6, 4, 10)},
+            3.3: {'image': inv.staff, 'stats': (9, 8, 12)},
+            3.4: {'image': inv.staff, 'stats': (14, 16, 20)},
+            4: {'image': inv.sword, 'stats': (5, 2, 5)},
+            4.1: {'image': inv.sword, 'stats': (10, 4, 6)},
+            4.3: {'image': inv.sword, 'stats': (12, 8, 9)},
+            4.4: {'image': inv.sword, 'stats': (20, 16, 14)},
+            5: {'image': inv.helm, 'stats': (5, 2, 5)},
+            5.1: {'image': inv.helm, 'stats': (10, 4, 6)},
+            5.3: {'image': inv.helm, 'stats': (12, 8, 9)},
+            5.4: {'image': inv.helm, 'stats': (20, 16, 14)}
+        }
+        unequipped_gear = []
+        equipped_gear = []
+        last_item = float
+
+        for gear_item in self.gear:
+            if gear_item in gear_stats:
+                gear_data = gear_stats[gear_item]
+                surface.blit(gear_data['image'], (290, 151))# need tro move this variable somehow
+                if gear_item  not in self.equipped_gear:
+                    equipped_gear.append(gear_item) # Add the equipped gear to the list
+                
+                if self.addstats:
+                    print("syntacc")
+                    self.reset_values()
+                    
+                    for equipped_item in equipped_gear:
+                        gear_data = gear_stats[equipped_item]
+                        self.attackpower += gear_stats[equipped_item]['stats'][0]
+                        self.defence += gear_stats[equipped_item]['stats'][1]
+                        self.spellpower += gear_stats[equipped_item]['stats'][2]
+                        last_item = equipped_item
+
+                    if last_item != gear_item:
+                        unequipped_gear.append(gear_item)
+                    self.addstats = False
+                    self.gear.remove(gear_item)
+                    
+            print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
+
+            print("eqipped: ", equipped_gear, "Gearlist :", self.gear, "unequipped:", unequipped_gear)
+        
+        # Additional code to handle resetting stats if no gear is equipped
+        if self.addstats and not self.equipped_gear:
+            self.reset_values()
     def reset_values(self):
         self.attackpower = 4
         self.defence = 2

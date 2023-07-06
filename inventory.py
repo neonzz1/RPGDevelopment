@@ -53,12 +53,13 @@ class inventory(BaseSprite):
                             print(player.gear)
                             if item not in player.gear:
                                 player.addstats = True
-                                player.gear.append(3)
+                                player.gear.append(item)
                                 self.remove_items(item)
+                                player.equip_gear(self, surface)
                     if quantity > 1:
                         text = self.smallerfont.render(f"{quantity}", True, (0,0,255))
                         surface.blit(text, (30, 60))
-                        surface.blit(self.staff, staff_rect)
+                    surface.blit(self.staff, staff_rect)
                 if item == 3.1:
                     self.staff1 = self.pygame.image.load("img/staff_out.png").convert_alpha()
                     self.staff1 = self.pygame.transform.scale(self.staff1, (30,30))
@@ -68,8 +69,9 @@ class inventory(BaseSprite):
                             print(player.gear)
                             if item not in player.gear:
                                 player.addstats = True
-                                player.gear.append(3.1)
+                                player.gear.append(item)
                                 self.remove_items(item)
+                                player.equip_gear(self, surface)
                     surface.blit(self.staff1, (200, 62))#TODO fine adjust
                 if item == 3.3:
                     self.staff2 = self.pygame.image.load("img/staff_out.png").convert_alpha()
@@ -80,8 +82,9 @@ class inventory(BaseSprite):
                             print(player.gear)
                             if item not in player.gear:
                                 player.addstats = True
-                                player.gear.append(3.3)
+                                player.gear.append(item)
                                 self.remove_items(item)
+                                player.equip_gear(self, surface)
                     surface.blit(self.staff2, (21, 100))
                 if item == 3.4:
                     self.staff3 = self.pygame.image.load("img/staff_out.png").convert_alpha()
@@ -92,8 +95,9 @@ class inventory(BaseSprite):
                             print(player.gear)
                             if item not in player.gear:
                                 player.addstats = True
-                                player.gear.append(3.4)
+                                player.gear.append(item)
                                 self.remove_items(item)
+                                player.equip_gear(self, surface)
                     surface.blit(self.staff3, (55, 100))
                 if item >= 4 and item <= 4.4:
                     self.sword = self.pygame.image.load("img/sword_out.png").convert_alpha()
@@ -106,6 +110,7 @@ class inventory(BaseSprite):
                                 player.gear.append(4)
                                 print(player.gear)
                                 self.remove_items(item)
+                                player.equip_gear(self, surface)
                     surface.blit(self.sword, (50,53))
                 if item >= 5 and item <= 5.4:
                     self.helm = self.pygame.image.load("img/helm_out.png").convert_alpha()
@@ -117,6 +122,7 @@ class inventory(BaseSprite):
                                 player.gear.append(5)
                                 print(player.gear)
                                 self.remove_items(item)
+                                player.equip_gear(self, surface)
                     surface.blit(self.helm, (88,60))
                 if item == 6:
                     self.hpotion = self.pygame.image.load("img/hpotion_out.png").convert_alpha()
