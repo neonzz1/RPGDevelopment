@@ -9,7 +9,7 @@ class Skillsys(BaseSprite):
         self.hide = True
         self.available_skills = {
             # first value is cost second is level
-            "fireball": (0, 1),
+            "fireball": (0, 0),
             "Bolt": (10, 5),
             "energyblast": (15, 10),
             "deathball": (100, 40),

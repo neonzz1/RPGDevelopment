@@ -98,7 +98,7 @@ class EventHandler():
             stage_display.clear = True
             stage_display.stage_clear()
             pygame.time.set_timer(self.stage_timer, stage_delay)
-            print(self.enemy_count)
+            # print(self.enemy_count)
     
     def home(self, Enemies, Items, castle, background, ground):
         # Reset Battle code

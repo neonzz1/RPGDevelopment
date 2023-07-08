@@ -125,17 +125,15 @@ class Player(BaseSprite):
         }
         unequipped_gear = []
         equipped_gear = []
-        last_item = float
 
         for gear_item in self.gear:
             if gear_item in gear_stats:
                 gear_data = gear_stats[gear_item]
-                surface.blit(gear_data['image'], (290, 151))# need tro move this variable somehow
+                surface.blit(gear_data['image'], (290, 151))# need to move this variable somehow
                 if gear_item  not in self.equipped_gear:
                     equipped_gear.append(gear_item) # Add the equipped gear to the list
                 
                 if self.addstats:
-                    print("syntacc")
                     self.reset_values()
                     
                     for equipped_item in equipped_gear:
@@ -143,10 +141,7 @@ class Player(BaseSprite):
                         self.attackpower += gear_stats[equipped_item]['stats'][0]
                         self.defence += gear_stats[equipped_item]['stats'][1]
                         self.spellpower += gear_stats[equipped_item]['stats'][2]
-                        last_item = equipped_item
 
-                    if last_item != gear_item:
-                        unequipped_gear.append(gear_item)
                     self.addstats = False
                     self.gear.remove(gear_item)
                     
@@ -157,6 +152,7 @@ class Player(BaseSprite):
         # Additional code to handle resetting stats if no gear is equipped
         if self.addstats and not self.equipped_gear:
             self.reset_values()
+            
     def reset_values(self):
         self.attackpower = 4
         self.defence = 2

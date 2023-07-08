@@ -43,6 +43,7 @@ class Item(BaseSprite):
                 mmanager.playsoundtrack(self.itemsound[0], -1, 0.05)
                 handler.money += 1
                 self.kill()
+                mmanager.stop()
             if self.type >= 3 and self.type <= 3.4:
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
                 inventory.items[self.type] = self.quantity 
@@ -51,14 +52,17 @@ class Item(BaseSprite):
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
                 inventory.items[self.type] = self.quantity
                 self.kill()
+                mmanager.stop()
             if self.type == 5 and self.type <= 5.4:
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
                 inventory.items[self.type] = self.quantity
                 self.kill()
+                mmanager.stop()
             if self.type == 6:
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
                 inventory.items[self.type] = self.quantity
                 self.kill()
+                mmanager.stop()
             if self.type == 7:
                 inventory.items[self.type] = self.quantity
                 self.kill()
@@ -67,3 +71,4 @@ class Item(BaseSprite):
                 self.kill()
             else:
                 print('Out of range!!')
+                self.kill()
