@@ -54,63 +54,15 @@ class Enemy(BaseSprite):
         f_hits = self.pygame.sprite.spritecollide(self, Spells, False)
 
         if self.health <= 0:
-                    if self.player.mana < 18: self.player.mana += self.mana # Release mana
-                    self.player.experience += 1   # Release expeiriance
-                    handler.enemy_count - 1
-                    handler.enemy_dead_count += 1
-                    self.kill()
-                    rand_num = numpy.random.uniform(0, 100)
-                    item_no = 0
-                    if rand_num >= 0 and rand_num <= 5:  # 1 / 20 chance for an item (health) drop
-                        item_no = 1
-                    elif rand_num > 5 and rand_num <= 15:
-                        item_no = 2
-                    elif rand_num >= 15 and rand_num <= 25:
-                        self.quantity = 1
-                        if rand_num >= 18 and rand_num <= 21:
-                            item_no = 3.1
-                        elif rand_num >= 21 and rand_num <= 23:
-                            item_no = 3.3
-                        elif rand_num >= 24 and rand_num <= 25:
-                            item_no = 3.4
-                        else:
-                            item_no = 3
-                    elif rand_num >= 25 and rand_num <= 35:
-                        self.quantity = 1
-                        if rand_num >= 28 and rand_num <= 31:
-                            item_no = 4.1
-                        elif rand_num >= 31 and rand_num <= 33:
-                            item_no = 4.3
-                        elif rand_num >= 34 and rand_num <= 35:
-                            item_no = 4.4
-                        else:
-                            item_no = 4
-                    elif rand_num >= 35 and rand_num <= 45:
-                        self.quantity = 1
-                        if rand_num >= 38 and rand_num <= 41:
-                            item_no = 5.1
-                        elif rand_num >= 41 and rand_num <= 43:
-                            item_no = 5.3
-                        elif rand_num >= 44 and rand_num <= 45:
-                            item_no = 5.4
-                        else:
-                            item_no = 5
-                    elif rand_num > 45 and rand_num <= 55:
-                        self.quantity = 1
-                        item_no = 6
-                    elif rand_num > 55 and rand_num < 65:
-                        self.quantity = 1
-                        item_no = 7
-                    elif rand_num > 65 and rand_num < 75:
-                        item_no = 8
-        
-                    if item_no != 0:
-                        # Add Item to Items group
-                        item = Item(item_no, self.quantity)
-                        Items.add(item)
-                        # Sets the item location to the location of the killed enemy
-                        item.posx = self.pos.x
-                        item.posy = self.pos.y
+            if self.player.mana < 18: self.player.mana += self.mana # Release mana
+            self.player.experience += 1   # Release expeiriance
+            handler.enemy_count - 1
+            handler.enemy_dead_count += 1
+            self.kill()
+            item_logic(self)
+            if self.item_no != 0:
+                Items.add(self.item)
+
         # Activates upon either of the two expressions being true
         if hits and self.player.attacking and self.can_be_hit: #TODO more testing
                 print(self.health)
@@ -128,10 +80,73 @@ class Enemy(BaseSprite):
                 self.can_be_hit = True
                 self.hit_cooldown_counter = 10
 
+        # if spell collision and enemy can be hit is true then take health based on skill
         if f_hits and self.can_be_hit:
-            if 'fireball' in self.player.skills:
-                self.health -= 2
+            spell_logic(self) #Works but needs work as any spell will insta kill
 
+def spell_logic(self):
+            if 'fireball' in self.player.skills:
+                if self.player.spellpower <= 4:
+                    self.health -= 1
+                elif self.player.spellpower >= 9 and self.player.spellpower <= 10:
+                    self.health -= 2
+                elif self.player.spellpower < 18:
+                    self.health -= 3
+                elif self.player.spellpower >= 18:
+                    self.health -= 4
+def item_logic(self):
+        rand_num = numpy.random.uniform(0, 100)
+        self.item_no = 0
+        if rand_num >= 0 and rand_num <= 5:  # 1 / 20 chance for an item (health) drop
+            self.item_no = 1
+        elif rand_num > 5 and rand_num <= 15:
+            self.item_no = 2
+        elif rand_num >= 15 and rand_num <= 25:
+            self.quantity = 1
+            if rand_num >= 18 and rand_num <= 21:
+                    self.item_no = 3.1
+            elif rand_num >= 21 and rand_num <= 23:
+                    self.item_no = 3.3
+            elif rand_num >= 24 and rand_num <= 25:
+                    self.item_no = 3.4
+            else:
+                self.item_no = 3
+        elif rand_num >= 25 and rand_num <= 35:
+            self.quantity = 1
+            if rand_num >= 28 and rand_num <= 31:
+                self.item_no = 4.1
+            elif rand_num >= 31 and rand_num <= 33:
+                self.item_no = 4.3
+            elif rand_num >= 34 and rand_num <= 35:
+                self.item_no = 4.4
+            else:
+                self.item_no = 4
+        elif rand_num >= 35 and rand_num <= 45:
+            self.quantity = 1
+            if rand_num >= 38 and rand_num <= 41:
+                self.item_no = 5.1
+            elif rand_num >= 41 and rand_num <= 43:
+                self.item_no = 5.3
+            elif rand_num >= 44 and rand_num <= 45:
+                self.item_no = 5.4
+            else:
+                self.item_no = 5
+        elif rand_num >= 45 and rand_num <= 55:
+                self.quantity = 1
+                self.item_no = 6
+        elif rand_num >= 55 and rand_num <= 65:
+            self.quantity = 1
+            self.item_no = 7
+        elif rand_num > 65 and rand_num < 75:
+            self.item_no = 8
+        elif rand_num >= 75:
+            self.item_no = 0
+        if self.item_no != 0:
+            # Add Item to Items group
+            self.item = Item(self.item_no, self.quantity)
+            # Sets the item location to the location of the killed enemy
+            self.item.posx = self.pos.x
+            self.item.posy = self.pos.y
 class Enemy2(BaseSprite):
     def __init__(self, Playergroup, Spells, player, handler, Items, Bolts):
         image_path = "img/enemy2.png"
