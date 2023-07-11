@@ -6,6 +6,6 @@ class ManaBar(BaseSprite):
         super().__init__(image_path)
     
     def renders(self, surface):
-        if self.hide == False:
+        if not self.hide:
             self.image = self.pygame.transform.scale(self.image, (220,60))
             surface.blit(self.image, (220, 0))

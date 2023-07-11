@@ -18,6 +18,17 @@ class BaseSprite(pygame.sprite.Sprite):
         self.regularfont = pygame.font.SysFont('Corbel',25)
         self.smallerfont = pygame.font.SysFont('Corbel',16) 
         self.text = self.regularfont.render('LOAD' , True , color_light)
+        self.moveani_L = [pygame.image.load("img/demon_L.png").convert_alpha(), pygame.image.load("img/demon_L_2.png").convert_alpha(),
+                          pygame.image.load("img/demon_L_3.png").convert_alpha(), pygame.image.load("img/demon_L_4.png").convert_alpha(),
+                          pygame.image.load("img/demon_L_5.png").convert_alpha(), pygame.image.load("img/demon_L_6.png").convert_alpha(),
+                          pygame.image.load("img/demon_L_7.png").convert_alpha(), pygame.image.load("img/demon_L_8.png").convert_alpha(),
+                          pygame.image.load("img/demon_L_9.png").convert_alpha(), pygame.image.load("img/demon_L.png").convert_alpha()]
+        
+        self.moveani_R = [pygame.image.load("img/demon_R.png").convert_alpha(), pygame.image.load("img/demon_R_2.png").convert_alpha(),
+                          pygame.image.load("img/demon_R_3.png").convert_alpha(), pygame.image.load("img/demon_R_4.png").convert_alpha(),
+                          pygame.image.load("img/demon_R_5.png").convert_alpha(), pygame.image.load("img/demon_R_6.png").convert_alpha(),
+                          pygame.image.load("img/demon_R_7.png").convert_alpha(), pygame.image.load("img/demon_R_8.png").convert_alpha(),
+                          pygame.image.load("img/demon_R.png").convert_alpha()]
         #Player animations
         self.run_ani_R = [pygame.image.load("img/Player_Sprite_R.png").convert_alpha(), pygame.image.load("img/Player_Sprite2_R.png").convert_alpha(),
              pygame.image.load("img/Player_Sprite3_R.png").convert_alpha(),pygame.image.load("img/Player_Sprite4_R.png").convert_alpha(),

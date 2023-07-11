@@ -4,7 +4,7 @@ from pygame.locals import *
 from background import Background
 from ground import Ground
 from player import Player
-from enemy import Enemy, Enemy2
+from enemy import Enemy, Enemy2, Demon
 from castle import Castle
 from eventhadler import EventHandler
 from Healthbar import HealthBar
@@ -12,10 +12,11 @@ from stagedisplay import StageDisplay
 from statusbar import StatusBar
 from cursor import Cursor
 from buttons import PButton
-from magic import Magic
+from magic import Magic, Energy_blast, Death_ball, Fired, Fireballv2
 from music import MusicManager
 from Manabar import ManaBar
 from inventory import inventory
+from Skillssytem import Skillsys
 
 def main():
     
@@ -27,8 +28,6 @@ def main():
     # Declaring variables to be used through the program
     HEIGHT = 350
     WIDTH = 700
-    ACC = 0.3
-    FRIC = -0.10
     FPS = 60
     FPS_CLOCK = pygame.time.Clock()
     COUNT = 0
@@ -54,7 +53,6 @@ def main():
               pygame.image.load("img/mana_22.png").convert_alpha(), pygame.image.load("img/mana_full.png").convert_alpha()]
 
     soundtrack = ["sounds/background_village.wav", "sounds/battle_music.wav", "sounds/gameover.wav"]
-    swordtrack = [pygame.mixer.Sound("sounds/sword1.wav"), pygame.mixer.Sound("sounds/sword2.wav")]
     fsound = pygame.mixer.Sound("sounds/fireball_sound.wav")
     hit = pygame.mixer.Sound("sounds/enemy_hit.wav")
  
@@ -71,7 +69,7 @@ def main():
     hit_cooldown = pygame.USEREVENT + 1
     health = HealthBar()
     mana = ManaBar()
-    player = Player(ground_group, hit_cooldown, health, mmanager, soundtrack, swordtrack)
+    player = Player(ground_group, hit_cooldown, health, mmanager, soundtrack)
     player_group = pygame.sprite.Group()
     player_group.add(player)
     Enemies = pygame.sprite.Group()
@@ -81,12 +79,14 @@ def main():
     stage_display = StageDisplay(handler, surface)
     status_bar = StatusBar()
     cursor = Cursor()
-    Fireballs = pygame.sprite.Group()
+    Spells = pygame.sprite.Group()
     Items = pygame.sprite.Group()
     Bolts = pygame.sprite.Group()
     inv = inventory()
+    skill = Skillsys(player, handler)
     
     while 1:
+        pressed = 0
         pygame.event.pump()
 
         player.gravity_check()
@@ -105,17 +105,56 @@ def main():
                     Enemies.add(enemy)
                     handler.enemy_count += 1
             if event.type == handler.enemy_generation2:
-                if handler.enemy_count < handler.stage_enemies[handler.stage - 1]:
-                    enemy = Enemy2(player_group, Fireballs, player, handler, Items, Bolts)
-                    Enemies.add(enemy)
-                    handler.enemy_count += 1
+                if handler.world == 2:
+                    if handler.enemy_count < handler.stage_enemies[handler.stage - 1]:
+                        enemy = Enemy2(player_group, Spells, player, handler, Items, Bolts)
+                        Enemies.add(enemy)
+                        handler.enemy_count += 1
+                else:
+                    if handler.enemy_count < handler.stage_enemies[handler.stage - 1]:
+                        enemy = Demon(player_group, Spells, player, handler, Items, Bolts)
+                        Enemies.add(enemy)
+                        handler.enemy_count += 1
             # For events that occur upon clicking the mouse (left click) 
             if event.type == pygame.MOUSEBUTTONDOWN:
+                clicked = pygame.mouse.get_pressed()
                 if 620 <= mouse[0] <= 670 and 300 <= mouse[1] <= 345:
                     if button.imgdisp == 1:
                         cursor.pause()
                     elif button.imgdisp == 0:
                         handler.home(Enemies, Items, castle, background, ground)
+                else:
+                    if clicked[0]:
+                        if not player.attacking:
+                            player.attack(cursor)
+                            player.attacking = True
+                    elif clicked[2]:
+                        if "fireball" in player.skills and player.mana >= 1:
+                            player.mana -= 1
+                            mana.image = mana_ani[player.mana]
+                            fireball = Magic(player)
+                            Spells.add(fireball)
+                            mmanager.playsound(fsound, 0.3)
+                        elif "energy_blast" in player.skills and player.mana >= 2:
+                            player.mana -= 2
+                            mana.image = mana_ani[player.mana]
+                            energy_blast = Energy_blast(player)
+                            Spells.add(energy_blast)
+                            mmanager.playsound(fsound, 0.3)
+                        elif "deathball" in player.skills and player.mana >= 10:
+                            player.mana -= 10
+                            mana.image = mana_ani[player.mana]
+                            deathball = Death_ball(player)
+                            Spells.add(deathball)
+                            mmanager.playsound(fsound, 0.3)
+                        elif "fired" in player.skills and player.mana >= 3:
+                            player.mana -= 3
+                            mana.image = mana_ani[player.mana]
+                            energy_blast = Fired(player)
+                            Spells.add(Fired)
+                            mmanager.playsound(fsound, 0.3)
+                        else:
+                            print('no skill')
             # Event handling for a range of different key presses    
             if event.type == pygame.KEYDOWN and cursor.wait == 0:
                 if event.key == pygame.K_e and 450 < player.rect.x < 550:
@@ -123,26 +162,47 @@ def main():
                 if event.key == pygame.K_SPACE:
                     player.jump()
                 if event.key == pygame.K_k:
-                    if player.attacking == False:   
+                    if not player.attacking:   
                         player.attack(cursor)
                         player.attacking = True
                 if event.key == pygame.K_m and player.magic_cooldown == 1:
-                    if player.mana >= 1:
-                        player.mana -= 1
-                        mana.image = mana_ani[player.mana]
-                        player.attacking = True
-                        fireball = Magic(player)
-                        Fireballs.add(fireball)
-                        mmanager.playsound(fsound, 0.3)
+                    if "fireball" in player.skills:
+                        if player.mana >= 1:
+                            player.mana -= 1
+                            mana.image = mana_ani[player.mana]
+                            player.attacking = True
+                            fireball = Magic(player)
+                            Spells.add(fireball)
+                            mmanager.playsound(fsound, 0.3)
+                    elif "energy_blast" in player.skills and player.mana >= 2:
+                            player.mana -= 2
+                            mana.image = mana_ani[player.mana]
+                            energy_blast = Energy_blast(player)
+                            Spells.add(energy_blast)
+                            mmanager.playsound(fsound, 0.3)
+                    elif "deathball" in player.skills and player.mana >= 10:
+                            player.mana -= 10
+                            mana.image = mana_ani[player.mana]
+                            deathball = Death_ball(player)
+                            Spells.add(deathball)
+                            mmanager.playsound(fsound, 0.3)
+                    elif "fired" in player.skills and player.mana >= 3:
+                            player.mana -= 3
+                            mana.image = mana_ani[player.mana]
+                            energy_blast = Fired(player)
+                            Spells.add(Fired)
+                            mmanager.playsound(fsound, 0.3)
+                    else:
+                        print('no skill')
                 if event.key == pygame.K_i:
-                    inv.hide = False
-                    inv.renderr(surface, handler)
+                    inv.toggle_visibility()
+                if event.key == pygame.K_s:
+                    skill.toggle_visibility()
             if event.type == handler.stage_timer:
-                if handler.battle == True and len(Enemies) == 0:
+                if handler.battle and len(Enemies) == 0:
                         handler.next_stage()
                         stage_display.display = True
                 
-
             if event.type == hit_cooldown:
                 player.cooldown = False
                 pygame.time.set_timer(hit_cooldown, 0)
@@ -153,34 +213,39 @@ def main():
         if player.health > 0:
             player.render(surface, cursor)
         player.move()
-        player.update(cursor)
+        player.update(cursor, inv, surface)
         if player.attacking:
             player.attack(cursor)
-        for level, xp_required in player.levels.items(): #TODO fix level system
-            if player.experiance >= xp_required:
-                if player.levled == True:
-                    player.level_up()
+        for level, xp_required in player.levels.items():
+            if player.experience >= xp_required and not player.leveled:
+                player.level_up()
+                xp_required = player.levels[player.level]
+                break
         #render health images
         health.renders(surface)
         mana.renders(surface)
+        mana.image = mana_ani[player.mana]
+        if not inv.hide:
+            inv.renderr(surface, handler, player)
+        skill.rendering(surface)
         #sprite functions
         if stage_display.display:
             stage_display.move_display()
         if stage_display.clear:
             stage_display.stage_clear()
 
-        for ball in Fireballs:
-            ball.fire(surface)
+        for magic in Spells:
+            magic.fire(surface, player.spellpower)
         for bolt in Bolts:
             bolt.fire(surface)
         for entity in Enemies:
             entity.render(surface, cursor)
             entity.move(cursor)
-            entity.update(handler, Items, Fireballs)
+            entity.update(handler, Items, Spells)
             #print("sprire")
         for i in Items:
             i.render(surface)
-            i.update(player_group, player, health, handler, inv)   	
+            i.update(player_group, player, health, handler, inv, mmanager)   	
         surface.blit(status_bar.surf, (580, 5))
         status_bar.update_draw(handler, player, FPS_CLOCK, surface)
         handler.update(stage_display)
@@ -189,7 +254,6 @@ def main():
         cursor.hover(mouse, surface)
         pygame.display.update()
         FPS_CLOCK.tick(FPS)
-def clamp(num, min_value, max_value):
-    return max(min(num, max_value), min_value)
+
 if __name__ == '__main__':
     main()

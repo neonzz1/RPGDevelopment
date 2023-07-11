@@ -6,10 +6,11 @@ FRIC = -0.10
 #TODO build proper leveling system
 
 class Player(BaseSprite):
-    def __init__(self, ground_group, hit_cooldown, health, mmanager, soundtrack, swordtrack):
+    def __init__(self, ground_group, hit_cooldown, health, mmanager, soundtrack):
         image_path = "img/Player_Sprite_R.png" # this sets self.image in the BaseSprite (This only sets this Sprites not all instances of the BaseSprite)
         super().__init__(image_path)
         self.rect = self.image.get_rect()
+        self.gear_image = self.pygame.image.load("img/playergear.png").convert_alpha()
         self.ground_group = ground_group
         self.hit_cooldown = hit_cooldown
         self.jumping = False
@@ -18,18 +19,32 @@ class Player(BaseSprite):
         self.cooldown = False
         self.move_frame = 0
         self.attack_frame = 0
+        self.attackpower = 4
+        self.defence = 2
+        self.spellpower = 1
         self.health = 5
         self.heart = health
-        self.experiance = 0
+        self.experience = 0
         self.level = 0
-        self.levels = {1: 2, 2: 6, 3: 300}
-        self.levled = True
+        self.levels = {0: 2, 1: 6, 2: 10, 3: 20, 4: 30, 5: 50, 6: 100, 7: 150, 8: 200, 9: 260, 10: 370}
+        self.leveled = False
+        self.show = False
         self.mana = 17
         self.magic_cooldown = 1
         self.slash = 0
+        self.addstats = False
         self.mmanager = mmanager
         self.soundtrack = soundtrack
-        self.swordtrack = swordtrack
+        self.equipped_gear = []
+        self.swordtrack = [self.pygame.mixer.Sound("sounds/sword1.wav"), self.pygame.mixer.Sound("sounds/sword2.wav")]
+        self.movesound = [self.pygame.mixer.Sound("sounds/footstep00.ogg"), self.pygame.mixer.Sound("sounds/footstep01.ogg"),
+                           self.pygame.mixer.Sound("sounds/footstep02.ogg"), self.pygame.mixer.Sound("sounds/footstep03.ogg"),
+                           self.pygame.mixer.Sound("sounds/footstep04.ogg"), self.pygame.mixer.Sound("sounds/footstep05.ogg"), 
+                           self.pygame.mixer.Sound("sounds/footstep06.ogg"), self.pygame.mixer.Sound("sounds/footstep07.ogg"),
+                           self.pygame.mixer.Sound("sounds/footstep08.ogg"), self.pygame.mixer.Sound("sounds/footstep09.ogg")]
+        self.gear = []
+        #self.jumpsound = [self.pygame.mixer.Sound("sounds/")]
+        self.skills = []
  
         # Position and direction
         self.vx = 0
@@ -61,28 +76,88 @@ class Player(BaseSprite):
             self.pos.x = self.width
 
         self.rect.midbottom = self.pos
-    def update(self, cursor):
+    def update(self, cursor, inv, surface):
+        if not inv.hide: #TODO setup a player gear screen showing what's equipped and stats
+            gear_rect = self.gear_image.get_rect(center = (340, 150))
+            surface.blit(self.gear_image, gear_rect)
+
         if cursor.wait == 1: return
         # Return to base frame if at end of movement sequence 
         if self.move_frame > 6:
                 self.move_frame = 0
                 return
-        if self.jumping == False and self.running == True:  
+        if not self.jumping and self.running and not self.leveled:  
             if self.vel.x > 0:
+                self.mmanager.playsound(self.movesound[self.move_frame], 0.05)
                 self.image = self.run_ani_R[self.move_frame]
                 self.direction = "RIGHT"
             else:
+                self.mmanager.playsound(self.movesound[self.move_frame], 0.05)
                 self.image = self.run_ani_L[self.move_frame]
                 self.direction = "LEFT"
             self.move_frame += 1
-             #Returns to base frame if standing still and incorrect frame is showing
+            #Returns to base frame if standing still and incorrect frame is showing
         if abs(self.vel.x) < 0.2 and self.move_frame != 0:
             self.move_frame = 0
             if self.direction == "RIGHT":
                     self.image = self.run_ani_R[self.move_frame]
             elif self.direction == "LEFT":
                     self.image = self.run_ani_L[self.move_frame]
+
+    def equip_gear(self, inv, surface):
+        if not inv.hide: #TODO setup a player gear screen showing stats
+            gear_rect = self.gear_image.get_rect(center = (340, 150))
+            surface.blit(self.gear_image, gear_rect)
+            # Create a dictionary to store the gear and their corresponding stats
+        gear_stats = {
+            3: {'image': inv.staff, 'stats': (5, 2, 5)},
+            3.1: {'image': inv.staff, 'stats': (6, 4, 10)},
+            3.3: {'image': inv.staff, 'stats': (9, 8, 12)},
+            3.4: {'image': inv.staff, 'stats': (14, 16, 20)},
+            4: {'image': inv.sword, 'stats': (5, 2, 5)},
+            4.1: {'image': inv.sword, 'stats': (10, 4, 6)},
+            4.3: {'image': inv.sword, 'stats': (12, 8, 9)},
+            4.4: {'image': inv.sword, 'stats': (20, 16, 14)},
+            5: {'image': inv.helm, 'stats': (5, 2, 5)},
+            5.1: {'image': inv.helm, 'stats': (10, 4, 6)},
+            5.3: {'image': inv.helm, 'stats': (12, 8, 9)},
+            5.4: {'image': inv.helm, 'stats': (20, 16, 14)}
+        }
+        unequipped_gear = []
+        equipped_gear = []
+
+        for gear_item in self.gear:
+            if gear_item in gear_stats:
+                gear_data = gear_stats[gear_item]
+                surface.blit(gear_data['image'], (290, 151))# need to move this variable somehow
+                if gear_item  not in self.equipped_gear:
+                    equipped_gear.append(gear_item) # Add the equipped gear to the list
+                
+                if self.addstats:
+                    self.reset_values()
+                    
+                    for equipped_item in equipped_gear:
+                        gear_data = gear_stats[equipped_item]
+                        self.attackpower += gear_stats[equipped_item]['stats'][0]
+                        self.defence += gear_stats[equipped_item]['stats'][1]
+                        self.spellpower += gear_stats[equipped_item]['stats'][2]
+
+                    self.addstats = False
+                    self.gear.remove(gear_item)
+                    
+            print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
+
+            print("eqipped: ", equipped_gear, "Gearlist :", self.gear, "unequipped:", unequipped_gear)
         
+        # Additional code to handle resetting stats if no gear is equipped
+        if self.addstats and not self.equipped_gear:
+            self.reset_values()
+            
+    def reset_values(self):
+        self.attackpower = 4
+        self.defence = 2
+        self.spellpower = 1
+
     def attack(self, cursor):
         if cursor.wait == 1: return
         # If attack frame has reached end of sequence, return to base frame      
@@ -96,9 +171,9 @@ class Player(BaseSprite):
             if self.slash >= 2:
                  self.slash = 0
         # Check direction for correct animation to display  
-        if self.direction == "RIGHT":
+        if self.direction == "RIGHT" and not self.leveled:
                 self.image = self.attack_ani_R[self.attack_frame]
-        elif self.direction == "LEFT":
+        elif self.direction == "LEFT" and not self.leveled:
                 self.correction()
                 self.image = self.attack_ani_L[self.attack_frame] 
     
@@ -116,9 +191,10 @@ class Player(BaseSprite):
         if hits and not self.jumping:
             self.jumping = True
             self.vel.y = -12
+        print(self.skills)
 
     def player_hit(self):
-        if self.cooldown == False:      
+        if not self.cooldown:      
             self.cooldown = True # Enable the cooldown
             self.pygame.time.set_timer(self.hit_cooldown, 1000) # Resets cooldown in 1 second
 
@@ -152,8 +228,35 @@ class Player(BaseSprite):
                 self.pos.x += 20
     
     def level_up(self):
-        self.level += 1
-        self.levled = False
-        print("Level Up! You reached level {}!".format(self.level))
+        if self.level < len(self.levels) - 1:  # Check if there are more levels available
+            level = self.level
+            required_experience = self.levels[level]
+            if self.experience >= required_experience:
+                self.level += 1
+                self.experience -= required_experience  # Deduct required experience from current level
+                self.leveled = True  # Set the leveled flag to True
+                if self.direction == 'RIGHT':
+                    if self.leveled:
+                        self.image = self.pygame.image.load("img/Player_Sprite_R_Level_Up.png").convert_alpha()
+                elif self.direction == 'LEFT':
+                    if self.leveled:
+                        self.image = self.pygame.image.load("img/Player_Sprite2_L_level_up.png").convert_alpha()
+                print(f"Congratulations! You leveled up to Level {self.level}!")
+                self.update_attributes()
+            else:
+                 self.direction = self.direction
+                #print("not enough exp")
+        else:
+            print("You have reached the maximum level.")
+        self.update_attributes()
+
+    def update_attributes(self):
+         self.leveled = False
+         self.health = 5
+         self.mana = 17
+    
+    def clamp(num, min_value, max_value):
+        return max(min(num, max_value), min_value)
+        
 
     
