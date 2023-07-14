@@ -37,6 +37,7 @@ class Player(BaseSprite):
         self.soundtrack = soundtrack
         self.equipped_gear = []
         self.equipped_armor = []
+        self.lastitem = []
         self.swordtrack = [self.pygame.mixer.Sound("sounds/sword1.wav"), self.pygame.mixer.Sound("sounds/sword2.wav")]
         self.movesound = [self.pygame.mixer.Sound("sounds/footstep00.ogg"), self.pygame.mixer.Sound("sounds/footstep01.ogg"),
                            self.pygame.mixer.Sound("sounds/footstep02.ogg"), self.pygame.mixer.Sound("sounds/footstep03.ogg"),
@@ -96,7 +97,7 @@ class Player(BaseSprite):
             5.3: {'image': inv.helm, 'stats': (12, 8, 9)},
             5.4: {'image': inv.helm, 'stats': (20, 16, 14)}
         }
-            for item in self.equipped_gear:
+            for item in self.equipped_gear or self.equipped_armor:
                 gear_data = gear_stats[item]
                 if item < 5:
                     surface.blit(gear_data['image'], (290, 151))
@@ -149,6 +150,7 @@ class Player(BaseSprite):
         equipped_gear = []
 
         for gear_item in self.gear:
+            self.lastitem.append(gear_item)
             if gear_item in gear_stats:
                 gear_data = gear_stats[gear_item]
                 surface.blit(gear_data['image'], (290, 151))# need to move this variable somehow
@@ -167,10 +169,24 @@ class Player(BaseSprite):
                         self.attackpower += gear_stats[equipped_item]['stats'][0]
                         self.defence += gear_stats[equipped_item]['stats'][1]
                         self.spellpower += gear_stats[equipped_item]['stats'][2]
+                    
+                    for equipped_armor in self.equipped_armor:
+                        gear_data = gear_stats[equipped_armor]
+                        self.attackpower += gear_stats[equipped_armor]['stats'][0]
+                        self.defence += gear_stats[equipped_armor]['stats'][1]
+                        self.spellpower += gear_stats[equipped_armor]['stats'][2]
 
                     self.addstats = False
                     self.gear.remove(gear_item)
                     self.equipped_gear = equipped_gear # Add to global list for item display
+                else:
+                    if self.lastitem:
+                        for item in unequipped_gear:
+                            if item not in self.equipped_gear:
+                                self.attackpower -= gear_stats[item]['stats'][0]
+                                self.defence -= gear_stats[item]['stats'][1]
+                                self.spellpower -= gear_stats[item]['stats'][2]
+                                unequipped_gear.remove(item)
                     
             print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
 
