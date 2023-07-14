@@ -36,6 +36,7 @@ class Player(BaseSprite):
         self.mmanager = mmanager
         self.soundtrack = soundtrack
         self.equipped_gear = []
+        self.equipped_armor = []
         self.swordtrack = [self.pygame.mixer.Sound("sounds/sword1.wav"), self.pygame.mixer.Sound("sounds/sword2.wav")]
         self.movesound = [self.pygame.mixer.Sound("sounds/footstep00.ogg"), self.pygame.mixer.Sound("sounds/footstep01.ogg"),
                            self.pygame.mixer.Sound("sounds/footstep02.ogg"), self.pygame.mixer.Sound("sounds/footstep03.ogg"),
@@ -81,6 +82,27 @@ class Player(BaseSprite):
             gear_rect = self.gear_image.get_rect(center = (340, 150))
             surface.blit(self.gear_image, gear_rect)
 
+            gear_stats = {
+            3: {'image': inv.staff, 'stats': (5, 2, 5)},
+            3.1: {'image': inv.staff, 'stats': (6, 4, 10)},
+            3.3: {'image': inv.staff, 'stats': (9, 8, 12)},
+            3.4: {'image': inv.staff, 'stats': (14, 16, 20)},
+            4: {'image': inv.sword, 'stats': (5, 2, 5)},
+            4.1: {'image': inv.sword, 'stats': (10, 4, 6)},
+            4.3: {'image': inv.sword, 'stats': (12, 8, 9)},
+            4.4: {'image': inv.sword, 'stats': (20, 16, 14)},
+            5: {'image': inv.helm, 'stats': (5, 2, 5)},
+            5.1: {'image': inv.helm, 'stats': (10, 4, 6)},
+            5.3: {'image': inv.helm, 'stats': (12, 8, 9)},
+            5.4: {'image': inv.helm, 'stats': (20, 16, 14)}
+        }
+            for item in self.equipped_gear:
+                gear_data = gear_stats[item]
+                if item < 5:
+                    surface.blit(gear_data['image'], (290, 151))
+                if item >= 5:
+                    surface.blit(gear_data['image'], (340, 99))
+
         if cursor.wait == 1: return
         # Return to base frame if at end of movement sequence 
         if self.move_frame > 6:
@@ -104,7 +126,7 @@ class Player(BaseSprite):
             elif self.direction == "LEFT":
                     self.image = self.run_ani_L[self.move_frame]
 
-    def equip_gear(self, inv, surface):
+    def equip_weapon(self, inv, surface):
         if not inv.hide: #TODO setup a player gear screen showing stats
             gear_rect = self.gear_image.get_rect(center = (340, 150))
             surface.blit(self.gear_image, gear_rect)
@@ -130,8 +152,12 @@ class Player(BaseSprite):
             if gear_item in gear_stats:
                 gear_data = gear_stats[gear_item]
                 surface.blit(gear_data['image'], (290, 151))# need to move this variable somehow
-                if gear_item  not in self.equipped_gear:
+                if gear_item not in self.equipped_gear and gear_item < 5:
                     equipped_gear.append(gear_item) # Add the equipped gear to the list
+                elif gear_item not in self.equipped_armor and gear_item >= 5:
+                    self.equipped_armor.append(gear_item)
+                    equipped_gear.append(gear_item)
+                    #self.equipped_gear.append(gear_item)# Add to global list for item display
                 
                 if self.addstats:
                     self.reset_values()
@@ -144,6 +170,7 @@ class Player(BaseSprite):
 
                     self.addstats = False
                     self.gear.remove(gear_item)
+                    self.equipped_gear = equipped_gear # Add to global list for item display
                     
             print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
 

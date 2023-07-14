@@ -37,7 +37,7 @@ def main():
 
     #TODO make better images so reduction is consistant 
     #TODO make pause menus
-    #TODO make 
+    #TODO make spell selection system
 
     mana_ani = [pygame.image.load("img/mana_0.png").convert_alpha(), pygame.image.load("img/mana_1.png").convert_alpha(),
               pygame.image.load("img/mana_2.png").convert_alpha(), pygame.image.load("img/mana_3.png").convert_alpha(),

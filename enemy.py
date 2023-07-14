@@ -17,6 +17,7 @@ class Enemy(BaseSprite):
         self.hit_cooldown = hit_cooldown
         self.can_be_hit = True
         self.hit_cooldown_counter = 10
+        self.spell_hit_counter = 5
         self.player_group = player_group
         self.player = player
         self.direction = random.randint(0,1) # 0 for Right, 1 for Left
@@ -80,20 +81,29 @@ class Enemy(BaseSprite):
                 self.can_be_hit = True
                 self.hit_cooldown_counter = 10
 
+        if self.spell_hit_counter > 0:
+            self.spell_hit_counter -= 1
+           
         # if spell collision and enemy can be hit is true then take health based on skill
         if f_hits and self.can_be_hit:
             spell_logic(self) #Works but needs work as any spell will insta kill
 
 def spell_logic(self):
-            if 'fireball' in self.player.skills:
-                if self.player.spellpower <= 4:
-                    self.health -= 1
-                elif self.player.spellpower >= 9 and self.player.spellpower <= 10:
-                    self.health -= 2
-                elif self.player.spellpower < 18:
-                    self.health -= 3
-                elif self.player.spellpower >= 18:
-                    self.health -= 4
+            if self.spell_hit_counter == 0:
+                if not self.can_be_hit:
+                    self.player.mana += 1
+                    print("mana added")
+                if 'fireball' in self.player.skills:
+                    if self.player.spellpower <= 4:
+                        self.health -= 1
+                    elif self.player.spellpower >= 9 and self.player.spellpower <= 10:
+                        self.health -= 2
+                    elif self.player.spellpower < 18:
+                        self.health -= 3
+                    elif self.player.spellpower >= 18:
+                        self.health -= 4
+                    self.can_be_hit = False
+                    self.spell_hit_counter = 5
 def item_logic(self):
         rand_num = numpy.random.uniform(0, 100)
         self.item_no = 0
@@ -291,6 +301,9 @@ class Demon(BaseSprite):
         self.player = player
         self.handler = handler
         self.Items = Items
+        self.health = 10
+        self.can_be_hit = True
+        self.hit_cooldown_counter = 10
         self.pos = self.vec(0,0)
         self.vel = self.vec(0,0)
         self.wait = 0
@@ -365,69 +378,37 @@ class Demon(BaseSprite):
         f_hits = self.pygame.sprite.spritecollide(self, Spells, False)
  
         # Activates upon either of the two expressions being true
-        if hits and self.player.attacking == True or f_hits:
-            self.kill()
-            handler.enemy_count - 1
-            handler.enemy_dead_count += 1
-             
+        if self.health <= 0:
             if self.player.mana < 18: self.player.mana += self.mana # Release mana
             self.player.experience += 1   # Release expeiriance
-             
-            rand_num = numpy.random.uniform(0, 100)
-            item_no = 0
-            if rand_num >= 0 and rand_num <= 5:  # 1 / 20 chance for an item (health) drop
-                item_no = 1
-            elif rand_num > 5 and rand_num <= 15:
-                item_no = 2
-            elif rand_num >= 15 and rand_num <= 25:
-                self.quantity = 1
-                if rand_num >= 18 and rand_num <= 21:
-                    item_no = 3.1
-                elif rand_num >= 21 and rand_num <= 23:
-                    item_no = 3.3
-                elif rand_num >= 24 and rand_num <= 25:
-                    item_no = 3.4
-                else:
-                    item_no = 3
-            elif rand_num >= 25 and rand_num <= 35:
-                self.quantity = 1
-                if rand_num >= 28 and rand_num <= 31:
-                    item_no = 4.1
-                elif rand_num >= 31 and rand_num <= 33:
-                    item_no = 4.3
-                elif rand_num >= 34 and rand_num <= 35:
-                    item_no = 4.4
-                else:
-                    item_no = 4
-            elif rand_num >= 35 and rand_num <= 45:
-                self.quantity = 1
-                if rand_num >= 38 and rand_num <= 41:
-                    item_no = 5.1
-                elif rand_num >= 41 and rand_num <= 43:
-                    item_no = 5.3
-                elif rand_num >= 44 and rand_num <= 45:
-                    item_no = 5.4
-                else:
-                    item_no = 5
-            elif rand_num > 45 and rand_num <= 55:
-                self.quantity = 1
-                item_no = 6
-            elif rand_num > 55 and rand_num < 65:
-                self.quantity = 1
-                item_no = 7
-            elif rand_num > 65 and rand_num < 75:
-                item_no = 8
- 
-            if item_no != 0:
-                # Add Item to Items group
-                item = Item(item_no, self.quantity)
-                Items.add(item)
-                # Sets the item location to the location of the killed enemy
-                item.posx = self.pos.x
-                item.posy = self.pos.y
-            # If collision has occured and player not attacking, call "hit" function            
+            handler.enemy_count - 1
+            handler.enemy_dead_count += 1
+            self.kill()
+            item_logic(self)
+            if self.item_no != 0:
+                Items.add(self.item)
+
+        # Activates upon either of the two expressions being true
+        if hits and self.player.attacking and self.can_be_hit: #TODO more testing
+                print(self.health)
+                self.health -= 1
+                self.can_be_hit = False
+    
+        # If collision has occured and player not attacking, call "hit" function            
         elif hits and not self.player.attacking:
                 self.player.player_hit()
+
+        if not self.can_be_hit:
+            #print(self.hit_cooldown_counter)
+            self.hit_cooldown_counter -= 1
+            if self.hit_cooldown_counter == 0:
+                self.can_be_hit = True
+                self.hit_cooldown_counter = 10
+
+        # if spell collision and enemy can be hit is true then take health based on skill
+        if f_hits and self.can_be_hit:
+            spell_logic(self) #Works but needs work as any spell will insta kill        
+
 
     def direction_check(self, player):
         if (player.pos.x - self.pos.x < 0 and self.direction == 0):

@@ -30,7 +30,7 @@ class EventHandler():
     def stage_handler(self):
             # Code for the Tkinter stage selection window
         self.root = Tk()
-        self.root.geometry('200x170')
+        self.root.geometry('200x170+900+400') #width x hight + location
              
         button1 = Button(self.root, text = "Skyward Dungeon", width = 18, height = 2,
                             command = self.world1)
