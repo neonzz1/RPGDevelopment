@@ -36,6 +36,7 @@ class Player(BaseSprite):
         self.mmanager = mmanager
         self.soundtrack = soundtrack
         self.equipped_gear = []
+        self.unequipped_gear = []
         self.equipped_armor = []
         self.lastitem = []
         self.swordtrack = [self.pygame.mixer.Sound("sounds/sword1.wav"), self.pygame.mixer.Sound("sounds/sword2.wav")]
@@ -101,8 +102,10 @@ class Player(BaseSprite):
                 gear_data = gear_stats[item]
                 if item < 5:
                     surface.blit(gear_data['image'], (290, 151))
+                    print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
                 if item >= 5:
                     surface.blit(gear_data['image'], (340, 99))
+                    print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
 
         if cursor.wait == 1: return
         # Return to base frame if at end of movement sequence 
@@ -150,56 +153,83 @@ class Player(BaseSprite):
         equipped_gear = []
 
         for gear_item in self.gear:
-            self.lastitem.append(gear_item)
+            self.lastitem.append(gear_item) #TODO finish implementing this 
             if gear_item in gear_stats:
                 gear_data = gear_stats[gear_item]
                 surface.blit(gear_data['image'], (290, 151))# need to move this variable somehow
                 if gear_item not in self.equipped_gear and gear_item < 5:
+                    self.equipped_gear.append(gear_item)
                     equipped_gear.append(gear_item) # Add the equipped gear to the list
                 elif gear_item not in self.equipped_armor and gear_item >= 5:
                     self.equipped_armor.append(gear_item)
-                    equipped_gear.append(gear_item)
-                    #self.equipped_gear.append(gear_item)# Add to global list for item display
                 
                 if self.addstats:
-                    self.reset_values()
-                    
-                    for equipped_item in equipped_gear:
-                        gear_data = gear_stats[equipped_item]
-                        self.attackpower += gear_stats[equipped_item]['stats'][0]
-                        self.defence += gear_stats[equipped_item]['stats'][1]
-                        self.spellpower += gear_stats[equipped_item]['stats'][2]
+
+                    if len(self.equipped_gear) > 0:
+                        if 3 in self.lastitem and 3.4 in self.lastitem: 
+                            self.equipped_gear.remove(3)
+                            self.unequipped_gear.append(3)
+                        if 3.1 in self.lastitem and 3.4 in self.lastitem:
+                            self.equipped_gear.remove(3.1)
+                            self.unequipped_gear.append(3.1)
+                        if 3.3 in self.lastitem and 3.4 in self.lastitem:
+                            self.equipped_gear.remove(3.3)
+                            self.unequipped_gear.append(3.3)
+                            print("removed item_id", self.lastitem)
+                    print("last Item:", self.lastitem[-1])
+                    if len(self.equipped_gear) == 1:
+                        for equipped_item in self.equipped_gear:
+                            gear_data = gear_stats[equipped_item]
+                            self.attackpower += gear_stats[equipped_item]['stats'][0]
+                            self.defence += gear_stats[equipped_item]['stats'][1]
+                            self.spellpower += gear_stats[equipped_item]['stats'][2]
+                            #self.addstats = False
                     
                     for equipped_armor in self.equipped_armor:
                         gear_data = gear_stats[equipped_armor]
                         self.attackpower += gear_stats[equipped_armor]['stats'][0]
                         self.defence += gear_stats[equipped_armor]['stats'][1]
                         self.spellpower += gear_stats[equipped_armor]['stats'][2]
+                        #self.addstats = False
 
                     self.addstats = False
                     self.gear.remove(gear_item)
-                    self.equipped_gear = equipped_gear # Add to global list for item display
-                else:
-                    if self.lastitem:
-                        for item in unequipped_gear:
-                            if item not in self.equipped_gear:
-                                self.attackpower -= gear_stats[item]['stats'][0]
-                                self.defence -= gear_stats[item]['stats'][1]
-                                self.spellpower -= gear_stats[item]['stats'][2]
-                                unequipped_gear.remove(item)
+
+                    for gear_item in self.unequipped_gear: # Works as it should howver unexpected side effect
+                        if gear_item not in self.equipped_gear:
+                            self.reset_values()
+                            self.unequipped_gear.remove(gear_item)
+                            self.lastitem.remove(gear_item)
                     
             print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
 
-            print("eqipped: ", equipped_gear, "Gearlist :", self.gear, "unequipped:", unequipped_gear)
+            print("eqipped: ", equipped_gear, "Gearlist :", self.gear, "unequipped:", self.unequipped_gear, "Class list:", self.equipped_gear)
         
         # Additional code to handle resetting stats if no gear is equipped
         if self.addstats and not self.equipped_gear:
             self.reset_values()
             
     def reset_values(self):
-        self.attackpower = 4
-        self.defence = 2
-        self.spellpower = 1
+        if not self.equipped_gear:
+            self.attackpower = 4
+            self.defence = 2
+            self.spellpower = 1
+        elif 3 in self.equipped_gear:
+            self.attackpower = 9
+            self.defence = 4
+            self.spellpower = 6
+        elif 3.1 in self.equipped_gear:
+            self.attackpower = 10
+            self.defence = 6
+            self.spellpower = 11
+        elif 3.3 in self.equipped_gear:
+            self.attackpower = 13
+            self.defence = 10
+            self.spellpower = 13
+        elif 3.4 in self.equipped_gear:
+            self.attackpower = 18
+            self.defence = 18
+            self.spellpower = 21
 
     def attack(self, cursor):
         if cursor.wait == 1: return

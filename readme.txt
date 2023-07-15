@@ -1,0 +1,1 @@
+Known issues: when items are equipped in the "wrong" order the stats bug
