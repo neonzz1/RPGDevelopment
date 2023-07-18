@@ -33,6 +33,7 @@ class Player(BaseSprite):
         self.magic_cooldown = 1
         self.slash = 0
         self.addstats = False
+        self.healthbool = False
         self.mmanager = mmanager
         self.soundtrack = soundtrack
         self.equipped_gear = []
@@ -112,6 +113,8 @@ class Player(BaseSprite):
         if self.move_frame > 6:
                 self.move_frame = 0
                 return
+        
+        self.heart.image = self.health_ani[self.health]
         if not self.jumping and self.running and not self.leveled:  
             if self.vel.x > 0:
                 self.mmanager.playsound(self.movesound[self.move_frame], 0.05)
@@ -284,8 +287,9 @@ class Player(BaseSprite):
             self.cooldown = True # Enable the cooldown
             self.pygame.time.set_timer(self.hit_cooldown, 1000) # Resets cooldown in 1 second
 
-            self.health = self.health - 1
+            self.health -= 1
             self.heart.image = self.health_ani[self.health]
+            self.healthbool = True
          
         if self.health <= 0:
             self.kill()
@@ -321,6 +325,7 @@ class Player(BaseSprite):
                 self.level += 1
                 self.experience -= required_experience  # Deduct required experience from current level
                 self.leveled = True  # Set the leveled flag to True
+                self.update_attributes()
                 if self.direction == 'RIGHT':
                     if self.leveled:
                         self.image = self.pygame.image.load("img/Player_Sprite_R_Level_Up.png").convert_alpha()
@@ -328,18 +333,18 @@ class Player(BaseSprite):
                     if self.leveled:
                         self.image = self.pygame.image.load("img/Player_Sprite2_L_level_up.png").convert_alpha()
                 print(f"Congratulations! You leveled up to Level {self.level}!")
-                self.update_attributes()
+                
             else:
                  self.direction = self.direction
                 #print("not enough exp")
         else:
             print("You have reached the maximum level.")
-        self.update_attributes()
+        
 
     def update_attributes(self):
-         self.leveled = False
-         self.health = 5
-         self.mana = 17
+        self.health = 5
+        self.mana = 17
+        self.leveled = False
     
     def clamp(num, min_value, max_value):
         return max(min(num, max_value), min_value)

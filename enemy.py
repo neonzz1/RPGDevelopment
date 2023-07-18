@@ -144,11 +144,11 @@ def item_logic(self):
         elif rand_num >= 45 and rand_num <= 55:
                 self.quantity = 1
                 self.item_no = 6
-        elif rand_num >= 55 and rand_num <= 65:
-            self.quantity = 1
-            self.item_no = 7
-        elif rand_num > 65 and rand_num < 75:
-            self.item_no = 8
+        #elif rand_num >= 55 and rand_num <= 65:
+            #self.quantity = 1
+            #self.item_no = 7
+        #elif rand_num > 65 and rand_num < 75:
+            #self.item_no = 8
         elif rand_num >= 75:
             self.item_no = 0
         if self.item_no != 0:
@@ -174,6 +174,7 @@ class Enemy2(BaseSprite):
         self.health = 5
         self.can_be_hit = True
         self.hit_cooldown_counter = 10
+        self.spell_hit_counter = 5
         self.quantity = None
         self.Bolts = Bolts
 
@@ -304,6 +305,7 @@ class Demon(BaseSprite):
         self.health = 10
         self.can_be_hit = True
         self.hit_cooldown_counter = 10
+        self.spell_hit_counter = 5
         self.pos = self.vec(0,0)
         self.vel = self.vec(0,0)
         self.wait = 0

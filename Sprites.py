@@ -16,7 +16,7 @@ class BaseSprite(pygame.sprite.Sprite):
         # defining a font
         self.headingfont = pygame.font.SysFont("Verdana", 40)
         self.regularfont = pygame.font.SysFont('Corbel',25)
-        self.smallerfont = pygame.font.SysFont('Corbel',16) 
+        self.smallerfont = pygame.font.SysFont('Corbel',20) 
         self.text = self.regularfont.render('LOAD' , True , color_light)
         self.moveani_L = [pygame.image.load("img/demon_L.png").convert_alpha(), pygame.image.load("img/demon_L_2.png").convert_alpha(),
                           pygame.image.load("img/demon_L_3.png").convert_alpha(), pygame.image.load("img/demon_L_4.png").convert_alpha(),
