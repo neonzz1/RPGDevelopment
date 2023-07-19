@@ -187,7 +187,10 @@ class Player(BaseSprite):
 
                     self.addstats = False
                     self.gear.remove(gear_item)
+                    if len(self.gear) > 1:
+                        self.gear = []
                     self.unequipped_gear.append(gear_item)
+                    self.reset_values()
 
             print("attack:", self.attackpower, "defence:", self.defence, "spellpower:", self.spellpower)
             print("equipped:", equipped_gear, "Gearlist:", self.gear, "unequipped:", self.unequipped_gear, "Class list:", self.equipped_gear)

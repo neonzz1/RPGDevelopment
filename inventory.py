@@ -4,7 +4,7 @@ class inventory(BaseSprite):
     def __init__(self):
         image_path = "img/inventory.png"
         super().__init__(image_path)
-        self.items = {3: 1, 3.4: 1, 5: 1, 5.1: 1, 4: 1, 6: 2, 7: 1}
+        self.items = {}
         self.imagee = None
         self.staff = None
         self.sword = None
@@ -12,6 +12,7 @@ class inventory(BaseSprite):
         self.hpotion = None
         self.mpotion = None
         self.hide = True
+        self.do_once = True
         self.pressed = 0
 
         self.load_image(image_path)
@@ -21,6 +22,8 @@ class inventory(BaseSprite):
         if self.pressed == 1:
             self.hide = not self.hide
             self.pressed = 0
+        if not self.do_once:
+            self.do_once = True #TODO find somewhere to put this that will work better
 
     def remove_items(self, item):
         items_to_remove = []
@@ -38,23 +41,24 @@ class inventory(BaseSprite):
         mouse = self.pygame.mouse.get_pos()
         #TODO fix image location
             #print("Rendering item:", item)
-            
+        print(mouse)
         if not self.hide:
             
             surface.blit(self.imagee, (10,30)) #TODO make image placement function more dynamically
             #print(mouse)
             images = {
             3: ("img/staff_out.png", (30, 30), (35, 78)),
-            3.1: ("img/staff_out.png", (30, 30), (200, 62)),
-            3.3: ("img/staff_out.png", (30, 30), (21, 100)),
+            3.1: ("img/staff_out.png", (30, 30), (213, 78)),
+            3.3: ("img/staff_out.png", (30, 30), (33, 112)),
             3.4: ("img/staff_out.png", (30, 30), (71, 112)),
             4: ("img/sword_out.png", (40, 40), (71, 73)),
-            4.1: ("img/sword_out.png", (40, 40), (71, 73)),
-            4.2: ("img/sword_out.png", (40, 40), (50, 53)),
-            4.3: ("img/sword_out.png", (40, 40), (50, 53)),
-            4.4: ("img/sword_out.png", (40, 40), (50, 53)),
+            4.1: ("img/sword_out.png", (40, 40), (145, 112)),
+            4.3: ("img/sword_out.png", (40, 40), (214, 112)),
+            4.4: ("img/sword_out.png", (40, 40), (36, 150)),
             5: ("img/helm_out.png", (40, 40), (107, 76)),
             5.1: ("img/helm_out.png", (40, 40), (107, 112)),
+            5.3: ("img/helm_out.png", (40, 40), (180, 112)),
+            5.4: ("img/helm_out.png", (40, 40), (180, 150)),
             6: ("img/hpotion_out.png", (30, 30), (142, 77)),
             7: ("img/mpotion_out.png", (30, 30), (180, 77))
         }
@@ -66,25 +70,30 @@ class inventory(BaseSprite):
                 image = self.pygame.transform.scale(image, image_size)
                 image_rect = image.get_rect(center=image_position)
 
+                if quantity <= 0:
+                    self.remove_items(item)
+
                 if image_rect.collidepoint(mouse) and clicked[2]:
-                        player.addstats = True
-                        if item >= 3 and item <= 3.4:
-                            self.staff = self.pygame.image.load("img/staff_out.png").convert_alpha()
-                            self.staff = self.pygame.transform.scale(self.staff, (30, 30))
-                        if item >= 4 and item <= 4.4:
-                            self.sword = self.pygame.image.load("img/sword_out.png").convert_alpha()
-                            self.sword = self.pygame.transform.scale(self.sword, (40, 40))
-                        if item >= 5 and item <= 5.4:
-                            self.helm = self.pygame.image.load("img/helm_out.png").convert_alpha()
-                            self.helm = self.pygame.transform.scale(self.helm, (30, 30))
-                        if item < 6:
-                            player.gear.append(item)
-                        if quantity <= 0:
-                            self.remove_items(item)
-                        player.equip_weapon(self, surface)
+                    player.addstats = True
+                    if item >= 3 and item <= 3.4:
+                        self.staff = self.pygame.image.load("img/staff_out.png").convert_alpha()
+                        self.staff = self.pygame.transform.scale(self.staff, (30, 30))
+                    if item >= 4 and item <= 4.4:
+                        self.sword = self.pygame.image.load("img/sword_out.png").convert_alpha()
+                        self.sword = self.pygame.transform.scale(self.sword, (40, 40))
+                    if item >= 5 and item <= 5.4:
+                        self.helm = self.pygame.image.load("img/helm_out.png").convert_alpha()
+                        self.helm = self.pygame.transform.scale(self.helm, (30, 30))
+                    if item < 6:
+                        player.gear.append(item)
+                    if self.do_once:
+                        if quantity >= 1 and item != 6:
+                            self.items[item] -= 1
+                            self.do_once = False
+                    player.equip_weapon(self, surface)
 
                 surface.blit(image, image_rect)
-                if quantity >= 1:
+                if quantity >= 1: #TODO edit font for all items and location for numbers greater than 3 
                     posx = image_position[0]
                     posy = image_position[1]
                     posx += 10
