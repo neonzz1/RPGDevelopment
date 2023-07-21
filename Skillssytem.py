@@ -30,8 +30,20 @@ class Skillsys(BaseSprite):
     
     def rendering(self, surface):
         if not self.hide:
-            surface.blit(self.skillimage, (40, 30))
+            self.skillimage = self.pygame.transform.scale(self.skillimage, (250,350))
+            surface.blit(self.skillimage, (110, 0))
             skills_to_render = [skill for skill in self.available_skills.keys() if skill not in self.player.skills]
+
+            if "fireball" in skills_to_render:
+                fireball_image = self.pygame.image.load("img/fireball_skill.png").convert_alpha()
+                fire_rect = fireball_image.get_rect(center=(152, 72))
+
+                surface.blit(fireball_image, fire_rect)
+            if "energyblast" in skills_to_render:
+                energyball_image = self.pygame.image.load("img/Energyblast_skill.png").convert_alpha()
+                energy_rect = energyball_image.get_rect(center=(190, 61))
+
+                surface.blit(energyball_image, energy_rect)
 
             for i, item in enumerate(skills_to_render):
                 text_surface = self.smallerfont.render(item, True, (0, 0, 0))  # Render the text

@@ -32,7 +32,8 @@ def main():
     FPS_CLOCK = pygame.time.Clock()
     COUNT = 0
 
-    surface = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+    surface = pygame.Surface((WIDTH, HEIGHT))
+    window = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
     pygame.display.set_caption("Game")
 
     #TODO make better images so reduction is consistant 
@@ -99,6 +100,11 @@ def main():
                 sys.exit() 
             if event.type == pygame.VIDEORESIZE:
                 pygame.display._resize_event(event)
+                surface = pygame.transform.scale(surface, event.size, window)
+
+                
+                # window = pygame.display.set_mode(event.size, pygame.SCALED)
+                # bpygame.display.update()
             if event.type == handler.enemy_generation:
                 if handler.enemy_count < handler.stage_enemies[handler.stage - 1]:
                     enemy = Enemy(hit_cooldown, player_group, player)
@@ -252,6 +258,8 @@ def main():
         castle.update(surface)
         button.render(button.imgdisp, cursor, surface)
         cursor.hover(mouse, surface)
+        window_rect = window.get_rect()
+        window.blit(pygame.transform.scale(surface, window.get_size()), window_rect)
         pygame.display.update()
         FPS_CLOCK.tick(FPS)
 
