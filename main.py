@@ -259,7 +259,7 @@ def main():
         button.render(button.imgdisp, cursor, surface)
         cursor.hover(mouse, surface)
         window_rect = window.get_rect()
-        window.blit(pygame.transform.scale(surface, window.get_size()), window_rect)
+        window.blit(pygame.transform.scale(surface, window.get_size()), (0, 0))
         pygame.display.update()
         FPS_CLOCK.tick(FPS)
 
