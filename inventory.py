@@ -4,7 +4,7 @@ class inventory(BaseSprite):
     def __init__(self):
         image_path = "img/inventory.png"
         super().__init__(image_path)
-        self.items = {}
+        self.items = {3: 1, 3.1: 1, 3.3: 1, 3.4: 1, 4: 1, 4.1: 1, 4.3: 1, 4.4: 1, 5: 1, 5.1: 1, 5.3: 1, 5.4: 1, 6: 2, 6.1: 1, 7: 1}
         self.imagee = None
         self.staff = None
         self.sword = None
@@ -41,7 +41,7 @@ class inventory(BaseSprite):
         mouse = self.pygame.mouse.get_pos()
         #TODO fix image location
             #print("Rendering item:", item)
-        print(mouse)
+        #print(mouse)
         if not self.hide:
             
             surface.blit(self.imagee, (10,30)) #TODO make image placement function more dynamically
@@ -60,6 +60,7 @@ class inventory(BaseSprite):
             5.3: ("img/helm_out.png", (40, 40), (180, 112)),
             5.4: ("img/helm_out.png", (40, 40), (180, 150)),
             6: ("img/hpotion_out.png", (30, 30), (142, 77)),
+            6.1:("img/hpotion_out.png", (30, 30), (220, 150)),
             7: ("img/mpotion_out.png", (30, 30), (180, 77))
         }
 
@@ -84,13 +85,16 @@ class inventory(BaseSprite):
                     if item >= 5 and item <= 5.4:
                         self.helm = self.pygame.image.load("img/helm_out.png").convert_alpha()
                         self.helm = self.pygame.transform.scale(self.helm, (30, 30))
-                    if item < 6:
-                        player.gear.append(item)
-                    if self.do_once:
+                    if item < 6 and item not in player.equipped_gear:
+                            player.gear.append(item)
+                            player.equip_weapon(self, surface)
+                    if self.do_once: #Used to fix too menay items being removed from one use
                         if quantity >= 1 and item != 6:
                             self.items[item] -= 1
                             self.do_once = False
-                    player.equip_weapon(self, surface)
+                    if item in player.equipped_gear:
+                        player.unequipped_gear.append(item)
+                    
 
                 surface.blit(image, image_rect)
                 if quantity >= 1: #TODO edit font for all items and location for numbers greater than 3 
@@ -127,6 +131,12 @@ class inventory(BaseSprite):
                         print("added health")
                     else:
                         print("too much health")
+
+                if item == 6.1 and image_rect.collidepoint(mouse) and clicked[2]:
+                    if player.health > 0:
+                        print("You cannot res your health is too high!")
+                    elif player.health <= 0:
+                        player.__init__()
 
                 if item == 7 and image_rect.collidepoint(mouse) and clicked[2]:
                     if quantity < 1:

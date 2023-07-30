@@ -9,7 +9,7 @@ class Item(BaseSprite):
         elif itemtype == 3 and itemtype <= 3.4: image_path = "img/staff.png"
         elif itemtype >= 4 and itemtype <= 4.4: image_path = "img/swordicon.png"
         elif itemtype >= 5 and itemtype <= 5.4: image_path = "img/helm.png"
-        elif itemtype == 6: image_path = "img/hpotion_out.png"
+        elif itemtype >= 6 and itemtype < 7: image_path = "img/hpotion_out.png"
         elif itemtype == 7: image_path = "img/mpotion_out.png"
         else: image_path = "img/heart.png"
         super().__init__(image_path)
@@ -68,7 +68,7 @@ class Item(BaseSprite):
                 inventory.items[self.type] += self.quantity
                 self.kill()
                 mmanager.stop()
-            if self.type == 6:
+            if self.type >= 6 and self.type < 7:
                 mmanager.playsoundtrack(self.itemsound[1], -1, 0.05)
                 if self.type not in inventory.items:
                     inventory.items.update({self.type: self.quantity})

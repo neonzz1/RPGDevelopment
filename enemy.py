@@ -144,11 +144,14 @@ def item_logic(self):
         elif rand_num >= 45 and rand_num <= 55:
                 self.quantity = 1
                 self.item_no = 6
-        #elif rand_num >= 55 and rand_num <= 65:
-            #self.quantity = 1
-            #self.item_no = 7
+        elif rand_num >= 55 and rand_num <= 65:
+            self.quantity = 1
+            self.item_no = 7
         #elif rand_num > 65 and rand_num < 75:
             #self.item_no = 8
+        elif rand_num >= 66 and rand_num <= 67:
+            self.quantity = 1
+            self.item_no = 6.1
         elif rand_num >= 75:
             self.item_no = 0
         if self.item_no != 0:
