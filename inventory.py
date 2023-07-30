@@ -136,7 +136,8 @@ class inventory(BaseSprite):
                     if player.health > 0:
                         print("You cannot res your health is too high!")
                     elif player.health <= 0:
-                        player.__init__()
+                        player.showplayer = True
+                        player.respawn()
 
                 if item == 7 and image_rect.collidepoint(mouse) and clicked[2]:
                     if quantity < 1:

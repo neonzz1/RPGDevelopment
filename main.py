@@ -251,7 +251,11 @@ def main():
             #print("sprire")
         for i in Items:
             i.render(surface)
-            i.update(player_group, player, health, handler, inv, mmanager)   	
+            i.update(player_group, player, health, handler, inv, mmanager)   
+        if player.respawn_timer	> 0:
+            player.respawn_timer -= 1
+        if player.respawn_timer == 0:
+            player.can_interact = True
         surface.blit(status_bar.surf, (580, 5))
         status_bar.update_draw(handler, player, FPS_CLOCK, surface)
         handler.update(stage_display)

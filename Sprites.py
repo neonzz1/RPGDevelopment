@@ -54,13 +54,15 @@ class BaseSprite(pygame.sprite.Sprite):
         self.health_ani = [pygame.image.load("img/hearts_0.png").convert_alpha(), pygame.image.load("img/hearts_1.png").convert_alpha(),
               pygame.image.load("img/hearts_2.png").convert_alpha(), pygame.image.load("img/hearts_3.png").convert_alpha(),
               pygame.image.load("img/hearts_4.png").convert_alpha(), pygame.image.load("img/hearts_full.png").convert_alpha()]
+        self.showplayer = True
         
 #renders all images on the screen other than healthbar
     def render(self, surface, cursor):
         if cursor.wait == 1: return
         self.surface = surface
         if hasattr(self, 'rect'):
-            surface.blit(self.image, self.rect)
+            if self.showplayer == True:
+                surface.blit(self.image, self.rect)
         elif hasattr(self, 'bgX') and hasattr(self, 'bgY'):
             surface.blit(self.image, (self.bgX, self.bgY))
         #else:

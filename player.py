@@ -49,6 +49,8 @@ class Player(BaseSprite):
         self.gear = []
         #self.jumpsound = [self.pygame.mixer.Sound("sounds/")]
         self.skills = []
+        self.respawn_timer = 0
+        self.can_interact = True
  
         # Position and direction
         self.vx = 0
@@ -104,7 +106,7 @@ class Player(BaseSprite):
                 if item >= 3 and item <= 4.4:
                     surface.blit(gear_data['image'], (290, 151))
                     #print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
-                if item >= 5:
+                if item >= 5 and item <= 5.4:
                     surface.blit(gear_data['image'], (340, 99))
                     #print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
             print("Gearlist:", self.gear, "unequipped:", self.unequipped_gear, "Class list:", self.equipped_gear)
@@ -363,7 +365,7 @@ class Player(BaseSprite):
                     if gear_item not in self.equipped_gear:
                         self.equipped_gear.append(gear_item)
                         equipped_gear.append(gear_item)
-                else:
+                elif gear_item > 5 and gear_item <= 5.4:
                     if gear_item not in self.equipped_armor:
                         self.equipped_armor.append(gear_item)
 
@@ -449,6 +451,14 @@ class Player(BaseSprite):
         key = (self.equipped_gear[-1] if self.equipped_gear else 0, self.equipped_armor[-1] if self.equipped_armor else 0)
         self.attackpower, self.defence, self.spellpower = stats_mapping.get(key, (4, 2, 1))
 
+    def respawn(self):
+        if self.respawn_timer <= 0:
+            # Reset health and other attributes as needed for respawn
+            self.health = 5
+            self.respawn_timer = 120
+
+            self.can_interact = False
+
     def attack(self, cursor):
         if cursor.wait == 1: return
         # If attack frame has reached end of sequence, return to base frame      
@@ -485,7 +495,7 @@ class Player(BaseSprite):
         print(self.skills)
 
     def player_hit(self):
-        if not self.cooldown:      
+        if not self.cooldown and self.can_interact:      
             self.cooldown = True # Enable the cooldown
             self.pygame.time.set_timer(self.hit_cooldown, 1000) # Resets cooldown in 1 second
 
@@ -494,9 +504,9 @@ class Player(BaseSprite):
             self.healthbool = True
          
         if self.health <= 0:
-            self.kill()
+            self.showplayer == False
             self.pygame.display.update()
-            self.mmanager.stop()    
+            self.mmanager.stop()
             self.mmanager.playsoundtrack(self.soundtrack[2], -1, 0.1)
             self.pygame.display.update()
             
