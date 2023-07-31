@@ -109,7 +109,7 @@ class Player(BaseSprite):
                 if item >= 5 and item <= 5.4:
                     surface.blit(gear_data['image'], (340, 99))
                     #print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
-            print("Gearlist:", self.gear, "unequipped:", self.unequipped_gear, "Class list:", self.equipped_gear)
+            print("Gearlist:", self.gear, "unequipped:", self.unequipped_gear, "Class list:", self.equipped_gear, "Armor:", self.equipped_armor)
 
         if cursor.wait == 1: return
         # Return to base frame if at end of movement sequence 
@@ -387,7 +387,16 @@ class Player(BaseSprite):
 
                     self.addstats = False
                     self.gear.remove(gear_item)
-    
+
+                    for item in self.unequipped_gear:
+                        if item not in self.equipped_gear or gear_item not in self.equipped_armor:
+                            self.reset_values()
+                            self.unequipped_gear.remove(item)
+                            if item in self.lastitem:
+                                self.lastitem.remove(item)
+                            if len(self.equipped_gear) > 1:
+                                del self.equipped_gear[0]
+
                     if len(self.gear) > 1:
                         self.gear = [] #Bugfix
                 
