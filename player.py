@@ -169,9 +169,9 @@ class Player(BaseSprite):
                     if gear_item not in self.equipped_gear:
                         self.equipped_gear.append(gear_item)
                         equipped_gear.append(gear_item)
-                elif gear_item > 5 and gear_item <= 5.4:
+                elif gear_item >= 5 and gear_item <= 5.4:
                     if gear_item not in self.equipped_armor:
-                        self.equipped_armor.append(gear_item)
+                        self.equipped_armor.append(gear_item) 
 
                 if self.addstats:
 
@@ -383,7 +383,7 @@ class Player(BaseSprite):
                                 self.unequipped_gear.append(5.4)
 
                     for item in self.unequipped_gear:
-                        if item not in self.equipped_gear or gear_item not in self.equipped_armor:
+                        if item not in self.equipped_gear or item not in self.equipped_armor:
                             self.reset_values()
                             inv.items.update({item: 1})
                             self.unequipped_gear.remove(item)
@@ -391,7 +391,7 @@ class Player(BaseSprite):
                                 self.lastitem.remove(item)
                             if len(self.equipped_gear) > 1:
                                 del self.equipped_gear[0]
-                                
+
                     if self.unequipped_gear:
                         print("removed item_id", self.unequipped_gear[-1])
 

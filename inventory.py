@@ -85,7 +85,7 @@ class inventory(BaseSprite):
                     if item >= 5 and item <= 5.4:
                         self.helm = self.pygame.image.load("img/helm_out.png").convert_alpha()
                         self.helm = self.pygame.transform.scale(self.helm, (30, 30))
-                    if item < 6 and item not in player.equipped_gear:
+                    if item < 6 and item not in player.equipped_gear and item not in player.equipped_armor:
                             player.gear.append(item)
                             player.equip_weapon(self, surface)
                     if self.do_once: #Used to fix too meny items being removed from one use
