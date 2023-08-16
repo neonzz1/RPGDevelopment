@@ -609,9 +609,3 @@ class Player(BaseSprite):
         self.health = 5
         self.mana = 17
         self.leveled = False
-    
-    def clamp(num, min_value, max_value):
-        return max(min(num, max_value), min_value)
-        
-
-    
