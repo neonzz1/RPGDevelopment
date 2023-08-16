@@ -359,6 +359,27 @@ class Player(BaseSprite):
                             else:
                                 self.equipped_gear.remove(4.4)
                                 self.unequipped_gear.append(4.4)
+                        if 4.1 in self.lastitem and 4.3 in self.lastitem:
+                            if self.lastitem[-1] == 4.3:
+                                self.equipped_gear.remove(4.1)
+                                self.unequipped_gear.append(4.1)
+                            else:
+                                self.equipped_gear.remove(4.3)
+                                self.unequipped_gear.append(4.3)
+                        elif 4.1 in self.lastitem and 4.4 in self.lastitem:
+                            if self.lastitem[-1] == 4.4:
+                                self.equipped_gear.remove(4.1)
+                                self.unequipped_gear.append(4.1)
+                            else:
+                                self.equipped_gear.remove(4.4)
+                                self.unequipped_gear.append(4.4)
+                        if 4.3 in self.lastitem and 4.4 in self.lastitem:
+                            if self.lastitem[-1] == 4.4:
+                                self.equipped_gear.remove(4.3)
+                                self.unequipped_gear.append(4.3)
+                            else:
+                                self.equipped_gear.remove(4.4)
+                                self.unequipped_gear.append(4.4)
                     if len(self.equipped_armor) > 0:
                         if 5 in self.lastitem and 5.1 in self.lastitem:
                             if self.lastitem[-1] == 5.1:
@@ -378,6 +399,27 @@ class Player(BaseSprite):
                             if self.lastitem[-1] == 5.4:
                                 self.equipped_armor.remove(5)
                                 self.unequipped_gear.append(5)
+                            else:
+                                self.equipped_armor.remove(5.4)
+                                self.unequipped_gear.append(5.4)
+                        if 5.1 in self.lastitem and 5.3 in self.lastitem:
+                            if self.lastitem[-1] == 5.3:
+                                self.equipped_armor.remove(5.1)
+                                self.unequipped_gear.append(5.1)
+                            else:
+                                self.equipped_armor.remove(5.3)
+                                self.unequipped_gear.append(5.3)
+                        elif 5.1 in self.lastitem and 5.4 in self.lastitem:
+                            if self.lastitem[-1] == 5.4:
+                                self.equipped_armor.remove(5.1)
+                                self.unequipped_gear.append(5.1)
+                            else:
+                                self.equipped_armor.remove(5.4)
+                                self.unequipped_gear.append(5.4)
+                        if 5.3 in self.lastitem and 5.4 in self.lastitem:
+                            if self.lastitem[-1] == 5.4:
+                                self.equipped_armor.remove(5.3)
+                                self.unequipped_gear.append(5.3)
                             else:
                                 self.equipped_armor.remove(5.4)
                                 self.unequipped_gear.append(5.4)
