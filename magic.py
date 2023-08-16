@@ -68,17 +68,17 @@ class Bolt(BaseSprite):
             self.player.player_hit()
             self.kill()
 
-class Energy_blast(BaseSprite):
+class Energy_blast(BaseSprite): #TODO fix position error
     def __init__(self, player):
-        image_path = "img/bolt.png"
+        image_path = "img/energy_blast_fire.png"
         super().__init__(image_path)
         self.player = player
         self.direction  = player.direction
 
         if self.direction == "RIGHT":
-            self.image = self.pygame.image.load("img/fireball1_R.png")
+            self.image = self.pygame.image.load("img/energy_blast_fire.png").convert_alpha()
         else:
-            self.image = self.pygame.image.load("img/fireball1_L.png")  
+            self.image = self.pygame.image.load("img/energy_blast_fire.png").convert_alpha()
 
         self.rect = self.image.get_rect(center = player.pos)
         self.rect.x = player.pos.x
@@ -88,10 +88,10 @@ class Energy_blast(BaseSprite):
     def fire(self, surface, spellpower):
         if -10 < self.rect.x < 710:
             if self.direction == 0:
-                self.image = self.pygame.image.load("img/bolt.png")
+                self.image = self.pygame.image.load("img/energy_blast_fire_R.png").convert_alpha()
                 surface.blit(self.image, self.rect)
             else:
-                self.image = self.pygame.image.load("img/bolt.png")
+                self.image = self.pygame.image.load("img/energy_blast_fire_L.png").convert_alpha()
                 surface.blit(self.image, self.rect)
             if self.direction == 0:
                 self.rect.move_ip(12,0)

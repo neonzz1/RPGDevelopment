@@ -141,7 +141,7 @@ def main():
                             fireball = Magic(player)
                             Spells.add(fireball)
                             mmanager.playsound(fsound, 0.3)
-                        elif "energy_blast" in player.skills and player.mana >= 2:
+                        elif "energyblast" in player.skills and player.mana >= 2:
                             player.mana -= 2
                             mana.image = mana_ani[player.mana]
                             energy_blast = Energy_blast(player)
@@ -180,7 +180,7 @@ def main():
                             fireball = Magic(player)
                             Spells.add(fireball)
                             mmanager.playsound(fsound, 0.3)
-                    elif "energy_blast" in player.skills and player.mana >= 2:
+                    elif "energyblast" in player.skills and player.mana >= 2:
                             player.mana -= 2
                             mana.image = mana_ani[player.mana]
                             energy_blast = Energy_blast(player)
