@@ -109,7 +109,7 @@ class Player(BaseSprite):
                 if item >= 5 and item <= 5.4:
                     surface.blit(gear_data['image'], (340, 99))
                     #print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
-            print("Gearlist:", self.gear, "unequipped:", self.unequipped_gear, "Class list:", self.equipped_gear, "Armor:", self.equipped_armor)
+            print("lastlist:", self.lastitem, "Gearlist:", self.gear, "unequipped:", self.unequipped_gear, "Class list:", self.equipped_gear, "Armor:", self.equipped_armor)
 
         if cursor.wait == 1: return
         # Return to base frame if at end of movement sequence 
@@ -158,202 +158,6 @@ class Player(BaseSprite):
         unequipped_gear = []
         equipped_gear = []
 
-        if len(self.equipped_gear) > 0:
-            if 3 in self.lastitem and 3.1 in self.lastitem:
-                if self.lastitem[-1] == 3.1:
-                    self.equipped_gear.remove(3)
-                    self.unequipped_gear.append(3)
-                else:
-                    self.equipped_gear.remove(3.1)
-                    self.unequipped_gear.append(3.1)
-            elif 3 in self.lastitem and 3.3 in self.lastitem:
-                if self.lastitem[-1] == 3.3:
-                    self.equipped_gear.remove(3)
-                    self.unequipped_gear.append(3)
-                else:
-                    self.equipped_gear.remove(3.3)
-                    self.unequipped_gear.append(3.3)
-            elif 3 in self.lastitem and 3.4 in self.lastitem:
-                if self.lastitem[-1] == 3.4: 
-                    self.equipped_gear.remove(3)
-                    self.unequipped_gear.append(3)
-                else:
-                    self.equipped_gear.remove(3.4)
-                    self.unequipped_gear.append(3.4)
-            if 3.1 in self.lastitem and 3.4 in self.lastitem:
-                if self.lastitem[-1] == 3.4:
-                    self.equipped_gear.remove(3.1)
-                    self.unequipped_gear.append(3.1)
-                else:
-                    self.equipped_gear.remove(3.4)
-                    self.unequipped_gear.append(3.4)
-            elif 3.1 in self.lastitem and 3.3 in self.lastitem:
-                if self.lastitem[-1] == 3.3:
-                    self.equipped_gear.remove(3.1)
-                    self.unequipped_gear.append(3.1)
-                else:
-                    self.equipped_gear.remove(3.3)
-                    self.unequipped_gear.append(3.3)
-            if 3.3 in self.lastitem and 3.4 in self.lastitem:
-                if self.lastitem[-1] == 3.4:
-                    self.equipped_gear.remove(3.3)
-                    self.unequipped_gear.append(3.3)
-                else:
-                    self.equipped_gear.remove(3.4)
-                    self.unequipped_gear.append(3.4)
-
-            if 3 in self.lastitem and 4 in self.lastitem:
-                if self.lastitem[-1] == 4:
-                    self.equipped_gear.remove(3)
-                    self.unequipped_gear.append(3)
-                else:
-                    self.equipped_gear.remove(4)
-                    self.unequipped_gear.append(4)
-            elif 3 in self.lastitem and 4.1 in self.lastitem:
-                if self.lastitem[-1] == 4.1:
-                    self.equipped_gear.remove(3)
-                    self.unequipped_gear.append(3)
-                else:
-                    self.equipped_gear.remove(4.1)
-                    self.unequipped_gear.append(4.1)
-            elif 3 in self.lastitem and 4.3 in self.lastitem:
-                if self.lastitem[-1] == 4.3:
-                    self.equipped_gear.remove(3)
-                    self.unequipped_gear.append(3)
-                else:
-                    self.equipped_gear.remove(4.3)
-                    self.unequipped_gear.append(4.3)
-            elif 3 in self.lastitem and 4.4 in self.lastitem:
-                if self.lastitem[-1] == 4.4:
-                    self.equipped_gear.remove(3)
-                    self.unequipped_gear.append(3)
-                else:
-                    self.equipped_gear.remove(4.4)
-                    self.unequipped_gear.append(4.4)
-            if 3.1 in self.lastitem and 4 in self.lastitem:
-                if self.lastitem[-1] == 4:
-                    self.equipped_gear.remove(3.1)
-                    self.unequipped_gear.append(3.1)
-                else:
-                    self.equipped_gear.remove(4)
-                    self.unequipped_gear.append(4)
-            elif 3.1 in self.lastitem and 4.1 in self.lastitem:
-                if self.lastitem[-1] == 4.1:
-                    self.equipped_gear.remove(3.1)
-                    self.unequipped_gear.append(3.1)
-                else:
-                    self.equipped_gear.remove(4.1)
-                    self.unequipped_gear.append(4.1)
-            elif 3.1 in self.lastitem and 4.3 in self.lastitem:
-                if self.lastitem[-1] == 4.3:
-                    self.equipped_gear.remove(3.1)
-                    self.unequipped_gear.append(3.1)
-                else:
-                    self.equipped_gear.remove(4.3)
-                    self.unequipped_gear.append(4.3)
-            elif 3.1 in self.lastitem and 4.4 in self.lastitem:
-                if self.lastitem[-1] == 4.4:
-                    self.equipped_gear.remove(3.1)
-                    self.unequipped_gear.append(3.1)
-                else:
-                    self.equipped_gear.remove(4.4)
-                    self.unequipped_gear.append(4.4)
-            if 3.3 in self.lastitem and 4 in self.lastitem:
-                if self.lastitem[-1] == 4:
-                    self.equipped_gear.remove(3.3)
-                    self.unequipped_gear.append(3.3)
-                else:
-                    self.equipped_gear.remove(4)
-                    self.unequipped_gear.append(4)
-            elif 3.3 in self.lastitem and 4.1 in self.lastitem:
-                if self.lastitem[-1] == 4.1:
-                    self.equipped_gear.remove(3.3)
-                    self.unequipped_gear.append(3.3)
-                else:
-                    self.equipped_gear.remove(4.1)
-                    self.unequipped_gear.append(4.1)
-            elif 3.3 in self.lastitem and 4.3 in self.lastitem:
-                if self.lastitem[-1] == 4.3:
-                    self.equipped_gear.remove(3.3)
-                    self.unequipped_gear.append(3.3)
-                else:
-                    self.equipped_gear.remove(4.3)
-                    self.unequipped_gear.append(4.3)
-            if 3.4 in self.lastitem and 4 in self.lastitem:
-                if self.lastitem[-1] == 4:
-                    self.equipped_gear.remove(3.4)
-                    self.unequipped_gear.append(3.4)
-                else:
-                    self.equipped_gear.remove(4)
-                    self.unequipped_gear.append(4)
-            elif 3.4 in self.lastitem and 4.1 in self.lastitem:
-                if self.lastitem[-1] == 4.1:
-                    self.equipped_gear.remove(3.4)
-                    self.unequipped_gear.append(3.4)
-                else:
-                    self.equipped_gear.remove(4.1)
-                    self.unequipped_gear.append(4.1)
-            elif 3.4 in self.lastitem and 4.3 in self.lastitem:
-                if self.lastitem[-1] == 4.3:
-                    self.equipped_gear.remove(3.4)
-                    self.unequipped_gear.append(3.4)
-                else:
-                    self.equipped_gear.remove(4.3)
-                    self.unequipped_gear.append(4.3)
-            elif 3.4 in self.lastitem and 4.4 in self.lastitem:
-                if self.lastitem[-1] == 4.4:
-                    self.equipped_gear.remove(3.4)
-                    self.unequipped_gear.append(3.4)
-                else:
-                    self.equipped_gear.remove(4.4)
-                    self.unequipped_gear.append(4.4)
-            if 4 in self.lastitem and 4.1 in self.lastitem:
-                if self.lastitem[-1] == 4.1:
-                    self.equipped_gear.remove(4)
-                    self.unequipped_gear.append(4)
-                else:
-                    self.equipped_gear.remove(4.1)
-                    self.unequipped_gear.append(4.1)
-            elif 4 in self.lastitem and 4.3 in self.lastitem:
-                if self.lastitem[-1] == 4.3:
-                    self.equipped_gear.remove(4)
-                    self.unequipped_gear.append(4)
-                else:
-                    self.equipped_gear.remove(4.3)
-                    self.unequipped_gear.append(4.3)
-            elif 4 in self.lastitem and 4.4 in self.lastitem:
-                if self.lastitem[-1] == 4.4:
-                    self.equipped_gear.remove(4)
-                    self.unequipped_gear.append(4)
-                else:
-                    self.equipped_gear.remove(4.4)
-                    self.unequipped_gear.append(4.4)
-        if len(self.equipped_armor) > 0:
-            if 5 in self.lastitem and 5.1 in self.lastitem:
-                if self.lastitem[-1] == 5.1:
-                    self.equipped_armor.remove(5)
-                    self.unequipped_gear.append(5)
-                else:
-                    self.equipped_armor.remove(5.1)
-                    self.unequipped_gear.append(5.1)
-            elif 5 in self.lastitem and 5.3 in self.lastitem:
-                if self.lastitem[-1] == 5.3:
-                    self.equipped_armor.remove(5)
-                    self.unequipped_gear.append(5)
-                else:
-                    self.equipped_armor.remove(5.3)
-                    self.unequipped_gear.append(5.3)
-            elif 5 in self.lastitem and 5.4 in self.lastitem:
-                if self.lastitem[-1] == 5.4:
-                    self.equipped_armor.remove(5)
-                    self.unequipped_gear.append(5)
-                else:
-                    self.equipped_armor.remove(5.4)
-                    self.unequipped_gear.append(5.4)
-        if self.unequipped_gear:
-            print("removed item_id", self.unequipped_gear[-1])
-
-
         for gear_item in self.gear:
             self.lastitem.append(gear_item)
 
@@ -385,20 +189,217 @@ class Player(BaseSprite):
                             self.defence += gear_data['stats'][1]
                             self.spellpower += gear_data['stats'][2]
 
-                    self.addstats = False
-                    self.gear.remove(gear_item)
+                    if len(self.equipped_gear) > 0: #TODO more testing 
+                        if 3 in self.lastitem and 3.1 in self.lastitem:
+                            if self.lastitem[-1] == 3.1:
+                                self.equipped_gear.remove(3)
+                                self.unequipped_gear.append(3)
+                            else:
+                                self.equipped_gear.remove(3.1)
+                                self.unequipped_gear.append(3.1)
+                        elif 3 in self.lastitem and 3.3 in self.lastitem:
+                            if self.lastitem[-1] == 3.3:
+                                self.equipped_gear.remove(3)
+                                self.unequipped_gear.append(3)
+                            else:
+                                self.equipped_gear.remove(3.3)
+                                self.unequipped_gear.append(3.3)
+                        elif 3 in self.lastitem and 3.4 in self.lastitem:
+                            if self.lastitem[-1] == 3.4: 
+                                self.equipped_gear.remove(3)
+                                self.unequipped_gear.append(3)
+                            else:
+                                self.equipped_gear.remove(3.4)
+                                self.unequipped_gear.append(3.4)
+                        if 3.1 in self.lastitem and 3.4 in self.lastitem:
+                            if self.lastitem[-1] == 3.4:
+                                self.equipped_gear.remove(3.1)
+                                self.unequipped_gear.append(3.1)
+                            else:
+                                self.equipped_gear.remove(3.4)
+                                self.unequipped_gear.append(3.4)
+                        elif 3.1 in self.lastitem and 3.3 in self.lastitem:
+                            if self.lastitem[-1] == 3.3:
+                                self.equipped_gear.remove(3.1)
+                                self.unequipped_gear.append(3.1)
+                            else:
+                                self.equipped_gear.remove(3.3)
+                                self.unequipped_gear.append(3.3)
+                        if 3.3 in self.lastitem and 3.4 in self.lastitem:
+                            if self.lastitem[-1] == 3.4:
+                                self.equipped_gear.remove(3.3)
+                                self.unequipped_gear.append(3.3)
+                            else:
+                                self.equipped_gear.remove(3.4)
+                                self.unequipped_gear.append(3.4)
+
+                        if 3 in self.lastitem and 4 in self.lastitem:
+                            if self.lastitem[-1] == 4:
+                                self.equipped_gear.remove(3)
+                                self.unequipped_gear.append(3)
+                            else:
+                                self.equipped_gear.remove(4)
+                                self.unequipped_gear.append(4)
+                        elif 3 in self.lastitem and 4.1 in self.lastitem:
+                            if self.lastitem[-1] == 4.1:
+                                self.equipped_gear.remove(3)
+                                self.unequipped_gear.append(3)
+                            else:
+                                self.equipped_gear.remove(4.1)
+                                self.unequipped_gear.append(4.1)
+                        elif 3 in self.lastitem and 4.3 in self.lastitem:
+                            if self.lastitem[-1] == 4.3:
+                                self.equipped_gear.remove(3)
+                                self.unequipped_gear.append(3)
+                            else:
+                                self.equipped_gear.remove(4.3)
+                                self.unequipped_gear.append(4.3)
+                        elif 3 in self.lastitem and 4.4 in self.lastitem:
+                            if self.lastitem[-1] == 4.4:
+                                self.equipped_gear.remove(3)
+                                self.unequipped_gear.append(3)
+                            else:
+                                self.equipped_gear.remove(4.4)
+                                self.unequipped_gear.append(4.4)
+                        if 3.1 in self.lastitem and 4 in self.lastitem:
+                            if self.lastitem[-1] == 4:
+                                self.equipped_gear.remove(3.1)
+                                self.unequipped_gear.append(3.1)
+                            else:
+                                self.equipped_gear.remove(4)
+                                self.unequipped_gear.append(4)
+                        elif 3.1 in self.lastitem and 4.1 in self.lastitem:
+                            if self.lastitem[-1] == 4.1:
+                                self.equipped_gear.remove(3.1)
+                                self.unequipped_gear.append(3.1)
+                            else:
+                                self.equipped_gear.remove(4.1)
+                                self.unequipped_gear.append(4.1)
+                        elif 3.1 in self.lastitem and 4.3 in self.lastitem:
+                            if self.lastitem[-1] == 4.3:
+                                self.equipped_gear.remove(3.1)
+                                self.unequipped_gear.append(3.1)
+                            else:
+                                self.equipped_gear.remove(4.3)
+                                self.unequipped_gear.append(4.3)
+                        elif 3.1 in self.lastitem and 4.4 in self.lastitem:
+                            if self.lastitem[-1] == 4.4:
+                                self.equipped_gear.remove(3.1)
+                                self.unequipped_gear.append(3.1)
+                            else:
+                                self.equipped_gear.remove(4.4)
+                                self.unequipped_gear.append(4.4)
+                        if 3.3 in self.lastitem and 4 in self.lastitem:
+                            if self.lastitem[-1] == 4:
+                                self.equipped_gear.remove(3.3)
+                                self.unequipped_gear.append(3.3)
+                            else:
+                                self.equipped_gear.remove(4)
+                                self.unequipped_gear.append(4)
+                        elif 3.3 in self.lastitem and 4.1 in self.lastitem:
+                            if self.lastitem[-1] == 4.1:
+                                self.equipped_gear.remove(3.3)
+                                self.unequipped_gear.append(3.3)
+                            else:
+                                self.equipped_gear.remove(4.1)
+                                self.unequipped_gear.append(4.1)
+                        elif 3.3 in self.lastitem and 4.3 in self.lastitem:
+                            if self.lastitem[-1] == 4.3:
+                                self.equipped_gear.remove(3.3)
+                                self.unequipped_gear.append(3.3)
+                            else:
+                                self.equipped_gear.remove(4.3)
+                                self.unequipped_gear.append(4.3)
+                        if 3.4 in self.lastitem and 4 in self.lastitem:
+                            if self.lastitem[-1] == 4:
+                                self.equipped_gear.remove(3.4)
+                                self.unequipped_gear.append(3.4)
+                            else:
+                                self.equipped_gear.remove(4)
+                                self.unequipped_gear.append(4)
+                        elif 3.4 in self.lastitem and 4.1 in self.lastitem:
+                            if self.lastitem[-1] == 4.1:
+                                self.equipped_gear.remove(3.4)
+                                self.unequipped_gear.append(3.4)
+                            else:
+                                self.equipped_gear.remove(4.1)
+                                self.unequipped_gear.append(4.1)
+                        elif 3.4 in self.lastitem and 4.3 in self.lastitem:
+                            if self.lastitem[-1] == 4.3:
+                                self.equipped_gear.remove(3.4)
+                                self.unequipped_gear.append(3.4)
+                            else:
+                                self.equipped_gear.remove(4.3)
+                                self.unequipped_gear.append(4.3)
+                        elif 3.4 in self.lastitem and 4.4 in self.lastitem:
+                            if self.lastitem[-1] == 4.4:
+                                self.equipped_gear.remove(3.4)
+                                self.unequipped_gear.append(3.4)
+                            else:
+                                self.equipped_gear.remove(4.4)
+                                self.unequipped_gear.append(4.4)
+                        if 4 in self.lastitem and 4.1 in self.lastitem:
+                            if self.lastitem[-1] == 4.1:
+                                self.equipped_gear.remove(4)
+                                self.unequipped_gear.append(4)
+                            else:
+                                self.equipped_gear.remove(4.1)
+                                self.unequipped_gear.append(4.1)
+                        elif 4 in self.lastitem and 4.3 in self.lastitem:
+                            if self.lastitem[-1] == 4.3:
+                                self.equipped_gear.remove(4)
+                                self.unequipped_gear.append(4)
+                            else:
+                                self.equipped_gear.remove(4.3)
+                                self.unequipped_gear.append(4.3)
+                        elif 4 in self.lastitem and 4.4 in self.lastitem:
+                            if self.lastitem[-1] == 4.4:
+                                self.equipped_gear.remove(4)
+                                self.unequipped_gear.append(4)
+                            else:
+                                self.equipped_gear.remove(4.4)
+                                self.unequipped_gear.append(4.4)
+                    if len(self.equipped_armor) > 0:
+                        if 5 in self.lastitem and 5.1 in self.lastitem:
+                            if self.lastitem[-1] == 5.1:
+                                self.equipped_armor.remove(5)
+                                self.unequipped_gear.append(5)
+                            else:
+                                self.equipped_armor.remove(5.1)
+                                self.unequipped_gear.append(5.1)
+                        elif 5 in self.lastitem and 5.3 in self.lastitem:
+                            if self.lastitem[-1] == 5.3:
+                                self.equipped_armor.remove(5)
+                                self.unequipped_gear.append(5)
+                            else:
+                                self.equipped_armor.remove(5.3)
+                                self.unequipped_gear.append(5.3)
+                        elif 5 in self.lastitem and 5.4 in self.lastitem:
+                            if self.lastitem[-1] == 5.4:
+                                self.equipped_armor.remove(5)
+                                self.unequipped_gear.append(5)
+                            else:
+                                self.equipped_armor.remove(5.4)
+                                self.unequipped_gear.append(5.4)
 
                     for item in self.unequipped_gear:
                         if item not in self.equipped_gear or gear_item not in self.equipped_armor:
                             self.reset_values()
+                            inv.items.update({item: 1})
                             self.unequipped_gear.remove(item)
                             if item in self.lastitem:
                                 self.lastitem.remove(item)
                             if len(self.equipped_gear) > 1:
                                 del self.equipped_gear[0]
+                                
+                    if self.unequipped_gear:
+                        print("removed item_id", self.unequipped_gear[-1])
 
                     if len(self.gear) > 1:
                         self.gear = [] #Bugfix
+                    
+                    self.addstats = False
+                    self.gear.remove(gear_item)
                 
                 
 

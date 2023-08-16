@@ -88,12 +88,10 @@ class inventory(BaseSprite):
                     if item < 6 and item not in player.equipped_gear:
                             player.gear.append(item)
                             player.equip_weapon(self, surface)
-                    if self.do_once: #Used to fix too menay items being removed from one use
+                    if self.do_once: #Used to fix too meny items being removed from one use
                         if quantity >= 1 and item != 6:
                             self.items[item] -= 1
                             self.do_once = False
-                    if item in player.equipped_gear:
-                        player.unequipped_gear.append(item)
                     
 
                 surface.blit(image, image_rect)

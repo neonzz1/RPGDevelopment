@@ -9,6 +9,7 @@ class BaseSprite(pygame.sprite.Sprite):
         super().__init__()
         #Variables every sprite needs access too
         self.image = pygame.image.load(image_path).convert_alpha()
+        self.rect = self.image.get_rect()
         self.vec = pygame.math.Vector2
         self.hide = False
         self.pygame = pygame

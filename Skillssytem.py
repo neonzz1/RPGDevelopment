@@ -30,29 +30,62 @@ class Skillsys(BaseSprite):
     
     def rendering(self, surface):
         if not self.hide:
+            clicked = self.pygame.mouse.get_pressed()
+            mousepos = self.pygame.mouse.get_pos()
             self.skillimage = self.pygame.transform.scale(self.skillimage, (250,350))
             surface.blit(self.skillimage, (110, 0))
             skills_to_render = [skill for skill in self.available_skills.keys() if skill not in self.player.skills]
 
             if "fireball" in skills_to_render:
                 fireball_image = self.pygame.image.load("img/fireball_skill.png").convert_alpha()
-                fire_rect = fireball_image.get_rect(center=(152, 72))
+                fireball_image = self.pygame.transform.scale(fireball_image, (25,25))
+                fire_rect = fireball_image.get_rect(center=(152, 71))
 
                 surface.blit(fireball_image, fire_rect)
+                if fire_rect.collidepoint(mousepos):
+                    stat_image = self.pygame.image.load("img/status_bar.png").convert_alpha()
+                    stat_surface = self.pygame.Surface((140, 100))
+                    text = self.smallerfont.render("Fireball", True, (255,255,255))
+                    fire_text_rect = text.get_rect(center=(30,10))
+                    skill_info = self.smallerfont.render("Damage:\n10% spellpower", True, (255,255,255))
+                    skill_info_rect = skill_info.get_rect(center=(70,50))
+                    stat_surface.blit(stat_image, fire_rect)
+                    stat_surface.blit(text, fire_text_rect)
+                    stat_surface.blit(skill_info, skill_info_rect)
+                    surface.blit(stat_surface, fire_rect)
+                    if clicked[2]:
+                        wskill = "fireball"
+                        self.Buy_Skill(wskill)
+
             if "energyblast" in skills_to_render:
                 energyball_image = self.pygame.image.load("img/Energyblast_skill.png").convert_alpha()
-                energy_rect = energyball_image.get_rect(center=(190, 61))
+                energy_rect = energyball_image.get_rect(center=(210, 71))
 
                 surface.blit(energyball_image, energy_rect)
+                if energy_rect.collidepoint(mousepos): #TODO think about how to optimise this
+                    stat_image = self.pygame.image.load("img/status_bar.png").convert_alpha()
+                    stat_surface = self.pygame.Surface((140, 100))
+                    text = self.smallerfont.render("Energy blast", True, (255,255,255))
+                    energy_text_rect = text.get_rect(center=(50,10))
+                    skill_info = self.smallerfont.render("Damage:\n20% spellpower", True, (255,255,255))
+                    skill_info_rect = skill_info.get_rect(center=(70,50))
+                    stat_surface.blit(stat_image, energy_rect)
+                    stat_surface.blit(text, energy_text_rect)
+                    stat_surface.blit(skill_info, skill_info_rect)
+                    surface.blit(stat_surface, energy_rect)
+                    if clicked[2]:
+                        wskill = "energyblast"
+                        self.Buy_Skill(wskill)
+
 
             for i, item in enumerate(skills_to_render):
                 text_surface = self.smallerfont.render(item, True, (0, 0, 0))  # Render the text
                 text_rect = text_surface.get_rect()
                 text_rect.topleft = (40, i * 30 + 30)  # Position the text
                 surface.blit(text_surface, text_rect)  # Blit the text onto the window
-                mousepos = self.pygame.mouse.get_pos()
+                
                 if text_rect.collidepoint(mousepos):
-                    clicked = self.pygame.mouse.get_pressed()
+                    
                     if clicked[0]:
                         wskill = item
                         self.Buy_Skill(wskill)  
