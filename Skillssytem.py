@@ -10,7 +10,7 @@ class Skillsys(BaseSprite):
         self.available_skills = {
             # first value is cost second is level
             "fireball": (0, 0),
-            "Bolt": (10, 5),
+            "bolt": (10, 5),
             "energyblast": (15, 10),
             "deathball": (100, 40),
             "selfdestruct": (0, 0),
@@ -36,49 +36,76 @@ class Skillsys(BaseSprite):
             surface.blit(self.skillimage, (110, 0))
             skills_to_render = [skill for skill in self.available_skills.keys() if skill not in self.player.skills]
 
-            skill_data = {
-                "fireball": {
-                    "image_path": "img/fireball_skill.png",
+            skill_data = { #TODO set correct requirements and add all skills 
+                "bolt": {
+                    "image_path": "img/bolt_skill.png",
                     "position": (152, 71),
-                    "name": "\nFireball",
-                    "description": "Damage:\n10% spellpower"
+                    "name": "Bolt",
+                    "description": "Damage:\n5% spellpower",
+                    "requirements": "Requirements:\nlevel 0 1 coin"
                 },
                 "energyblast": {
                     "image_path": "img/Energyblast_skill.png",
-                    "position": (210, 71),
-                    "name": "Energy blast",
-                    "description": "Damage:\n20% spellpower"
+                    "position": (266, 71),
+                    "name": "Energyblast",
+                    "description": "Damage:\n20% spellpower",
+                    "requirements": "Requirements:\nlevel 0 1 coin"
                 },
+                "fireball": {
+                    "image_path": "img/fireball_skill.png",
+                    "position": (209, 71),
+                    "name": "Fireball",
+                    "description": "Damage:\n10% spellpower",
+                    "requirements": "Requirements:\nlevel 0 1 coin"
+                },
+                
                 "deathball": {
                     "image_path": "img/deathball_skill.png",
-                    "position": (265,71),
+                    "position": (325,71),
                     "name": "Death ball",
-                    "description": "Damage:\n25% spellpower"
+                    "description": "Damage:\n25% spellpower",
+                    "requirements": "Requirements:\nlevel 0 1 coin"
                 }
             }
 
+            colliding_skill_rects = []
+            names = []
+
             for skill in skills_to_render:
+                
                 if skill in skill_data:
                     skill_info = skill_data[skill]
                     skill_image = self.pygame.image.load(skill_info["image_path"]).convert_alpha()
                     skill_image = self.pygame.transform.scale(skill_image, (25, 25))
                     skill_rect = skill_image.get_rect(center=skill_info["position"])
+                    skill_info = skill_data[skill]
+                    
 
                     surface.blit(skill_image, skill_rect)
                     if skill_rect.collidepoint(mousepos):
+                        colliding_skill_rects.append(skill_rect)
                         stat_image = self.pygame.image.load("img/status_bar.png").convert_alpha()
-                        stat_surface = self.pygame.Surface((140, 100))
-                        text = self.smallerfont.render(skill_info["name"], True, (255, 255, 255))
+                        stat_surface = self.pygame.Surface((140, 140))
+                        
+                        text = self.skillfont.render(skill_info["name"], True, (255, 255, 255))
                         text_rect = text.get_rect(center=(60, 10))
-                        skill_info_text = self.smallerfont.render(skill_info["description"], True, (255, 255, 255))
-                        skill_info_rect = skill_info_text.get_rect(center=(70, 50))
-                        stat_surface.blit(stat_image, skill_rect)
+                        skill_info_text = self.skillfont.render(skill_info["description"], True, (255, 255, 255))
+                        skill_info_rect = skill_info_text.get_rect(center=(65, 50))
+                        requirements_info_text = self.skillfont.render(skill_info["requirements"], True, (255, 255, 255))
+                        requirements_info_rect = requirements_info_text.get_rect(center = (55, 100))
                         stat_surface.blit(text, text_rect)
                         stat_surface.blit(skill_info_text, skill_info_rect)
-                        surface.blit(stat_surface, skill_rect)
+                        stat_surface.blit(requirements_info_text, requirements_info_rect)
+                        stat_surface.blit(stat_image, skill_rect)
                         if clicked[2]:
                             self.Buy_Skill(skill)
+                        
+                if colliding_skill_rects:
+                    stat_surface.set_alpha(200)
+                    surface.blit(stat_surface, colliding_skill_rects[0])
 
+            
+                    
     def Buy_Skill(self, wskill):
         if wskill in self.player.skills:
             print('You already have {}!'.format(wskill))

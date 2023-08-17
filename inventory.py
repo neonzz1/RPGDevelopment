@@ -36,7 +36,7 @@ class inventory(BaseSprite):
             del self.items[item_to_remove]
     
     def renderr(self, surface, handler, player):    
-        gold = self.smallerfont.render('Gold: ' + str(handler.money), True, (0, 255, 0))
+        gold = self.skillfont.render('Gold: ' + str(handler.money), True, (0, 255, 0))
         clicked = self.pygame.mouse.get_pressed()
         mouse = self.pygame.mouse.get_pos()
         #TODO fix image location
@@ -104,7 +104,7 @@ class inventory(BaseSprite):
                         posx -= 15
                         posy -= 5
 
-                    text = self.smallerfont.render('{}'.format(quantity), True, (255,255,255))
+                    text = self.skillfont.render('{}'.format(quantity), True, (255,255,255))
                     surface.blit(text, (posx,posy))
 
                 if item == 6 and image_rect.collidepoint(mouse) and clicked[2]:

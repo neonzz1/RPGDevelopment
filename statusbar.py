@@ -11,10 +11,10 @@ class StatusBar(BaseSprite):
 
     def update_draw(self, handler, player, FPS_CLOCK, surface):
         # Create the text to be displayed
-        text1 = self.smallerfont.render("STAGE: " + str(handler.stage) , True , color_white)
-        text2 = self.smallerfont.render("EXP: " + str(player.experience) , True , color_white)
-        text3 = self.smallerfont.render("Money: " + str(handler.money) , True , color_white)
-        text4 = self.smallerfont.render("FPS: " + str(int(FPS_CLOCK.get_fps())) , True , color_white)
+        text1 = self.skillfont.render("STAGE: " + str(handler.stage) , True , color_white)
+        text2 = self.skillfont.render("EXP: " + str(player.experience) , True , color_white)
+        text3 = self.skillfont.render("Money: " + str(handler.money) , True , color_white)
+        text4 = self.skillfont.render("FPS: " + str(int(FPS_CLOCK.get_fps())) , True , color_white)
  
       # Draw the text to the status bar
         surface.blit(text1, (585, 7))

@@ -48,7 +48,7 @@ class Player(BaseSprite):
                            self.pygame.mixer.Sound("sounds/footstep08.ogg"), self.pygame.mixer.Sound("sounds/footstep09.ogg")]
         self.gear = []
         #self.jumpsound = [self.pygame.mixer.Sound("sounds/")]
-        self.skills = ["energyblast"]
+        self.skills = []
         self.respawn_timer = 0
         self.can_interact = True
  

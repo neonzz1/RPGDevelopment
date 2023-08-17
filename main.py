@@ -12,7 +12,7 @@ from stagedisplay import StageDisplay
 from statusbar import StatusBar
 from cursor import Cursor
 from buttons import PButton
-from magic import Magic, Energy_blast, Death_ball, Fired, Fireballv2
+from magic import Magic, Energy_blast, Death_ball, Fired, Fireballv2, Player_bolt
 from music import MusicManager
 from Manabar import ManaBar
 from inventory import inventory
@@ -140,6 +140,12 @@ def main():
                             mana.image = mana_ani[player.mana]
                             fireball = Magic(player)
                             Spells.add(fireball)
+                            mmanager.playsound(fsound, 0.3)
+                        if "bolt" in player.skills and player.mana >= 1:
+                            player.mana -= 1
+                            mana.image = mana_ani[player.mana]
+                            bolt = Player_bolt(player)
+                            Spells.add(bolt)
                             mmanager.playsound(fsound, 0.3)
                         elif "energyblast" in player.skills and player.mana >= 2:
                             player.mana -= 2

@@ -68,6 +68,39 @@ class Bolt(BaseSprite):
             self.player.player_hit()
             self.kill()
 
+class Player_bolt(BaseSprite):
+    def __init__(self, player):
+        image_path = "img/bolt.png"
+        super().__init__(image_path)
+        self.player = player
+        self.direction  = player.direction
+
+        if self.direction == "RIGHT":
+            self.image = self.pygame.image.load("img/bolt.png").convert_alpha()
+        else:
+            self.image = self.pygame.image.load("img/bolt.png").convert_alpha()
+
+        self.rect = self.image.get_rect(center = player.pos)
+        self.rect.x = player.pos.x
+        self.rect.y = player.pos.y - 40
+        
+    
+    def fire(self, surface, spellpower):
+        if -10 < self.rect.x < 710:
+            print(self.direction)
+            if self.direction == "RIGHT":
+                self.image = self.pygame.image.load("img/bolt.png").convert_alpha()
+                surface.blit(self.image, self.rect)
+            else:
+                self.image = self.pygame.image.load("img/bolt.png").convert_alpha()
+                surface.blit(self.image, self.rect)
+            if self.direction == "RIGHT":
+                self.rect.move_ip(12,0)
+            else:
+                self.rect.move_ip(-12,0)
+        else:
+            self.kill()
+
 class Energy_blast(BaseSprite): #TODO fix position error
     def __init__(self, player):
         image_path = "img/energy_blast_fire.png"
@@ -87,13 +120,14 @@ class Energy_blast(BaseSprite): #TODO fix position error
     
     def fire(self, surface, spellpower):
         if -10 < self.rect.x < 710:
-            if self.direction == 0:
+            print(self.direction)
+            if self.direction == "RIGHT":
                 self.image = self.pygame.image.load("img/energy_blast_fire_R.png").convert_alpha()
                 surface.blit(self.image, self.rect)
             else:
                 self.image = self.pygame.image.load("img/energy_blast_fire_L.png").convert_alpha()
                 surface.blit(self.image, self.rect)
-            if self.direction == 0:
+            if self.direction == "RIGHT":
                 self.rect.move_ip(12,0)
             else:
                 self.rect.move_ip(-12,0)
@@ -124,7 +158,7 @@ class Death_ball(BaseSprite):
             else:
                 self.image = self.pygame.image.load("img/deathball1_L.png")
                 surface.blit(self.image, self.rect)
-            if self.direction == 0:
+            if self.direction == "RIGHT":
                 self.rect.move_ip(12,0)
             else:
                 self.rect.move_ip(-12,0)
