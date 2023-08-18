@@ -109,7 +109,7 @@ class Player(BaseSprite):
                 if item >= 5 and item <= 5.4:
                     surface.blit(gear_data['image'], (340, 99))
                     #print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
-            print("lastlist:", self.lastitem, "Gearlist:", self.gear, "unequipped:", self.unequipped_gear, "Class list:", self.equipped_gear, "Armor:", self.equipped_armor)
+            #print("lastlist:", self.lastitem, "Gearlist:", self.gear, "unequipped:", self.unequipped_gear, "Class list:", self.equipped_gear, "Armor:", self.equipped_armor)
 
         if cursor.wait == 1: return
         # Return to base frame if at end of movement sequence 

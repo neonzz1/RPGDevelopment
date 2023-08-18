@@ -78,7 +78,7 @@ class Skillsys(BaseSprite):
                     skill_image = self.pygame.image.load(skill_info["image_path"]).convert_alpha()
                     skill_image = self.pygame.transform.scale(skill_image, (25, 25))
                     skill_rect = skill_image.get_rect(center=skill_info["position"])
-                    skill_info = skill_data[skill]
+                    #skill_info = skill_data[skill]
                     
 
                     surface.blit(skill_image, skill_rect)
