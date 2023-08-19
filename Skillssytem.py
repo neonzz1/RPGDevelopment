@@ -42,21 +42,21 @@ class Skillsys(BaseSprite):
                     "position": (152, 71),
                     "name": "Bolt",
                     "description": "Damage:\n5% spellpower",
-                    "requirements": "Requirements:\nlevel 0 1 coin"
+                    "requirements": "Requirements:\nlevel 5, 10 coin"
                 },
                 "energyblast": {
                     "image_path": "img/Energyblast_skill.png",
                     "position": (266, 71),
                     "name": "Energyblast",
                     "description": "Damage:\n20% spellpower",
-                    "requirements": "Requirements:\nlevel 0 1 coin"
+                    "requirements": "Requirements:\nlevel 10, 15 coin"
                 },
                 "fireball": {
                     "image_path": "img/fireball_skill.png",
                     "position": (209, 71),
                     "name": "Fireball",
                     "description": "Damage:\n10% spellpower",
-                    "requirements": "Requirements:\nlevel 0 1 coin"
+                    "requirements": "Requirements:\nlevel 0, 0 coin"
                 },
                 
                 "deathball": {
@@ -64,7 +64,28 @@ class Skillsys(BaseSprite):
                     "position": (325,71),
                     "name": "Death ball",
                     "description": "Damage:\n25% spellpower",
-                    "requirements": "Requirements:\nlevel 0 1 coin"
+                    "requirements": "Requirements:\nlevel 40, 100 coin"
+                },
+                "selfdestruct": {
+                    "image_path": "img/deathball_skill.png", #Placeholder
+                    "position": (152, 125),
+                    "name": "Self destruct",
+                    "description": "Commit Suicide",
+                    "requirements": "Requirements:\n level 0, 0 coin"
+                },
+                "fired": {
+                    "image_path": "img/deathball_skill.png", #Placeholder
+                    "position": (266, 125),
+                    "name": "Fired",
+                    "description": "Fire the enemy",
+                    "requirements": "Requirements:\n level 20, 20 coin"
+                },
+                "fireballv2": {
+                    "image_path": "img/fireball_skill.png", #Placeholder
+                    "position": (209, 125),
+                    "name": "Fireball v2",
+                    "description": "Scorcing hot fireballs",
+                    "requirements": "Requirements:\n level 10, 30 coin"
                 }
             }
 

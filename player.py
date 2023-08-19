@@ -84,7 +84,7 @@ class Player(BaseSprite):
         self.rect.midbottom = self.pos
     def update(self, cursor, inv, surface):
         if not inv.hide: #TODO setup a player gear screen showing what's equipped and stats
-            gear_rect = self.gear_image.get_rect(center = (340, 150))
+            gear_rect = self.gear_image.get_rect(center = (400, 150))
             surface.blit(self.gear_image, gear_rect)
 
             gear_stats = {
@@ -104,10 +104,10 @@ class Player(BaseSprite):
             for item in self.equipped_gear or self.equipped_armor:
                 gear_data = gear_stats[item]
                 if item >= 3 and item <= 4.4:
-                    surface.blit(gear_data['image'], (290, 151))
+                    surface.blit(gear_data['image'], (350, 151))
                     #print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
                 if item >= 5 and item <= 5.4:
-                    surface.blit(gear_data['image'], (340, 99))
+                    surface.blit(gear_data['image'], (400, 99)) # fix location
                     #print("attack: ", self.attackpower, "defence: ", self.defence, "spellpower: ", self.spellpower)
             #print("lastlist:", self.lastitem, "Gearlist:", self.gear, "unequipped:", self.unequipped_gear, "Class list:", self.equipped_gear, "Armor:", self.equipped_armor)
 
@@ -138,7 +138,7 @@ class Player(BaseSprite):
 
     def equip_weapon(self, inv, surface):
         if not inv.hide: #TODO setup a player gear screen showing stats
-            gear_rect = self.gear_image.get_rect(center=(340, 150))
+            gear_rect = self.gear_image.get_rect(center=(360, 150))
             surface.blit(self.gear_image, gear_rect)
 
         gear_stats = {

@@ -63,18 +63,18 @@ class inventory(BaseSprite):
             7: ("img/mpotion_out.png", (30, 30), (270, 77))
         }
             item_stats = {
-            3: {'name': "staff", 'attack': "Attack: 5", 'defence': "Defence: 2", 'spellpower': "SpellPower: 5", 'level': 0},
-            3.1: {'name': "staff", 'attack': "Attack: 6", 'defence': "Defence: 4", 'spellpower': "SpellPower: 10", 'level': 1},
-            3.3: {'name': "staff", 'attack': "Attack: 9", 'defence': "Defence: 8", 'spellpower': "SpellPower: 12", 'level': 3},
-            3.4: {'name': "staff", 'attack': "Attack: 14", 'defence': "Defence: 16", 'spellpower': "SpellPower: 20", 'level': 4},
-            4: {'name': "sword", 'attack': "Attack: 5", 'defence': "Defence: 2", 'spellpower': "SpellPower: 5", 'level': 0},
-            4.1: {'name': "sword", 'attack': "Attack: 10", 'defence': "Defence: 4", 'spellpower': "SpellPower: 6", 'level': 1},
-            4.3: {'name': "sword", 'attack': "Attack: 12", 'defence': "Defence: 8", 'spellpower': "SpellPower: 9", 'level': 3},
-            4.4: {'name': "sword", 'attack': "Attack: 20", 'defence': "Defence: 16", 'spellpower': "SpellPower: 14", 'level': 4},
-            5: {'name': "helm", 'attack': "Attack: 5", 'defence': "Defence: 2", 'spellpower': "SpellPower: 5", 'level': 0},
-            5.1: {'name': "helm", 'attack': "Attack: 10", 'defence': "Defence: 4", 'spellpower': "SpellPower: 6", 'level': 1},
-            5.3: {'name': "helm", 'attack': "Attack: 12", 'defence': "Defence: 8", 'spellpower': "SpellPower: 9", 'level': 3},
-            5.4: {'name': "helm", 'attack': "Attack: 20", 'defence': "Defence: 16", 'spellpower': "SpellPower: 14", 'level': 4},
+            3: {'name': "staff", 'attack': "Attack: 5", 'defence': "Defence: 2", 'spellpower': "SpellPower: 5", 'level': '0'},
+            3.1: {'name': "staff", 'attack': "Attack: 6", 'defence': "Defence: 4", 'spellpower': "SpellPower: 10", 'level': '1'},
+            3.3: {'name': "staff", 'attack': "Attack: 9", 'defence': "Defence: 8", 'spellpower': "SpellPower: 12", 'level': '3'},
+            3.4: {'name': "staff", 'attack': "Attack: 14", 'defence': "Defence: 16", 'spellpower': "SpellPower: 20", 'level': '4'},
+            4: {'name': "sword", 'attack': "Attack: 5", 'defence': "Defence: 2", 'spellpower': "SpellPower: 5", 'level': '0'},
+            4.1: {'name': "sword", 'attack': "Attack: 10", 'defence': "Defence: 4", 'spellpower': "SpellPower: 6", 'level': '1'},
+            4.3: {'name': "sword", 'attack': "Attack: 12", 'defence': "Defence: 8", 'spellpower': "SpellPower: 9", 'level': '3'},
+            4.4: {'name': "sword", 'attack': "Attack: 20", 'defence': "Defence: 16", 'spellpower': "SpellPower: 14", 'level': '4'},
+            5: {'name': "helm", 'attack': "Attack: 4", 'defence': "Defence: 5", 'spellpower': "SpellPower: 2", 'level': '0'},
+            5.1: {'name': "helm", 'attack': "Attack: 6", 'defence': "Defence: 10", 'spellpower': "SpellPower: 4", 'level': '1'},
+            5.3: {'name': "helm", 'attack': "Attack: 9", 'defence': "Defence: 12", 'spellpower': "SpellPower: 8", 'level': '3'},
+            5.4: {'name': "helm", 'attack': "Attack: 16", 'defence': "Defence: 20", 'spellpower': "SpellPower: 14", 'level': '4'},
             6: {'name': "Health Potion v1", 'info': "Gives you upto 5hp"},
             6.1: {'name': "Resurection Potion", 'info': "Resurection Time"},
             7: {'name': "Mana Potion v1", 'info': "Fills mana by 17 pts"}
@@ -97,7 +97,7 @@ class inventory(BaseSprite):
                             colliding_item_rects.append(image_rect)
                             stat_info = item_stats[item]
                             stat_img = self.pygame.image.load("img/status_bar.png").convert_alpha()
-                            item_surf = self.pygame.Surface((120,100))
+                            item_surf = self.pygame.Surface((120,120))
                             name = self.skillfont.render(stat_info['name'], True, (255, 255, 255))
                             name_rect = name.get_rect(center=(50, 10))
                             if item >= 6:
@@ -115,11 +115,14 @@ class inventory(BaseSprite):
                                 defence_rect = defence.get_rect(center=(40, 60))
                                 spell_power = self.skillfont.render(stat_info['spellpower'], True, (255, 255, 255))
                                 spell_power_rect = spell_power.get_rect(center=(50, 80))
+                                level_req = self.skillfont.render('Level Req: ' + stat_info['level'], True, (255, 255, 255))
+                                level_req_rect = level_req.get_rect(center=(45, 100))
                                 item_surf.blit(attack, attack_rect)
                                 item_surf.blit(defence, defence_rect)
                                 item_surf.blit(spell_power, spell_power_rect)
+                                item_surf.blit(level_req, level_req_rect)
+
                             item_surf.blit(name, name_rect)
-                            
                             item_surf.blit(stat_img, image_rect)
 
                         if clicked[2]:
@@ -134,8 +137,11 @@ class inventory(BaseSprite):
                                 self.helm = self.pygame.image.load("img/helm_out.png").convert_alpha()
                                 self.helm = self.pygame.transform.scale(self.helm, (30, 30))
                             if item < 6 and item not in player.equipped_gear and item not in player.equipped_armor:
+                                if player.level >= int(stat_info['level']):
                                     player.gear.append(item)
                                     player.equip_weapon(self, surface)
+                                else:
+                                    print('Level too low')
                             if self.do_once: #Used to fix too meny items being removed from one use
                                 if quantity >= 1 and item != 6:
                                     self.items[item] -= 1
